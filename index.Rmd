@@ -222,7 +222,7 @@ margin-bottom: 5%;
 <div><button class="botones intro">INICIAR INTRODUCCIÓN</button></div>
 </div>
 <div class="flex-item img">
-<img class="img" src=C:\Users\flavi\Desktop\aprendeR\Imagenes\r.png" style="width: 60%;height: auto;">
+<img class="img" src= "C:\Users\flavi\Desktop\aprendeR\Imagenes\r.png" style="width: 60%;height: auto;">
 
 </div>
 
@@ -232,19 +232,19 @@ margin-bottom: 5%;
 <div class="fix-item">
 <img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\online-learning.png"
 class = "imgtab">
-<div><button class="botones">Rbase</button></div>
+<div><button class="botones"><a class = "links" href = "https://flavioscargiali.github.io/aprendeR/01---introduccion.html"> Rbase</a ></button></div>
 <p>Primeros pasos en el uso de R y Rstudio</p>
 </div>
 <div class="fix-item">
 <img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\broom.png"
 class = "imgtab">
-<div><button class="botones"><a href = https://flavioscargiali.github.io/aprendeR/02---dplyr.html"> Limpieza</a></button></div>
+<div><button class="botones"><a class = "links" href = "https://flavioscargiali.github.io/aprendeR/02---dplyr.html"> Limpieza</a></button></div>
 <p>Introducción a dplyr y tidyr para transformar datos</p>
 </div>
 <div class="fix-item">
 <img class = "imgtab" src="C:\Users\flavi\Desktop\aprendeR\Imagenes\wave-graph.png"
 class = "imgtab">
-<div><button class="botones">Visualización</button></div>
+<div><button class="botones"><a class = "links"  href = "https://flavioscargiali.github.io/aprendeR/03---ggplot.html"> Visualización</a></button></div>
 <p>Primeros pasos en ggplot</p>
 </div>
 <div class="fix-item">
@@ -283,9 +283,10 @@ Estadística por la UNTREF. Actualmente se desempeña como analista de visualiza
 
 <div class="containerdiv" style="background-color: #212f3c;">
 <div class="fix-item secsom" style=";color:white;background-color: #212f3c;padding: 0.5%;">
-<a class = "links"><b>+</b> Inicio</a>
-<br><a class = "links"><b>+</b> Limpieza</a>
-<br><a class = "links"><b>+</b> Visualización</a>
+<a class = "links" href = "https://flavioscargiali.github.io/aprendeR/index.html"><b>+</b> Inicio</a>
+<br><a class = "links" href = "https://flavioscargiali.github.io/aprendeR/01---introduccion.html"><b>+</b> Introducción</a>
+<br><a class = "links" href = "https://flavioscargiali.github.io/aprendeR/02---dplyr.html"><b>+</b> Limpieza </a>
+<br><a class = "links" href = "https://flavioscargiali.github.io/aprendeR/03---ggplot.html"><b>+</b> Visualización</a>
 <br><a class = "links"><b>+</b> GEO</a>
 <br><a class = "links"><b>+</b> Informe</a>
 </div>
