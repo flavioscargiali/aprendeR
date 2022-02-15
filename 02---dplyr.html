@@ -14,7 +14,7 @@
 <title>02---dplyr.knit</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
-<script src="site_libs/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -615,12 +615,12 @@ encuesta_cc #Imprimo la tabla</code></pre>
 <pre style="max-height: 150px;"><code>##   id pondera_dem     fecha region  sexo edad
 ## 1  1        8608 23/5/2017 CENTRO Varón   19
 ## 2  2        2869 10/5/2017 CENTRO Varón   24
-##                                       p1
-## 1 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
-## 2                      EL ARTE, LO CULTO
-##   p1otros p2 p2_1 p2_1otro p2_2 p3
-## 1    &lt;NA&gt; SI &lt;NA&gt;       NA &lt;NA&gt; SI
-## 2    &lt;NA&gt; SI &lt;NA&gt;       NA &lt;NA&gt; NO
+##                                       p1 p1otros
+## 1 LA FORMA DE PENSAR, IDEOLOGIA, VALORES    &lt;NA&gt;
+## 2                      EL ARTE, LO CULTO    &lt;NA&gt;
+##   p2 p2_1 p2_1otro p2_2 p3
+## 1 SI &lt;NA&gt;     &lt;NA&gt; &lt;NA&gt; SI
+## 2 SI &lt;NA&gt;     &lt;NA&gt; &lt;NA&gt; NO
 ##                        p4 p5 p6horas p6minutos
 ## 1    ALGUNAS VECES AL MES FM       1         0
 ## 2 ALGUNOS DIAS POR SEMANA FM       1         0
@@ -672,18 +672,18 @@ encuesta_cc #Imprimo la tabla</code></pre>
 ##        p14_9 p14_10           p14_11
 ## 1      NUNCA  NUNCA DE VEZ EN CUANDO
 ## 2 CASI NUNCA  NUNCA DE VEZ EN CUANDO
-##             p14_12 p14_13 p14_14         p15
-## 1 DE VEZ EN CUANDO  NUNCA  NUNCA 6 canciones
-## 2            NUNCA  NUNCA  NUNCA 9 canciones
-##   p16                       p17_1
-## 1  SI     ALGUNOS DIAS POR SEMANA
-## 2  SI TODOS O CASI TODOS LOS DIAS
+##             p14_12 p14_13 p14_14         p15 p16
+## 1 DE VEZ EN CUANDO  NUNCA  NUNCA 6 canciones  SI
+## 2            NUNCA  NUNCA  NUNCA 9 canciones  SI
+##                         p17_1
+## 1     ALGUNOS DIAS POR SEMANA
+## 2 TODOS O CASI TODOS LOS DIAS
 ##                       p17_2        p18a    p18b
 ## 1 ALGUNA VEZ AL AÑO O MENOS     YOUTUBE    &lt;NA&gt;
 ## 2   ALGUNOS DIAS POR SEMANA GOOGLE PLAY YOUTUBE
 ##   p18c p18d p18e p18f p18g p18otros p19 p20 p21
-## 1 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;     &lt;NA&gt;   0   0   0
-## 2 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;     &lt;NA&gt; 150   0   0
+## 1 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   NA     &lt;NA&gt;   0   0   0
+## 2 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   NA     &lt;NA&gt; 150   0   0
 ##   p22 p23                           p23_1
 ## 1   0  NO PORQUE LAS ENTRADAS ESTAN CARAS
 ## 2   0  SI                            &lt;NA&gt;
@@ -693,12 +693,12 @@ encuesta_cc #Imprimo la tabla</code></pre>
 ##    p25 p25_bis p25_1 p25_1_bis  p26 p26_bis p27
 ## 1 &lt;NA&gt;       0  &lt;NA&gt;         0 &lt;NA&gt;       0  NO
 ## 2   13      13    13        13  500     500  SI
-##   p27_1 p28 p29 p29_1 p29_1otr p29_2 p30
-## 1     0  NO  SI  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;   3
-## 2     2  SI  SI  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;   6
-##   p30_bis p31horas p31minutos horas_diario
-## 1       3        1          0            1
-## 2       6        0         30            0
+##   p27_1 p28 p29 p29_1 p29_1otr p29_2 p30 p30_bis
+## 1     0  NO  SI  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;   3       3
+## 2     2  SI  SI  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;   6       6
+##   p31horas p31minutos horas_diario
+## 1        1          0            1
+## 2        0         30            0
 ##   minutos_diario                  p32 p33
 ## 1              0 ALGUNAS VECES AL MES   0
 ## 2             30    ALGUNA VEZ AL AÑO   0
@@ -714,24 +714,24 @@ encuesta_cc #Imprimo la tabla</code></pre>
 ##                         p35_3             p36
 ## 1 TODOS O CASI TODOS LOS DIAS AMBAS POR IGUAL
 ## 2 TODOS O CASI TODOS LOS DIAS AMBAS POR IGUAL
-##   p37 p37_1                     p38  p39
-## 1  NO    NO                    &lt;NA&gt; &lt;NA&gt;
-## 2  SI  &lt;NA&gt; ALGUNOS DIAS POR SEMANA    0
-##   p39_bis p39_1 p39_1_bis  p40 p40_bis
-## 1       0  &lt;NA&gt;         0 &lt;NA&gt;       0
-## 2       0     0         0    0       0
-##                           p41 p42 p42_1
-## 1                        &lt;NA&gt;  SI  &lt;NA&gt;
-## 2 TODOS O CASI TODOS LOS DIAS  SI  &lt;NA&gt;
-##   p42_1otr p42_2 p43 p43_bis p43_1 p43_1_bis
-## 1       NA  &lt;NA&gt;   1       1     0         0
-## 2       NA  &lt;NA&gt;   3       3     2         2
+##   p37 p37_1                     p38  p39 p39_bis
+## 1  NO    NO                    &lt;NA&gt; &lt;NA&gt;       0
+## 2  SI  &lt;NA&gt; ALGUNOS DIAS POR SEMANA    0       0
+##   p39_1 p39_1_bis  p40 p40_bis
+## 1  &lt;NA&gt;         0 &lt;NA&gt;       0
+## 2     0         0    0       0
+##                           p41 p42 p42_1 p42_1otr
+## 1                        &lt;NA&gt;  SI  &lt;NA&gt;     &lt;NA&gt;
+## 2 TODOS O CASI TODOS LOS DIAS  SI  &lt;NA&gt;     &lt;NA&gt;
+##   p42_2 p43 p43_bis p43_1 p43_1_bis
+## 1  &lt;NA&gt;   1       1     0         0
+## 2  &lt;NA&gt;   3       3     2         2
 ##                                                                               p44
 ## 1 SE LO HABIA RECOMENDADO UN PROFESOR, REFERENTE POLITICO, RELIGIOSO O ESPIRITUAL
 ## 2                                                        PORQUE ESTABA EN SU CASA
 ##   p44otros p45 p45_bis p45_1 p45_1_bis
-## 1       NA   1       1   600       600
-## 2       NA   0       0     0         0
+## 1     &lt;NA&gt;   1       1   600       600
+## 2     &lt;NA&gt;   0       0     0         0
 ##                       p46
 ## 1    ALGUNAS VECES AL MES
 ## 2 ALGUNA VEZ CADA 3 MESES
@@ -739,8 +739,8 @@ encuesta_cc #Imprimo la tabla</code></pre>
 ## 1 NO LEYO LIBROS EN PANTALLA, SOLO EN PAPEL
 ## 2                   ALGUNA VEZ CADA 3 MESES
 ##        p47_1a p47_1b p47_1c p47_1d p47_2
-## 1        &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;
-## 2 COMPUTADORA   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;    NO
+## 1        &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     NA  &lt;NA&gt;
+## 2 COMPUTADORA   &lt;NA&gt;   &lt;NA&gt;     NA    NO
 ##        p48_1      p48_2 p48_3            p48_4
 ## 1 CASI NUNCA      NUNCA NUNCA            NUNCA
 ## 2 CASI NUNCA CASI NUNCA NUNCA DE VEZ EN CUANDO
@@ -795,18 +795,15 @@ encuesta_cc #Imprimo la tabla</code></pre>
 ##   p59_4                   p59_5
 ## 1 NUNCA       ALGUNA VEZ AL AÑO
 ## 2 NUNCA ALGUNOS DIAS POR SEMANA
-##                     p59_6  p60 p61 p62 p63
-## 1                   NUNCA  150   0   0  SI
-## 2 ALGUNA VEZ CADA 3 MESES 1350   0   0  SI
-##   p63_1 p63_1otr p63_2
-## 1  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;
-## 2  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;
-##                         p64 p65 p65_bis p65_1
-## 1 ALGUNA VEZ AL AÑO O MENOS   1       1     0
-## 2   ALGUNA VEZ CADA 3 MESES   3       3     2
-##   p65_1_bis
-## 1         0
-## 2         2
+##                     p59_6  p60 p61 p62 p63 p63_1
+## 1                   NUNCA  150   0   0  SI  &lt;NA&gt;
+## 2 ALGUNA VEZ CADA 3 MESES 1350   0   0  SI  &lt;NA&gt;
+##   p63_1otr p63_2                       p64 p65
+## 1     &lt;NA&gt;  &lt;NA&gt; ALGUNA VEZ AL AÑO O MENOS   1
+## 2     &lt;NA&gt;  &lt;NA&gt;   ALGUNA VEZ CADA 3 MESES   3
+##   p65_bis p65_1 p65_1_bis
+## 1       1     0         0
+## 2       3     2         2
 ##                                                     p66
 ## 1 NO TENIA DECIDIDO IR A VERLA, LA ELIGIO EN EL MOMENTO
 ## 2 NO TENIA DECIDIDO IR A VERLA, LA ELIGIO EN EL MOMENTO
@@ -822,15 +819,15 @@ encuesta_cc #Imprimo la tabla</code></pre>
 ##       p67_11 p68                     p69  p70
 ## 1      NUNCA  NO                    &lt;NA&gt; &lt;NA&gt;
 ## 2 CASI NUNCA  SI ALGUNA VEZ CADA 3 MESES    2
-##   p70_bis p70_1 p70_1_bis  p71 p71_bis p72
-## 1       0  &lt;NA&gt;         0 &lt;NA&gt;       0  SI
-## 2       2     2         2  500     500  SI
-##   p72_1 p72_1otr p72_2  p73 p74 p74_1 p74_2
-## 1  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;  SI  &lt;NA&gt;  &lt;NA&gt;
-## 2  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;  NO    NO  &lt;NA&gt;
-##   p74_3 p74_4 p74_4_bis                p75_1
-## 1 NS/NC NS/NC     NS/NC ALGUNAS VECES AL MES
-## 2  &lt;NA&gt;  &lt;NA&gt;         0 ALGUNAS VECES AL MES
+##   p70_bis p70_1 p70_1_bis  p71 p71_bis p72 p72_1
+## 1       0  &lt;NA&gt;         0 &lt;NA&gt;       0  SI  &lt;NA&gt;
+## 2       2     2         2  500     500  SI  &lt;NA&gt;
+##   p72_1otr p72_2  p73 p74 p74_1 p74_2 p74_3
+## 1     &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;  SI  &lt;NA&gt;  &lt;NA&gt; NS/NC
+## 2     &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;  NO    NO  &lt;NA&gt;  &lt;NA&gt;
+##   p74_4 p74_4_bis                p75_1
+## 1 NS/NC     NS/NC ALGUNAS VECES AL MES
+## 2  &lt;NA&gt;         0 ALGUNAS VECES AL MES
 ##                         p75_2 p75_3
 ## 1 TODOS O CASI TODOS LOS DÍAS NUNCA
 ## 2 TODOS O CASI TODOS LOS DÍAS NUNCA
@@ -846,39 +843,33 @@ encuesta_cc #Imprimo la tabla</code></pre>
 ##                         p77_2
 ## 1 TODOS O CASI TODOS LOS DÍAS
 ## 2 TODOS O CASI TODOS LOS DÍAS
-##                  p77_3
-## 1 ALGUNAS VECES AL MES
-## 2                NUNCA
-##                       p77_4
-## 1      ALGUNAS VECES AL MES
-## 2 ALGUNA VEZ AL AÑO O MENOS
+##                  p77_3                     p77_4
+## 1 ALGUNAS VECES AL MES      ALGUNAS VECES AL MES
+## 2                NUNCA ALGUNA VEZ AL AÑO O MENOS
 ##                       p77_5 p77_6 p77_7
 ## 1      ALGUNAS VECES AL MES NUNCA NUNCA
 ## 2 ALGUNA VEZ AL AÑO O MENOS NUNCA NUNCA
 ##                         p77_8
 ## 1                       NUNCA
 ## 2 TODOS O CASI TODOS LOS DÍAS
-##                  p77_9
-## 1                NUNCA
-## 2 ALGUNAS VECES AL MES
-##                      p77_10 p78_1 p78_2 p78_3
-## 1      ALGUNAS VECES AL MES    SI    SI    SI
-## 2 ALGUNA VEZ AL AÑO O MENOS    SI    NO    SI
-##   p78_4 p78_5                     p78_1_1
-## 1    NO    NO TODOS O CASI TODOS LOS DÍAS
-## 2    NO    NO TODOS O CASI TODOS LOS DÍAS
+##                  p77_9                    p77_10
+## 1                NUNCA      ALGUNAS VECES AL MES
+## 2 ALGUNAS VECES AL MES ALGUNA VEZ AL AÑO O MENOS
+##   p78_1 p78_2 p78_3 p78_4 p78_5
+## 1    SI    SI    SI    NO    NO
+## 2    SI    NO    SI    NO    NO
+##                       p78_1_1
+## 1 TODOS O CASI TODOS LOS DÍAS
+## 2 TODOS O CASI TODOS LOS DÍAS
 ##                       p78_1_2
 ## 1 TODOS O CASI TODOS LOS DÍAS
 ## 2                        &lt;NA&gt;
 ##                       p78_1_3 p78_1_4 p78_1_5
 ## 1 TODOS O CASI TODOS LOS DÍAS    &lt;NA&gt;    &lt;NA&gt;
 ## 2                       NUNCA    &lt;NA&gt;    &lt;NA&gt;
-##   p78_2b p78_3b_1 p78_3b
-## 1     NO     &lt;NA&gt;   &lt;NA&gt;
-## 2     NO     &lt;NA&gt;   &lt;NA&gt;
-##                     p79_1
-## 1                   NUNCA
-## 2 ALGUNA VEZ CADA 3 MESES
+##   p78_2b p78_3b_1 p78_3b                   p79_1
+## 1     NO     &lt;NA&gt;     NA                   NUNCA
+## 2     NO     &lt;NA&gt;     NA ALGUNA VEZ CADA 3 MESES
 ##                       p79_2
 ## 1 ALGUNA VEZ AL AÑO O MENOS
 ## 2      ALGUNAS VECES AL MES
@@ -1092,20 +1083,20 @@ head(mujeres_noa)</code></pre>
 ## 4 349        5619  8/5/2017    NOA Mujer   57
 ## 5 350       11019  9/5/2017    NOA Mujer   69
 ## 6 356        6363 12/5/2017    NOA Mujer   13
-##                                       p1
-## 1         INFORMACION, ESTUDIAR, CONOCER
-## 2              LA TRADICION, LA HISTORIA
-## 3              LA TRADICION, LA HISTORIA
-## 4 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
-## 5    LOS MODALES, EL BUEN COMPORTAMIENTO
-## 6         INFORMACION, ESTUDIAR, CONOCER
-##   p1otros p2   p3   p4   p5 p6horas p6minutos
-## 1    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
-## 2    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
-## 3    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
-## 4    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
-## 5    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
-## 6    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA</code></pre>
+##                                       p1 p1otros
+## 1         INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt;
+## 2              LA TRADICION, LA HISTORIA    &lt;NA&gt;
+## 3              LA TRADICION, LA HISTORIA    &lt;NA&gt;
+## 4 LA FORMA DE PENSAR, IDEOLOGIA, VALORES    &lt;NA&gt;
+## 5    LOS MODALES, EL BUEN COMPORTAMIENTO    &lt;NA&gt;
+## 6         INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt;
+##   p2   p3   p4   p5 p6horas p6minutos
+## 1 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
+## 2 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
+## 3 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
+## 4 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
+## 5 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
+## 6 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA</code></pre>
 <p><br> También se puede combinar con funciones. Por ejemplo, podemos seleccionar los casos de nuestra tabla cuya cantidad de horas de escucha de radio sea superior al promedio.</p>
 <p><br></p>
 <pre class="r"><code>#Los que tienen más horas de radio escuchada
@@ -1119,27 +1110,27 @@ head(mas_promedio)</code></pre>
 ## 4 54        1661 17/5/2017    NEA Varón   45
 ## 5 57        2904 15/5/2017    NEA Mujer   22
 ## 6 62        4393 13/5/2017    NEA Varón   26
-##                                       p1
-## 1                      EL ARTE, LO CULTO
-## 2         INFORMACION, ESTUDIAR, CONOCER
-## 3 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
-## 4         INFORMACION, ESTUDIAR, CONOCER
-## 5                                  NS/NC
-## 6                      EL ARTE, LO CULTO
-##   p1otros p2 p3                          p4 p5
-## 1    &lt;NA&gt; SI SI        ALGUNAS VECES AL MES FM
-## 2    &lt;NA&gt; SI NO TODOS O CASI TODOS LOS DIAS FM
-## 3    &lt;NA&gt; SI NO        ALGUNAS VECES AL MES FM
-## 4    &lt;NA&gt; SI NO TODOS O CASI TODOS LOS DIAS FM
-## 5    &lt;NA&gt; SI NO TODOS O CASI TODOS LOS DIAS FM
-## 6    &lt;NA&gt; SI SI TODOS O CASI TODOS LOS DIAS FM
-##   p6horas p6minutos
-## 1       4         0
-## 2       3        30
-## 3       4         0
-## 4       3         0
-## 5       4        30
-## 6      12         0</code></pre>
+##                                       p1 p1otros
+## 1                      EL ARTE, LO CULTO    &lt;NA&gt;
+## 2         INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt;
+## 3 LA FORMA DE PENSAR, IDEOLOGIA, VALORES    &lt;NA&gt;
+## 4         INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt;
+## 5                                  NS/NC    &lt;NA&gt;
+## 6                      EL ARTE, LO CULTO    &lt;NA&gt;
+##   p2 p3                          p4 p5 p6horas
+## 1 SI SI        ALGUNAS VECES AL MES FM       4
+## 2 SI NO TODOS O CASI TODOS LOS DIAS FM       3
+## 3 SI NO        ALGUNAS VECES AL MES FM       4
+## 4 SI NO TODOS O CASI TODOS LOS DIAS FM       3
+## 5 SI NO TODOS O CASI TODOS LOS DIAS FM       4
+## 6 SI SI TODOS O CASI TODOS LOS DIAS FM      12
+##   p6minutos
+## 1         0
+## 2        30
+## 3         0
+## 4         0
+## 5        30
+## 6         0</code></pre>
 <p><br></p>
 <br>
 <h3 id =  3.2.3>
@@ -1522,20 +1513,20 @@ encuesta_clean %&gt;%
 ## 4 1436        3637 13/6/2017    NEA Varón   87
 ## 5   70        6501 12/5/2017    NEA Mujer   86
 ## 6  185        1874 13/5/2017    NEA Varón   84
-##                                       p1
-## 1              LA TRADICION, LA HISTORIA
-## 2   HABITOS, COSTUMBRES, COMPORTAMIENTOS
-## 3              LA TRADICION, LA HISTORIA
-## 4   HABITOS, COSTUMBRES, COMPORTAMIENTOS
-## 5                      EL ARTE, LO CULTO
-## 6 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
-##   p1otros p2   p3                          p4
-## 1    &lt;NA&gt; NO &lt;NA&gt;                        &lt;NA&gt;
-## 2    &lt;NA&gt; SI   NO     ALGUNOS DIAS POR SEMANA
-## 3    &lt;NA&gt; NO &lt;NA&gt;                        &lt;NA&gt;
-## 4    &lt;NA&gt; SI   NO TODOS O CASI TODOS LOS DIAS
-## 5    &lt;NA&gt; NO &lt;NA&gt;                        &lt;NA&gt;
-## 6    &lt;NA&gt; SI   NO TODOS O CASI TODOS LOS DIAS
+##                                       p1 p1otros
+## 1              LA TRADICION, LA HISTORIA    &lt;NA&gt;
+## 2   HABITOS, COSTUMBRES, COMPORTAMIENTOS    &lt;NA&gt;
+## 3              LA TRADICION, LA HISTORIA    &lt;NA&gt;
+## 4   HABITOS, COSTUMBRES, COMPORTAMIENTOS    &lt;NA&gt;
+## 5                      EL ARTE, LO CULTO    &lt;NA&gt;
+## 6 LA FORMA DE PENSAR, IDEOLOGIA, VALORES    &lt;NA&gt;
+##   p2   p3                          p4
+## 1 NO &lt;NA&gt;                        &lt;NA&gt;
+## 2 SI   NO     ALGUNOS DIAS POR SEMANA
+## 3 NO &lt;NA&gt;                        &lt;NA&gt;
+## 4 SI   NO TODOS O CASI TODOS LOS DIAS
+## 5 NO &lt;NA&gt;                        &lt;NA&gt;
+## 6 SI   NO TODOS O CASI TODOS LOS DIAS
 ##                p5 p6horas p6minutos
 ## 1            &lt;NA&gt;      NA        NA
 ## 2 AMBAS POR IGUAL       6         0

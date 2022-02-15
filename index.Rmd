@@ -238,7 +238,7 @@ class = "imgtab">
 <div class="fix-item">
 <img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\broom.png"
 class = "imgtab">
-<div><button class="botones">Limpieza</button></div>
+<div><button class="botones"><a href = https://flavioscargiali.github.io/aprendeR/02---dplyr.html"> Limpieza</a></button></div>
 <p>Introducción a dplyr y tidyr para transformar datos</p>
 </div>
 <div class="fix-item">
