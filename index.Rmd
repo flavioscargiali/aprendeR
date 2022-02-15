@@ -1,0 +1,302 @@
+---
+title: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<html>
+
+<head>
+<title>Introducción</title>
+<style>
+body {
+font-family: "Century Gothic";
+font-size: 14px;
+line-height: 1.5;
+text-align: justify;
+}
+
+
+
+.main-container {
+max-width: 1800px;
+margin-left: auto;
+margin-right: auto;
+}
+
+button {
+background-color: #d3436e;
+border: none;
+cursor: pointer;
+transition: 0.3s;
+font-size: 14px;
+color: white;
+padding: 5px;
+border-radius: 5px;
+}
+
+/* Change background color of buttons on hover */
+button:hover {
+font-weight: bold;
+}
+
+/* Create an active/current tablink class */
+.button.active {
+background-color: #d3436e;
+color: white;
+}
+
+/* Set additional styling options for the columns */
+.column {
+float: left;
+height: 92%;
+
+}
+
+
+.middle {
+width: 100%;
+}
+
+.row:after {
+content: "";
+display: table;
+clear: both;
+}
+
+.containerdiv {
+background-color: #f9f9f9;
+display: flex;
+height: 50%;
+padding: 1.5%;
+}
+
+.fixed {
+background-color: #4F628E;
+width: 200px;
+}
+
+.fix-item {
+width: 17%;
+height: 250px;
+background-color: white;
+margin-left: 1.5%;
+margin-right: 1.5%;
+margin-bottom: 5px;
+box-shadow: 0.25px 0.25px 1px 1px #888888;
+border-radius: 5px;
+margin: 0 auto;
+margin-top: 10px;
+margin-bottom: 10px;
+padding: 1%;
+}
+
+.fix-item.secsom {
+background-color: #eeeeee;
+width: 47%;
+height: auto;
+box-shadow: 0px 0px 0px #888888
+}
+
+
+.flex-item {
+background-color: white;
+flex-grow: 1;
+margin-left: 5px;
+margin-right: 5px;
+margin-top: 5px;
+margin-bottom: 5px;
+box-shadow: 0.75px 0.75px 1px #888888;
+border-radius: 5px;
+}
+
+.flex-item.intro {
+background-color: #eeeeee;
+border-radius: 0px;
+box-shadow: 0px 0px 0px #888888;
+font-size: 20px;
+}
+
+.flex-item.somos {
+background-color: #eeeeee;
+border-radius: 0px;
+box-shadow: 0px 0px 0px #888888;
+}
+
+.flex-item.img {
+background-color: #eeeeee;
+border-radius: 0px;
+box-shadow: 0px 0px 0px #888888;
+text-align: center;
+}
+
+.fix-item.img {
+background-color: #eeeeee;
+text-align: center;
+width: 25%;
+height: auto;
+}
+
+.botones {
+margin-top: 15%;
+margin-bottom: 7.5%;
+
+}
+
+.botones.intro {
+margin-top: 1%;
+font-size: 15px;
+}
+
+.nombres {
+font-size: 24px;
+font-family: Arial, Helvetica, sans-serif;
+}
+
+.links{color:white;}
+
+.links:hover {text-decoration: underline;
+color: #d3436e;
+cursor:pointer;}
+
+.logo{
+font-size:20px;
+background-color: #d3436e;
+color:white;
+margin: auto;
+width:35%;
+padding: 0.5%;
+}
+
+.imgtab{width: 35%;
+height: auto;
+margin-top: 12.5%;}
+
+@media only screen and (max-width:760px) {
+  /* For mobile phones: */
+  .containerdiv, .fix-item, .middle {
+    width: 100%;
+    display: block;
+    height:auto;
+  }
+  
+  .fix-item.secsom{
+    width: 100%;
+    display: block;
+    height:auto;
+  }
+  
+  .flex-item.img{display:none;}
+  
+  .imgtab{width:15%;
+  height:auto;}
+  
+  .botones {
+margin-top: 5%;
+margin-bottom: 5%;
+}
+
+  .logo{
+    width: 100%;
+    display: block;
+    height:auto;
+  }
+  
+  
+}
+
+
+</style>
+</head>
+
+<body style = "width:100%;">
+<div class="containerdiv" style="background-color: #eeeeee;padding: 2.5%;">
+
+<div class="flex-item intro">
+<p> <b style="font-size:28px;">APPRENDER</b> </p>
+<p> Introducción para conocer los principales conceptos de R, <br> el paradigma tidyverse y el armado de
+<br>documentos con Rmarkdown
+</p>
+<div><button class="botones intro">INICIAR INTRODUCCIÓN</button></div>
+</div>
+<div class="flex-item img">
+<img class="img" src=C:\Users\flavi\Desktop\aprendeR\Imagenes\r.png" style="width: 60%;height: auto;">
+
+</div>
+
+</div>
+
+<div class="containerdiv" style="background-color: white;text-align:center;">
+<div class="fix-item">
+<img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\online-learning.png"
+class = "imgtab">
+<div><button class="botones">Rbase</button></div>
+<p>Primeros pasos en el uso de R y Rstudio</p>
+</div>
+<div class="fix-item">
+<img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\broom.png"
+class = "imgtab">
+<div><button class="botones">Limpieza</button></div>
+<p>Introducción a dplyr y tidyr para transformar datos</p>
+</div>
+<div class="fix-item">
+<img class = "imgtab" src="C:\Users\flavi\Desktop\aprendeR\Imagenes\wave-graph.png"
+class = "imgtab">
+<div><button class="botones">Visualización</button></div>
+<p>Primeros pasos en ggplot</p>
+</div>
+<div class="fix-item">
+<img class = "imgtab" src="C:\Users\flavi\Desktop\aprendeR\Imagenes\placeholder.png">
+<div><button class="botones">Geo</button></div>
+<p>Manipulación de datos espaciales de la Argentina.
+<b>¡Proximamente!</b></p>
+</div>
+<div class="fix-item">
+<img class = "imgtab" src="C:\Users\flavi\Desktop\aprendeR\Imagenes\folder.png">
+<div><button class="botones">Informe</button></div>
+<p>Informe en Rmarkdown. Nuevo flujo de trabajo.</p>
+</div>
+</div>
+
+<div style="background-color: #eeeeee;padding: 1%;">
+<div class="fixed" style="width: 96%;margin:0 auto;background-color: #4ecdc4;padding: 0.5%;color:white;">
+Producido por:</div>
+<div class="containerdiv" style="background-color: #eeeeee;">
+
+<div class="fix-item secsom" style="padding: 0.5%;">
+<p class="nombres">Leandro Colisko</p>
+Licenciado en Ciencia Política (Universidad Nacional de La Matanza). Maestrando en Generación y Análisis
+de Información Estadística por la UNTREF. Actualmente se desempeña como analista estadístico de datos en
+la Empresa Argentina de Navegación Aérea.
+</div>
+<div class="fix-item secsom" style="padding: 0.5%;">
+<p class="nombres">Flavio Scargiali</p>
+Sociólogo de la Universidad de Buenos Aires. Maestrando en Generación y Análisis de Información
+Estadística por la UNTREF. Actualmente se desempeña como analista de visualización en Equifax S.A.
+</div>
+</div>
+</div>
+<div style="background-color: #212f3c;padding: 1%;"></div>
+<div style="background-color: #212f3c;padding: 1%;">
+
+<div class="containerdiv" style="background-color: #212f3c;">
+<div class="fix-item secsom" style=";color:white;background-color: #212f3c;padding: 0.5%;">
+<a class = "links"><b>+</b> Inicio</a>
+<br><a class = "links"><b>+</b> Limpieza</a>
+<br><a class = "links"><b>+</b> Visualización</a>
+<br><a class = "links"><b>+</b> GEO</a>
+<br><a class = "links"><b>+</b> Informe</a>
+</div>
+<div class="fix-item secsom" style="background-color: #212f3c;padding: 0.5%;text-align: center;margin-top:2.5%">
+<p class = "logo">Buceando R</p></div>
+
+</div>
+
+
+
+
+</body>
+
+</html>

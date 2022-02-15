@@ -1,0 +1,2139 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>02---dplyr.knit</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Inicio</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    AprendeR
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01---introduccion.html">1- Introducción</a>
+    </li>
+    <li>
+      <a href="02---dplyr.html">2- dplyr</a>
+    </li>
+    <li>
+      <a href="03---ggplot.html">3- ggplot</a>
+    </li>
+    <li>
+      <a href="page-b.html">4- rmarkdown</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="05 - contacto.html">Contacto</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<html>
+<body>
+<div id="introducción" class="section level1">
+<h1>INTRODUCCIÓN</h1>
+<hr class = "linea">
+<p>En esta segunda sección, nos proponemos avanzar en el uso de <strong>tidyverse como una forma de facilitar la programación en R.</strong> En especial sobre dplyr (paquete dentro de tidyverse) es una gramática de manipulación de datos, que proporciona un conjunto consistente de verbos que ayudan a resolver los desafíos más comunes dentro de la transformación de datos. Con estas herramientas en nuestro maletín nos vamos a introducir al mundo de la EPH para calcular la Tasa de Desocupación. Además, presentamos algunas funciones útiles para realizar análisis exploratorio de datos. Antes que nada, conversemos sobre dos temas introductorios, pero bien importantes para manejar datos en R: <strong>los tipos de objetos y las formas de acceder a los mismos.</strong></p>
+<br>
+<h1>
+CONTENIDOS
+</h1>
+<hr class = "linea">
+<div class="contenidos">
+<p><a href="#1" class="contitulo"><b>1. Tipos de objetos</b></a> <br><a class="subtitulostabla" href="#1.1"> 1.1. Vectores </a> <br><a class="subtitulostabla" href="#1.2"> 1.2. Matrices </a> <br><a class="subtitulostabla" href="#1.3"> 1.3. Dataframes </a> <br><a class="subtitulostabla" href="#1.4"> 1.4. Listas </a> <br><a class="subtitulostabla" href="#1.5"> 1.5. Modificando objetos </a> <br><a href="#2" class="contitulo"><b>2. Carga de datos</b></a> <br><a href="#3" class="contitulo"><b>3. Transformación de datos</b></a> <br><a class="subtitulostabla" href="#3.1"> 3.1. Tidyverse </a> <br><a class="subtitulostabla" href="#3.2"> 3.2. Dplyr </a> <br><a class="subtitulostabla subitem" href="#3.2.1"> 3.2.1 Select </a> <br><a class="subtitulostabla subitem" href="#3.2.2"> 3.2.2 Filter </a> <br><a class="subtitulostabla subitem" href="#3.2.3"> 3.2.3 Arrange </a> <br><a class="subtitulostabla subitem" href="#3.2.4"> 3.2.4 Summarise </a> <br><a class="subtitulostabla subitem" href="#3.2.5"> 3.2.5 Group by </a> <br><a class="subtitulostabla subitem" href="#3.2.6"> 3.2.6 Mutate </a> <br><a class="subtitulostabla subitem" href="#3.2.7"> 3.2.7 Joins </a> <br><a class="subtitulostabla subitem" href="#3.2.8"> 3.2.8 pipe </a> <br><a class="subtitulostabla" href="#3.3"> 3.3. Tidyr </a> <br><a class="subtitulostabla" href="#3.4"> 3.4. Lubridate </a> <br><a class="subtitulostabla" href="#3.5"> 3.5. Stringr </a></p>
+</div>
+<br>
+<h1 id="1">
+TIPOS DE OBJETOS
+</h1>
+<hr class = "linea">
+<h2 id="1.1">
+<strong>1.1.</strong> VECTORES
+</h2>
+<p><br></p>
+<p>Ya hemos visto en la jornada anterior, aunque sin querer explicitarlo mucho, un contenedor básico: los <strong>vectores.</strong> Habíamos dicho que los mismos no pueden contener más de un tipo de dato distinto en su interior. Es decir, podemos tener vectores numéricos, de texto o lógicos. Y que la sintaxis para definirlos es con c( ). <br></p>
+<pre class="r"><code>notas_alumnes &lt;- c(9, 8, 7, 9, 10)</code></pre>
+<p><br> ¿Recuerdan que pasaba si mezclaba tipos de datos distintos cuando estoy definiendo un vector? Por ejemplo: <br></p>
+<pre class="r"><code>notas_alumnes &lt;- c(&#39;A&#39;, TRUE, 7, &#39;C&#39;, 10)</code></pre>
+<br>
+<h2 id="1.2">
+<strong>1.2.</strong> MATRICES
+</h2>
+<p><br></p>
+<p>Otro tipo de objeto son las <strong>matrices</strong>, no vamos a profundizar en ellas. De todas formas, si es importante que por sepan que existen, ya que muchas veces cuando obtenemos un resultado de alguna función en R, el tipo de objeto que nos devuelve R es una Matriz.: <br></p>
+<pre class="r"><code># Creamos una matriz de 3x3 con numeros del 1 al 9
+mi_matriz &lt;- matrix(1:9, nrow = 3, ncol = 3, byrow = TRUE) 
+
+#Le pregunto al R si el objeto que defini es una matriz
+is.matrix(mi_matriz)</code></pre>
+<pre style="max-height: 150px;"><code>## [1] TRUE</code></pre>
+<br>
+<h2 id="1.3">
+<strong>1.3.</strong> DATAFRAMES
+</h2>
+<p><br></p>
+<p>Como una combinación de vectores y matrices, tenemos los <strong>dataframes.</strong> Este sí, es el tipo de objeto que es más común para nosotres, nos recuerda mucho a las tablas en Excel, Spss o Stata. Es muy importante considerar que en general nuestros datos contienen <strong>OBSERVACIONES</strong> (o casos) en las <strong>FILAS y VARIABLES</strong> (o características de esas observaciones) en las <strong>COLUMNAS</strong>. Cada columna será una característica distinta de esa UNIDAD DE ANÁLISIS. Otro elemento a destacar es que, en un Data Frame cada columna es un vector y puede ser tratada como tal. Vamos a definir una tabla básica con las características de nuestros alumnes.</p>
+<pre class="r"><code># Tenemos las notas de 5 estudiantes
+notas_alumnes &lt;- c(9, 8, 7, 9, 10)
+
+#Ahora escribimos los nombre
+# El orden de los nombres tiene que corresponder a sus notas
+nombre_alumnes &lt;- c(&#39;Maria&#39;, &#39;Juana&#39;, &#39;Pedro&#39;, &#39;Mariana&#39;, &#39;Inti&#39;)
+
+#Ahora definimos una nota de concepto
+concepto_alumnes &lt;- c(&#39;Muy bueno&#39;, &#39;Bueno&#39;, &#39;Muy bueno&#39;, &#39;Regular&#39;, &#39;Bueno&#39;)
+
+#Hagamos una tabla con toda la información
+curso &lt;- data.frame(nombres = nombre_alumnes,
+                    notas = notas_alumnes,
+                    concepto= concepto_alumnes)
+curso</code></pre>
+<pre style="max-height: 150px;"><code>##   nombres notas  concepto
+## 1   Maria     9 Muy bueno
+## 2   Juana     8     Bueno
+## 3   Pedro     7 Muy bueno
+## 4 Mariana     9   Regular
+## 5    Inti    10     Bueno</code></pre>
+<br>
+<h2 id="1.4">
+<strong>1.4.</strong> LISTAS
+</h2>
+<p><br></p>
+<p>Por último, hay un tipo especial de objetos, que se llama lista. La particularidad es que pueden contener cualquier tipo de objetos e incluso. Por ejemplo, puede tener un data frame o varios, a la vez que contiene otro vector u otra lista. Parece un poco rebuscado (al principio lo es) pero paso a paso diría Mostaza. Veamos un ejemplo: <br></p>
+<pre class="r"><code># Voy a poner todo lo que tengo en una lista
+mi_lista &lt;- list(tabla= curso, 
+                 matriz= mi_matriz, 
+                 mi_nombre= &#39;Leandro&#39;, mi_edad=25)
+mi_lista</code></pre>
+<pre style="max-height: 150px;"><code>## $tabla
+##   nombres notas  concepto
+## 1   Maria     9 Muy bueno
+## 2   Juana     8     Bueno
+## 3   Pedro     7 Muy bueno
+## 4 Mariana     9   Regular
+## 5    Inti    10     Bueno
+## 
+## $matriz
+##      [,1] [,2] [,3]
+## [1,]    1    2    3
+## [2,]    4    5    6
+## [3,]    7    8    9
+## 
+## $mi_nombre
+## [1] &quot;Leandro&quot;
+## 
+## $mi_edad
+## [1] 25</code></pre>
+<p><br> Las listas pueden ser muy útiles para guardar, por ejemplo, múltiples tablas. También es bueno conocerlas, porque <strong>suelen ser el contenedor de resultados como gráficos o modelos estadísticos.</strong></p>
+<br>
+<h2 id="1.5">
+<strong>1.5.</strong> MODIFICANDO OBJETOS
+</h2>
+<p><br></p>
+<p>Todos los objetos que hemos visto, además de lo que contienen adentro, tienen otros atributos, como ser la clase (que vimos en la jornada anterior), los nombres, el largo, etc. <strong>Un atributo muy importante es el índice.</strong> El cual nos sirve para acceder a un elemento específico de nuestro objeto. Veamos de manera resumida algunos ejemplos. Los vectores son objetos que tienen una sola dimensión. Por lo cual a ellos podemos acceder con el número de posición del elemento o cuando cumplen una condición lógica, es decir que se quede con los elementos que cumplen determinada condición.</p>
+<p><br></p>
+<pre class="r"><code>#Volvemos a los alumnes
+notas_alumnes &lt;- c(9, 8, 7, 9, 10)
+
+#El indice en R comienza en 1
+notas_alumnes[3]</code></pre>
+<pre style="max-height: 150px;"><code>## [1] 7</code></pre>
+<pre class="r"><code># Notas menores a 8
+notas_alumnes[notas_alumnes &lt; 8]</code></pre>
+<pre style="max-height: 150px;"><code>## [1] 7</code></pre>
+<p><br> Para los objetos que tienen dos dimensiones como las matrices y los data frames, la dinámica es la misma sólo que tenemos que agregar las columnas de referencia. Además, es bueno mencionar que, si queremos acceder a una columna y tratarla como si fuera un vector, podemos acceder a ella escribiendo nombre_tabla$nombre_columna. <br></p>
+<pre class="r"><code># Me quedo con el primer registro de la primer columna
+curso[ 1, 1]</code></pre>
+<pre style="max-height: 150px;"><code>## [1] &quot;Maria&quot;</code></pre>
+<pre class="r"><code># Segunda fila todos los registros
+curso[ 2, ]</code></pre>
+<pre style="max-height: 150px;"><code>##   nombres notas concepto
+## 2   Juana     8    Bueno</code></pre>
+<pre class="r"><code>#Todos los que tienen mayor o igual que 9 en nota
+curso[ curso$notas &gt;= 9, ]</code></pre>
+<pre style="max-height: 150px;"><code>##   nombres notas  concepto
+## 1   Maria     9 Muy bueno
+## 4 Mariana     9   Regular
+## 5    Inti    10     Bueno</code></pre>
+<br>
+<h1 id="1">
+CARGA DE DATOS
+</h1>
+<hr class = "linea">
+<p><br> A continuación, revisamos las <strong>funciones que usamos para cargar en nuestro ambiente de trabajo los diferentes tipos de extensiones.</strong> Además, les explicamos que especificando el <strong>encoding</strong> (es decir la codificación del texto que interpreta la pc) pueden evitar que les aparezcan símbolos extraños (por ejemplo cuando en vez de la á aparece Ã). Esto último es clave para todas las tareas que vayamos a realizar con los datos. Pero previo a sumergirnos, queremos aclarar que podemos <strong>cargar los archivos csv de tres maneras distintas:</strong> <br> <br> <br>- <strong>Con la ruta local del archivo</strong> (es decir la ubicación del archivo dentro de mi pc desde el disco duro c en adelante). Esto es lo mismo, que abrir en word la opción archivo y abrir para buscar un documento en las carpetas de sus pc. La única diferencia es que en vez de hacer clic en botones tienen que escribir la ruta. Para probar las diferentes formas de cargar, les dejemos una carpeta con los archivos necesarios <a class = link href = "https://drive.google.com/drive/folders/1AX7L2Nr4hqMvvWlVd-DbYtxcc6gkzmLO?usp=sharing">acá</a>.</p>
+<p><br></p>
+<pre class="r"><code># Cargar un archivo que está en la carpeta de descargas (recuerden cambiar el nombre de las carpetas)
+forma1 &lt;- read.csv(&quot;C:/Users/flavi/Downloads/encc_2017.csv&quot;, encoding = &quot;UTF-8&quot;)</code></pre>
+<p><br>- <strong>Seteando y accediendo a las carpetas/archivos a través del directorio.</strong> Para esto primero, definen la carpeta que van a utilizar como directorio de trabajo. Para luego, guardar en ella todos los archivos que necesitan. <br></p>
+<pre class="r"><code># Seteo mi carpeta de descarga como directorio (Recuerden actualiza de acuerdo a las carpetas en sus computadoras)
+setwd(&quot;C:/Users/flavi/Downloads/&quot;)
+
+# Cargo la base en el ambiente de trabajo
+forma2 &lt;- read.csv(&quot;encc_2017.csv&quot;, encoding = &quot;UTF-8&quot;)</code></pre>
+<p><br>- Con el link de internet (pero recuerden que pueden dar de bajo el archivo. Por esto, la opción local es más segura pero menos inmediata) <br></p>
+<pre class="r"><code># Cargo 
+forma3 &lt;- read.csv(&quot;https://datos.cultura.gob.ar/dataset/251c2ac2-e670-451c-9dbf-a4212af225b5/resource/171494ce-e3cf-43fb-ad6e-f204bae1bb19/download/encc_2017.csv&quot;, encoding = &quot;UTF-8&quot;)</code></pre>
+<br> Ahora veamos cómo cargar los diferentes extensiones de los archivos: <br> <br>
+<h3>
+csv/.txt
+</h3>
+<p><br> Como ya saben, r nos permite de distinta forma alcanzar un mismo objetivo. A continuación presentamos, las funciones más comunes para cargar un csv/txt. Algunas vienen por default en r (como parte de rbase, utils, etc.), en otras es necesario activar un paquete. <br> Dentro de las funciones que viene por <strong>default en r</strong> se encuentran: - read.delim() [se puede especificar delimitador] - read.csv() [delimitador “,”] - read.csv2() [delimitador “;”] <br></p>
+<pre class="r"><code># Vector con el link de descarga 
+link &lt;- &quot;https://datos.cultura.gob.ar/dataset/251c2ac2-e670-451c-9dbf-a4212af225b5/resource/171494ce-e3cf-43fb-ad6e-f204bae1bb19/download/encc_2017.csv&quot;
+
+# Prueba de lectura (no creamos objetos porque es sólo una prueba de cómo funcionan)
+read.delim(link,sep = &quot;,&quot;, encoding = &quot;UTF-8&quot;)
+
+# Podemos usar read.csv porque el delimitador es una coma (,). ¿Por qué no se puede usar read.csv2? Porque es para los archivos separados por punto y coma (;)
+read.csv(link, encoding = &quot;UTF-8&quot;)</code></pre>
+<p><br>Hay una función que tiene como beneficio la posibilidad de cargar la tabla únicamente con las variables que son de interés para nosotres. Este es muy bueno, para cuando tenemos tablas muy grandes y nuestras pc no cumplen con los requerimientos de memorias necesarios para cargar todos los datos. Además, tiene una muy buena performance en la lectura del archivo. La función se llama <strong>fread</strong> y se encuentra en el paquete <strong>data.table</strong>. <br> fread()[se puede especificar delimitador] <br></p>
+<pre class="r"><code># Activo el paquete data.table
+library(data.table)
+
+# Creamos vectores para seleccionar únicamente las variables que nos interesan. 
+variables &lt;- c(&quot;id&quot;, &quot;pondera_dem&quot;, &quot;fecha&quot;, &quot;region&quot;, &quot;sexo&quot;, &quot;edad&quot;, &quot;p1&quot;,&quot; p1otros&quot;,
+         &quot;p2&quot;, &quot;p3&quot;, &quot;p4&quot;, &quot;p5&quot;, &quot;p6horas&quot;, &quot;p6minutos&quot;)
+
+# Cargamos la tabla únicamente con las variables selecionadas
+fread(link, select = variables, sep = &quot;,&quot;, encoding = &quot;UTF-8&quot;)</code></pre>
+<p>Dentro del paquete <strong>readr</strong> de la familia tidyverse encontramos:</p>
+<p>read_csv() [delimitador “,”] read_csv2() [delimitador “,”]</p>
+<pre class="r"><code># Cargo la biblioteca
+library(tidyverse)
+
+# Prueba de lectura (no creamos objetos porque es sólo una prueba de cómo funcionan)
+read_csv(link,,locale = locale(encoding = &quot;UTF-8&quot;) )
+
+# Podemos usar read_csv porque el delimitador es una coma (,). ¿Por qué no se puede usar read_csv2? Porque es para los archivos separados por punto y coma (;)</code></pre>
+Las planillas de Excel son quizás el formato más común que nos encontremos, por eso es bueno conocer la función de lectura básica. ¡Para eso cargamos la librería <strong>readxl</strong> y aplicamos la función léeme el excel y listo! read_excel() <br> <br>
+<h3>
+.xlsx
+</h3>
+<p><br></p>
+<pre class="r"><code># Cargo la biblioteca
+library(readxl)
+
+# Cargo el archivo desde mi directorio de trabajo (recuerden cambiar el nombre de las carpetas)
+archivo_excel &lt;- read_excel(&quot;CuadroDeuda.xlsx&quot;)</code></pre>
+<p>La librería <strong>haven</strong> permite leer archivos de varios orígenes como SPSS, Stata y SAS.</p>
+<br>
+<h3>
+.sav, .dta, .sas
+</h3>
+<pre class="r"><code># Cargo la biblioteca
+library(haven)
+
+# Cargo el archivo SPSS
+archivo_spss &lt;- read_sav(&quot;datos/LOWBWT.sav&quot;,encoding = &quot;UTF-8&quot;)
+
+# Cargo el achivo de stata
+archivo_stata &lt;- read_dta(&quot;datos/LOWBWT.dta&quot;,encoding = &quot;UTF-8&quot;)
+
+# Cargo el archivo de archivo sas
+archivo_sas &lt;- read_sas(&quot;datos/LOWBWT.sas7bdat&quot;,encoding = &quot;UTF-8&quot;)</code></pre>
+<br> <br>
+<h3>
+Resumen de las principales funciones
+</h3>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="18%" />
+<col width="39%" />
+<col width="29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Función</th>
+<th align="center">Paquete</th>
+<th align="center">Extensión</th>
+<th align="center">Encoding</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">read_delim</td>
+<td align="center">utils (default)</td>
+<td align="center">.csv/.txt [Especificar delimitador]</td>
+<td align="center">encoding = “UTF-8”</td>
+</tr>
+<tr class="even">
+<td align="center">read.csv</td>
+<td align="center">utils (default)</td>
+<td align="center">.csv/.txt [Delimitador “,”]</td>
+<td align="center">encoding = “UTF-8”</td>
+</tr>
+<tr class="odd">
+<td align="center">read.csv2</td>
+<td align="center">utils (default)</td>
+<td align="center">.csv/.txt [Delimitador “;”]</td>
+<td align="center">encoding = “UTF-8”</td>
+</tr>
+<tr class="even">
+<td align="center">read_csv</td>
+<td align="center">readr</td>
+<td align="center">.csv/.txt [Delimitador “,”]</td>
+<td align="center">locale(encoding = “UTF-8”)</td>
+</tr>
+<tr class="odd">
+<td align="center">read_csv2</td>
+<td align="center">readr</td>
+<td align="center">.csv/.txt [Delimitador “;”]</td>
+<td align="center">locale(encoding = “UTF-8”)</td>
+</tr>
+<tr class="even">
+<td align="center">fread</td>
+<td align="center">data.table</td>
+<td align="center">.csv/.txt [Especificar delimitador]</td>
+<td align="center">encoding = ‘UTF-8’</td>
+</tr>
+<tr class="odd">
+<td align="center">read_excel</td>
+<td align="center">readxl</td>
+<td align="center">.xlsx</td>
+<td align="center">-</td>
+</tr>
+<tr class="even">
+<td align="center">read_sav</td>
+<td align="center">haven</td>
+<td align="center">.sas7bdat</td>
+<td align="center">encoding = ‘UTF-8’</td>
+</tr>
+<tr class="odd">
+<td align="center">read_dta</td>
+<td align="center">haven</td>
+<td align="center">.dta</td>
+<td align="center">encoding = ‘UTF-8’</td>
+</tr>
+<tr class="even">
+<td align="center">read_sas</td>
+<td align="center">haven</td>
+<td align="center">.sas</td>
+<td align="center">encoding = ‘UTF-8’</td>
+</tr>
+</tbody>
+</table>
+<p><br> Cómo ven se puede leer cualquier archivo de una forma simple y con una sintaxis amigable. En todos los casos vimos que el <strong>único parámetro obligatorio fue la dirección del archivo.</strong> Lo bueno de R, es que cuando cargamos una tabla. <strong>Las transformaciones no las hacemos sobre el archivo original, sino que las hacemos sobre el objeto de R. Por eso no nos tenemos que preocupar por mandarnos un lío y guardar.</strong> Está todo escrito y uno lo ejecuta cuando quiere.</p>
+<br>
+<div class="contenidos citas">
+“Se puede leer cualquier archivo de una forma simple y con una sintaxis amigable.”
+</div>
+<p><br></p>
+<p>Ahora, si queremos guardar una tabla transformada, también lo podemos hacer de una forma muy sencilla, en vez de decirle a R lee, le vamos a decir escribí. Como en este ejemplo:</p>
+<pre class="r"><code>write.csv(x = archivo_excel, file = &quot;resultados/CuadroDeuda.csv&quot;)</code></pre>
+<p><br>Cuando guardamos un archivo tenemos dos parámetros obligatorios. El primero le dice a R que va a guardar y el segundo dónde, con qué nombre y que extensión va a tener. <br> <br>Con esto es más que suficiente para que comiencen a leer sus datos. No obstante, sepan que con R nos podemos conectar a bases de datos como SQLServer, SQLite, PostgresSQL y más. <a href = "https://db.rstudio.com/odbc/">Hay conexiones de todo tipo y color.</a> <br></p>
+<br>
+<h1 id="3">
+TRANSFORMACIÓN DE DATOS
+</h1>
+<hr class = "linea">
+<h2 id="3.1">
+<strong>3.1.</strong> TIDYVERSE
+</h2>
+<p><br></p>
+<p>Tidyverse es una colección de paquetes de código abierto que fue creada por Hadley Wickham que hoy en día funciona como un paradigma de programación en R. Esto es así porque el conjunto de bibliotecas, veremos algunas funciones de algunos de ellos, permiten hacer de forma simplificada y más legible muchas de las cosas que podemos hacer con R base. Si utilizan R lo más probable es que la primera biblioteca que activen será tidyverse. Sin ir más lejos ya la hemos usado en múltiples ocasiones. Son parte de tidyverse ggplot. dplyr, tidyr, haven, stringr, lubridate, forecast, tidymodel y más.</p>
+<br>
+<div class="contenidos citas">
+“Tidyverse es una colección de paquetes de código abierto que fue creada por Hadley Wickham que hoy en día funciona como un paradigma de programación en R.”
+</div>
+<p><br></p>
+<p><br> <img src="Imagenes/restid.png"> <br></p>
+<pre class="r"><code># Activamos la libreria
+library(tidyverse)</code></pre>
+<br>
+<h2 id="3.2">
+<strong>3.2.</strong> DPLYR
+</h2>
+<p><br></p>
+<p>Pasemos a ver cómo se realizan algunas de estas acciones con el concepto de **dplyr¨¨. A modo de simplificación, son seis las principales funciones a utilizar: filter, mutate, select, arrange, group_by y summarise. Sus nombres son verbos que nos indican que es lo que vamos a hacer: manipular datos. Antes de pasar a la EPH, vamos a traer un set de datos de la Encuesta Nacional de Consumos Culturales, que descargamos desde aquí. Vamos a cargar el Set de datos y aplicar las funciones de Tidyverse sobre el mismo.</p>
+<br>
+<div class="contenidos citas">
+“Son seis las principales funciones a utilizar: <strong>filter, mutate, select, arrange, group_by y summarise.</strong>”
+</div>
+<p><br></p>
+<pre class="r"><code>rm(list = ls()) #limpiamos el ambiente de trabajo
+
+# Cargamos los datos de la encuesta
+encuesta_cc &lt;- read_csv(&quot;https://datos.cultura.gob.ar/dataset/251c2ac2-e670-451c-9dbf-a4212af225b5/resource/171494ce-e3cf-43fb-ad6e-f204bae1bb19/download/encc_2017.csv&quot;) %&gt;% 
+  as.data.frame() #Cargar tabla 
+
+encuesta_cc #Imprimo la tabla</code></pre>
+<pre style="max-height: 150px;"><code>##   id pondera_dem     fecha region  sexo edad
+## 1  1        8608 23/5/2017 CENTRO Varón   19
+## 2  2        2869 10/5/2017 CENTRO Varón   24
+##                                       p1
+## 1 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 2                      EL ARTE, LO CULTO
+##   p1otros p2 p2_1 p2_1otro p2_2 p3
+## 1    &lt;NA&gt; SI &lt;NA&gt;       NA &lt;NA&gt; SI
+## 2    &lt;NA&gt; SI &lt;NA&gt;       NA &lt;NA&gt; NO
+##                        p4 p5 p6horas p6minutos
+## 1    ALGUNAS VECES AL MES FM       1         0
+## 2 ALGUNOS DIAS POR SEMANA FM       1         0
+##   horas_radio minutos_radio
+## 1           1             0
+## 2           1             0
+##                      p7_1
+## 1    ALGUNAS VECES AL MES
+## 2 ALGUNOS DIAS POR SEMANA
+##                      p7_2  p7_3
+## 1                   NUNCA NUNCA
+## 2 ALGUNOS DIAS POR SEMANA NUNCA
+##                      p7_4  p7_5
+## 1    ALGUNAS VECES AL MES NUNCA
+## 2 ALGUNOS DIAS POR SEMANA NUNCA
+##                         p8a
+## 1                 MUSICALES
+## 2 INFORMATIVOS / NOTICIEROS
+##                     p8b        p8c  p8d  p8e
+## 1 ACTUALIDAD / MAGAZINE       &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
+## 2             MUSICALES CULTURALES &lt;NA&gt; &lt;NA&gt;
+##    p8f  p8g p8otros p9 p10 p10_1 p10_1otr p10_2
+## 1 &lt;NA&gt; &lt;NA&gt;    &lt;NA&gt;  1  SI  &lt;NA&gt;       NA  &lt;NA&gt;
+## 2 &lt;NA&gt; &lt;NA&gt;    &lt;NA&gt;  0  SI  &lt;NA&gt;       NA  &lt;NA&gt;
+##                           p11 p12horas
+## 1     ALGUNOS DIAS POR SEMANA        1
+## 2 TODOS O CASI TODOS LOS DIAS        3
+##   p12minutos horas_musica minutos_musica p13_1
+## 1         30            1             30 NUNCA
+## 2          0            3              0 NUNCA
+##                     p13_2
+## 1    ALGUNAS VECES AL MES
+## 2 ALGUNOS DIAS POR SEMANA
+##                         p13_3
+## 1        ALGUNAS VECES AL MES
+## 2 TODOS O CASI TODOS LOS DIAS
+##                     p13_4 p13_5 p13_6 p13_7
+## 1 ALGUNOS DIAS POR SEMANA NUNCA NUNCA NUNCA
+## 2 ALGUNA VEZ CADA 3 MESES NUNCA NUNCA NUNCA
+##   p13_8                   p13_9         p14_1
+## 1 NUNCA ALGUNOS DIAS POR SEMANA         NUNCA
+## 2 NUNCA                   NUNCA HABITUALMENTE
+##        p14_2         p14_3 p14_4 p14_5
+## 1      NUNCA HABITUALMENTE NUNCA NUNCA
+## 2 CASI NUNCA HABITUALMENTE NUNCA NUNCA
+##              p14_6            p14_7      p14_8
+## 1 DE VEZ EN CUANDO DE VEZ EN CUANDO      NUNCA
+## 2 DE VEZ EN CUANDO DE VEZ EN CUANDO CASI NUNCA
+##        p14_9 p14_10           p14_11
+## 1      NUNCA  NUNCA DE VEZ EN CUANDO
+## 2 CASI NUNCA  NUNCA DE VEZ EN CUANDO
+##             p14_12 p14_13 p14_14         p15
+## 1 DE VEZ EN CUANDO  NUNCA  NUNCA 6 canciones
+## 2            NUNCA  NUNCA  NUNCA 9 canciones
+##   p16                       p17_1
+## 1  SI     ALGUNOS DIAS POR SEMANA
+## 2  SI TODOS O CASI TODOS LOS DIAS
+##                       p17_2        p18a    p18b
+## 1 ALGUNA VEZ AL AÑO O MENOS     YOUTUBE    &lt;NA&gt;
+## 2   ALGUNOS DIAS POR SEMANA GOOGLE PLAY YOUTUBE
+##   p18c p18d p18e p18f p18g p18otros p19 p20 p21
+## 1 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;     &lt;NA&gt;   0   0   0
+## 2 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;     &lt;NA&gt; 150   0   0
+##   p22 p23                           p23_1
+## 1   0  NO PORQUE LAS ENTRADAS ESTAN CARAS
+## 2   0  SI                            &lt;NA&gt;
+##   p23_1otr p23_2                            p24
+## 1     &lt;NA&gt;    SI                           &lt;NA&gt;
+## 2     &lt;NA&gt;  &lt;NA&gt; TODAS O CASI TODAS LAS SEMANAS
+##    p25 p25_bis p25_1 p25_1_bis  p26 p26_bis p27
+## 1 &lt;NA&gt;       0  &lt;NA&gt;         0 &lt;NA&gt;       0  NO
+## 2   13      13    13        13  500     500  SI
+##   p27_1 p28 p29 p29_1 p29_1otr p29_2 p30
+## 1     0  NO  SI  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;   3
+## 2     2  SI  SI  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;   6
+##   p30_bis p31horas p31minutos horas_diario
+## 1       3        1          0            1
+## 2       6        0         30            0
+##   minutos_diario                  p32 p33
+## 1              0 ALGUNAS VECES AL MES   0
+## 2             30    ALGUNA VEZ AL AÑO   0
+##   p33_bis p33_1 p33_1_bis
+## 1       0     0         0
+## 2       0     0         0
+##                           p34   p34_1
+## 1 TODOS O CASI TODOS LOS DIAS CELULAR
+## 2 TODOS O CASI TODOS LOS DIAS CELULAR
+##                      p35_1 p35_2
+## 1 MENOS DE UNA VEZ POR MES NUNCA
+## 2                    NUNCA NUNCA
+##                         p35_3             p36
+## 1 TODOS O CASI TODOS LOS DIAS AMBAS POR IGUAL
+## 2 TODOS O CASI TODOS LOS DIAS AMBAS POR IGUAL
+##   p37 p37_1                     p38  p39
+## 1  NO    NO                    &lt;NA&gt; &lt;NA&gt;
+## 2  SI  &lt;NA&gt; ALGUNOS DIAS POR SEMANA    0
+##   p39_bis p39_1 p39_1_bis  p40 p40_bis
+## 1       0  &lt;NA&gt;         0 &lt;NA&gt;       0
+## 2       0     0         0    0       0
+##                           p41 p42 p42_1
+## 1                        &lt;NA&gt;  SI  &lt;NA&gt;
+## 2 TODOS O CASI TODOS LOS DIAS  SI  &lt;NA&gt;
+##   p42_1otr p42_2 p43 p43_bis p43_1 p43_1_bis
+## 1       NA  &lt;NA&gt;   1       1     0         0
+## 2       NA  &lt;NA&gt;   3       3     2         2
+##                                                                               p44
+## 1 SE LO HABIA RECOMENDADO UN PROFESOR, REFERENTE POLITICO, RELIGIOSO O ESPIRITUAL
+## 2                                                        PORQUE ESTABA EN SU CASA
+##   p44otros p45 p45_bis p45_1 p45_1_bis
+## 1       NA   1       1   600       600
+## 2       NA   0       0     0         0
+##                       p46
+## 1    ALGUNAS VECES AL MES
+## 2 ALGUNA VEZ CADA 3 MESES
+##                                         p47
+## 1 NO LEYO LIBROS EN PANTALLA, SOLO EN PAPEL
+## 2                   ALGUNA VEZ CADA 3 MESES
+##        p47_1a p47_1b p47_1c p47_1d p47_2
+## 1        &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;
+## 2 COMPUTADORA   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;    NO
+##        p48_1      p48_2 p48_3            p48_4
+## 1 CASI NUNCA      NUNCA NUNCA            NUNCA
+## 2 CASI NUNCA CASI NUNCA NUNCA DE VEZ EN CUANDO
+##           p48_5 p48_6 p48_7            p48_8
+## 1 HABITUALMENTE NUNCA NUNCA            NUNCA
+## 2         NUNCA NUNCA NUNCA DE VEZ EN CUANDO
+##   p48_9 p48_10 p48_11           p48_12
+## 1 NUNCA  NUNCA  NUNCA DE VEZ EN CUANDO
+## 2 NUNCA  NUNCA  NUNCA       CASI NUNCA
+##          p48_13 p48_14     p48_15 p48_16 p49
+## 1 HABITUALMENTE  NUNCA      NUNCA  NUNCA  SI
+## 2         NUNCA  NUNCA CASI NUNCA  NUNCA  SI
+##   p49_1 p49_2 p50horas p50minutos horas_TV
+## 1  &lt;NA&gt;  &lt;NA&gt;        1          0        1
+## 2  &lt;NA&gt;  &lt;NA&gt;        0         45        0
+##   minutos_TV
+## 1          0
+## 2         45
+##                                                          p51a
+## 1                                        TELEVISION POR CABLE
+## 2 TELEVISION DIGITAL ABIERTA, CON DECODIFICADOR/ SINTONIZADOR
+##   p51b                      p52
+## 1 &lt;NA&gt;                  NO MIRA
+## 2 &lt;NA&gt; ALGUNAS VECES POR SEMANA
+##                       p53 p54_1 p54_2 p54_3
+## 1 UNA HORA O MENOS AL DIA NUNCA NUNCA NUNCA
+## 2                 NO MIRA NUNCA NUNCA NUNCA
+##                         p54_4            p55_1
+## 1 TODOS O CASI TODOS LOS DIAS            NUNCA
+## 2     ALGUNOS DIAS POR SEMANA DE VEZ EN CUANDO
+##   p55_2      p55_3 p56   p56_1 p56_1_bis p57
+## 1 NUNCA      NUNCA   2       1         1  SI
+## 2 NUNCA CASI NUNCA   1 NINGUNO   NINGUNO  SI
+##   p57_1 p57_1otr p57_2 p58_1
+## 1  &lt;NA&gt;       NA  &lt;NA&gt; NUNCA
+## 2  &lt;NA&gt;       NA  &lt;NA&gt; NUNCA
+##                         p58_2
+## 1        ALGUNAS VECES AL MES
+## 2 TODOS O CASI TODOS LOS DIAS
+##                     p58_3 p58_4
+## 1    ALGUNAS VECES AL MES NUNCA
+## 2 ALGUNOS DIAS POR SEMANA NUNCA
+##               p58_5                   p58_6
+## 1             NUNCA ALGUNOS DIAS POR SEMANA
+## 2 ALGUNA VEZ AL AÑO ALGUNOS DIAS POR SEMANA
+##                         p58_7             p59_1
+## 1 TODOS O CASI TODOS LOS DIAS ALGUNA VEZ AL AÑO
+## 2     ALGUNOS DIAS POR SEMANA             NUNCA
+##               p59_2                       p59_3
+## 1 ALGUNA VEZ AL AÑO TODOS O CASI TODOS LOS DIAS
+## 2             NUNCA     ALGUNOS DIAS POR SEMANA
+##   p59_4                   p59_5
+## 1 NUNCA       ALGUNA VEZ AL AÑO
+## 2 NUNCA ALGUNOS DIAS POR SEMANA
+##                     p59_6  p60 p61 p62 p63
+## 1                   NUNCA  150   0   0  SI
+## 2 ALGUNA VEZ CADA 3 MESES 1350   0   0  SI
+##   p63_1 p63_1otr p63_2
+## 1  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;
+## 2  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;
+##                         p64 p65 p65_bis p65_1
+## 1 ALGUNA VEZ AL AÑO O MENOS   1       1     0
+## 2   ALGUNA VEZ CADA 3 MESES   3       3     2
+##   p65_1_bis
+## 1         0
+## 2         2
+##                                                     p66
+## 1 NO TENIA DECIDIDO IR A VERLA, LA ELIGIO EN EL MOMENTO
+## 2 NO TENIA DECIDIDO IR A VERLA, LA ELIGIO EN EL MOMENTO
+##   p66otros            p67_1 p67_2      p67_3
+## 1     &lt;NA&gt; DE VEZ EN CUANDO NUNCA      NUNCA
+## 2     &lt;NA&gt;       CASI NUNCA NUNCA CASI NUNCA
+##              p67_4 p67_5            p67_6
+## 1 DE VEZ EN CUANDO NUNCA    HABITUALMENTE
+## 2 DE VEZ EN CUANDO NUNCA DE VEZ EN CUANDO
+##           p67_7      p67_8         p67_9 p67_10
+## 1         NUNCA      NUNCA         NUNCA  NUNCA
+## 2 HABITUALMENTE CASI NUNCA HABITUALMENTE  NUNCA
+##       p67_11 p68                     p69  p70
+## 1      NUNCA  NO                    &lt;NA&gt; &lt;NA&gt;
+## 2 CASI NUNCA  SI ALGUNA VEZ CADA 3 MESES    2
+##   p70_bis p70_1 p70_1_bis  p71 p71_bis p72
+## 1       0  &lt;NA&gt;         0 &lt;NA&gt;       0  SI
+## 2       2     2         2  500     500  SI
+##   p72_1 p72_1otr p72_2  p73 p74 p74_1 p74_2
+## 1  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;  SI  &lt;NA&gt;  &lt;NA&gt;
+## 2  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;  NO    NO  &lt;NA&gt;
+##   p74_3 p74_4 p74_4_bis                p75_1
+## 1 NS/NC NS/NC     NS/NC ALGUNAS VECES AL MES
+## 2  &lt;NA&gt;  &lt;NA&gt;         0 ALGUNAS VECES AL MES
+##                         p75_2 p75_3
+## 1 TODOS O CASI TODOS LOS DÍAS NUNCA
+## 2 TODOS O CASI TODOS LOS DÍAS NUNCA
+##                     p75_4 p76horas p76minutos
+## 1 ALGUNOS DIAS POR SEMANA        8     NO USA
+## 2                   NUNCA        2     NO USA
+##   horas_internet minutos_internet
+## 1              8           NO USA
+## 2              2           NO USA
+##                         p77_1
+## 1 TODOS O CASI TODOS LOS DÍAS
+## 2                       NUNCA
+##                         p77_2
+## 1 TODOS O CASI TODOS LOS DÍAS
+## 2 TODOS O CASI TODOS LOS DÍAS
+##                  p77_3
+## 1 ALGUNAS VECES AL MES
+## 2                NUNCA
+##                       p77_4
+## 1      ALGUNAS VECES AL MES
+## 2 ALGUNA VEZ AL AÑO O MENOS
+##                       p77_5 p77_6 p77_7
+## 1      ALGUNAS VECES AL MES NUNCA NUNCA
+## 2 ALGUNA VEZ AL AÑO O MENOS NUNCA NUNCA
+##                         p77_8
+## 1                       NUNCA
+## 2 TODOS O CASI TODOS LOS DÍAS
+##                  p77_9
+## 1                NUNCA
+## 2 ALGUNAS VECES AL MES
+##                      p77_10 p78_1 p78_2 p78_3
+## 1      ALGUNAS VECES AL MES    SI    SI    SI
+## 2 ALGUNA VEZ AL AÑO O MENOS    SI    NO    SI
+##   p78_4 p78_5                     p78_1_1
+## 1    NO    NO TODOS O CASI TODOS LOS DÍAS
+## 2    NO    NO TODOS O CASI TODOS LOS DÍAS
+##                       p78_1_2
+## 1 TODOS O CASI TODOS LOS DÍAS
+## 2                        &lt;NA&gt;
+##                       p78_1_3 p78_1_4 p78_1_5
+## 1 TODOS O CASI TODOS LOS DÍAS    &lt;NA&gt;    &lt;NA&gt;
+## 2                       NUNCA    &lt;NA&gt;    &lt;NA&gt;
+##   p78_2b p78_3b_1 p78_3b
+## 1     NO     &lt;NA&gt;   &lt;NA&gt;
+## 2     NO     &lt;NA&gt;   &lt;NA&gt;
+##                     p79_1
+## 1                   NUNCA
+## 2 ALGUNA VEZ CADA 3 MESES
+##                       p79_2
+## 1 ALGUNA VEZ AL AÑO O MENOS
+## 2      ALGUNAS VECES AL MES
+##                       p79_3 p79_4 p79_5
+## 1 ALGUNA VEZ AL AÑO O MENOS NUNCA NUNCA
+## 2   ALGUNA VEZ CADA 3 MESES NUNCA NUNCA
+##                     p79_6                p79_7
+## 1    ALGUNAS VECES AL MES ALGUNAS VECES AL MES
+## 2 ALGUNA VEZ CADA 3 MESES ALGUNAS VECES AL MES
+##   p80horas p80minutos horas_redes minutos_redes
+## 1        4          0           4             0
+## 2        1          0           1             0
+##                                                          p81
+## 1 COMENTA, COMPARTE, PARTICIPA Y/U OPINA FRENTE A CONTENIDOS
+## 2              OBSERVA LOS CONTENIDOS, SIN HACER COMENTARIOS
+##   p81_1a p81_1b p81_1c p81_1d p81_1e p81_1f
+## 1   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;
+## 2   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;
+##   p81_1g p81_1h p81_1i p81_1j p81_1k p81_1l p82
+## 1   &lt;NA&gt;   &lt;NA&gt;     NA     NA     NA     NA   1
+## 2   &lt;NA&gt;   &lt;NA&gt;     NA     NA     NA     NA   1
+##       p83 p84 p85 p85_1 p85_2 p85_3 p85_3_bis
+## 1       1  SI   1    SI    SI   400       400
+## 2 NINGUNA  NO   1    SI    NO   145       145
+##   p86 p87                     p88 p89horas
+## 1   0  SI ALGUNOS DIAS POR SEMANA        1
+## 2   0  NO                    &lt;NA&gt;       NA
+##   p89minutos horas_videojuegos
+## 1          0                 1
+## 2         NA                 0
+##   minutos_videojuegos p90_1
+## 1                   0 NUNCA
+## 2                   0  &lt;NA&gt;
+##                         p90_2 p90_3 p90_4  p91
+## 1 TODOS O CASI TODOS LOS DIAS NUNCA NUNCA    0
+## 2                        &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;
+##   p91_bis p92_1 p92_2 p92_3 p92_4 p92_5 p92_6
+## 1       0    NO    NO    NO    NO    NO    NO
+## 2       0    NO    NO    NO    NO    NO    NO
+##   p92_7 p92_8 p92_9 p93_1 p93_2 p93_3 p93_4
+## 1    NO    NO    NO  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
+## 2    NO    NO    NO  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
+##   p94_1 p94_2 p94_3 p94_4 p94_5 p94_6 p95 p96_1
+## 1  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  SI    NO
+## 2  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  SI    NO
+##   p96_2 p96_3 p96_4 p96_5  p97 p97_bis p98 p99
+## 1    NO    NO    NO    NO &lt;NA&gt;       0  SI   1
+## 2    NO    NO    NO    NO &lt;NA&gt;       0  SI   2
+##   p99_bis         p100_1         p100_2
+## 1       1 UNA VEZ AL AÑO          NUNCA
+## 2       2          NUNCA UNA VEZ AL AÑO
+##           p100_3 p100_4 p100_5 p100_6
+## 1          NUNCA  NUNCA  NUNCA  NUNCA
+## 2 UNA VEZ AL AÑO  NUNCA  NUNCA  NUNCA
+##           p101 p102 p102_bis
+## 1 FUE GRATUITO    0        0
+## 2 FUE GRATUITO    0        0
+##                          p103_1 p103_1_1
+## 1            HACE MAS DE 5 AÑOS     &lt;NA&gt;
+## 2 VARIAS VECES EN EL ULTIMO AÑO     1000
+##             p103_2 p103_1_2
+## 1     NO FUE NUNCA     &lt;NA&gt;
+## 2 ENTRE 1 Y 5 AÑOS     &lt;NA&gt;
+##                   p103_3 p103_1_3
+## 1     HACE MAS DE 5 AÑOS     &lt;NA&gt;
+## 2 1 VEZ EN EL ULTIMO AÑO      400
+##                          p103_4 p103_1_4
+## 1 VARIAS VECES EN EL ULTIMO AÑO      300
+## 2 VARIAS VECES EN EL ULTIMO AÑO      300
+##         p103_5 p103_1_5           p103_6
+## 1 NO FUE NUNCA     &lt;NA&gt; ENTRE 1 Y 5 AÑOS
+## 2 NO FUE NUNCA     &lt;NA&gt; ENTRE 1 Y 5 AÑOS
+##   p103_1_6                 p103_7 p103_1_7
+## 1     &lt;NA&gt;           NO FUE NUNCA     &lt;NA&gt;
+## 2     &lt;NA&gt; 1 VEZ EN EL ULTIMO AÑO        0
+##                          p103_8 p103_1_8
+## 1                  NO FUE NUNCA     &lt;NA&gt;
+## 2 VARIAS VECES EN EL ULTIMO AÑO        0
+##                   p103_9 p103_1_9
+## 1           NO FUE NUNCA     &lt;NA&gt;
+## 2 1 VEZ EN EL ULTIMO AÑO      100
+##                  p103_10 p103_110      p103_11
+## 1 1 VEZ EN EL ULTIMO AÑO       50 NO FUE NUNCA
+## 2 1 VEZ EN EL ULTIMO AÑO      600 NO FUE NUNCA
+##   p103_111      p103_12 p103_112
+## 1     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt;
+## 2     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt;
+##                  p103_13 p103_113      p103_14
+## 1           NO FUE NUNCA     &lt;NA&gt; NO FUE NUNCA
+## 2 1 VEZ EN EL ULTIMO AÑO        0 NO FUE NUNCA
+##   p103_114      p103_15 p103_115      p103_16
+## 1     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt; NO FUE NUNCA
+## 2     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt; NO FUE NUNCA
+##   p103_116      p103_17 p103_117
+## 1     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt;
+## 2     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt;
+##                  p103_18 p103_118
+## 1           NO FUE NUNCA     &lt;NA&gt;
+## 2 1 VEZ EN EL ULTIMO AÑO        0
+##                  p103_19 p103_119
+## 1           NO FUE NUNCA     &lt;NA&gt;
+## 2 1 VEZ EN EL ULTIMO AÑO        0
+##            p103_20 p103_120 p104 p104_1 p104_2
+## 1     NO FUE NUNCA     &lt;NA&gt;    6      3      0
+## 2 ENTRE 1 Y 5 AÑOS     &lt;NA&gt;    1     NA     NA
+##   p105                  p106
+## 1    3 SECUNDARIA INCOMPLETA
+## 2    2   SECUNDARIA COMPLETA
+##                              p107
+## 1          OTRO MIEMBRO DEL HOGAR
+## 2 LA PERSONA QUE FUE ENTREVISTADA
+##                  p108    p109
+## 1 SECUNDARIA COMPLETA TRABAJA
+## 2                &lt;NA&gt; TRABAJA
+##                  p110
+## 1            EMPLEADO
+## 2 ATENCION AL PUBLICO
+##                                                         p110b
+## 1 TRABAJADOR/OBRERO CALIFICADO. EMPLEADO ADMINISTRATIVO MEDIO
+## 2 TRABAJADOR/OBRERO CALIFICADO. EMPLEADO ADMINISTRATIVO MEDIO
+##   p111 p111b p112 p113_1 p113_2 p113_3 p113_4
+## 1 &lt;NA&gt;  &lt;NA&gt;   SI     SI     SI     NO     SI
+## 2 &lt;NA&gt;  &lt;NA&gt;   NO     NO     NO     NO     NO
+##   p113_5     p114 p115_1 p115_2 p115_3 p115_4
+## 1     SI   PROPIA     NO     NO     NO     NO
+## 2     SI PRESTADA     NO     NO     NO     NO
+##   p115_5                      p116
+## 1     NO BARRIO DE VIVIENDA SOCIAL
+## 2     NO BARRIO DE VIVIENDA SOCIAL
+##                       p116b         p117
+## 1 BARRIO DE VIVIENDA SOCIAL         CASA
+## 2 BARRIO DE VIVIENDA SOCIAL DEPARTAMENTO
+##   NSEpuntaje NSEcat1 minutos_radio_1
+## 1         66      C3              60
+## 2         46      D1              60
+##   minutos_radio_total horas_radio_total
+## 1                  60                 1
+## 2                  60                 1
+##   minutos_musica_1 minutos_musica_total
+## 1               60                   90
+## 2              180                  180
+##   horas_musica_total minutos_diario_1
+## 1                1.5               60
+## 2                3.0                0
+##   minutos_diario_total horas_diario_total
+## 1                   60                1.0
+## 2                   30                0.5
+##   minutos_tv_1 minutos_tv_total horas_tv_total
+## 1           60               60           1.00
+## 2            0               45           0.75
+##   minutos_internet_1 minutos_internet_total
+## 1                480                    480
+## 2                120                    120
+##   horas_internet_total minutos_redes_1
+## 1                    8             240
+## 2                    2              60
+##   minutos_redes_total horas_redes_total
+## 1                 240                 4
+## 2                  60                 1
+##   minutos_videojuegos_1
+## 1                    60
+## 2                     0
+##   minutos_videojuegos_total
+## 1                        60
+## 2                         0
+##   horas_videojuegos_total
+## 1                       1
+## 2                       0
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 2800 rows ]</code></pre>
+<p>Lo más conveniente para realizar una inspección a la tabla es realizar algunas de las funciones de Análisis exploratorio de datos que vimos en la jornada anterior. Como el objetivo de este apartado es otro, lo vamos a dejar para que practiquen cada une de ustedes. Podemos descargar desde aquí el cuestionario aplicado en la encuesta. <br> <br>¡Ahora sí, empecemos con la presentación y la práctica de las funciones de dplyr!</p>
+<br>
+<h3 id =  3.2.1>
+3.2.1. Select
+</h2>
+<p><br></p>
+<p>Lo primero que tenemos que notar con este conjunto de datos es que tienen una infinidad de columnas (es un cuestionario largo) por lo cual, la primera tarea como analistas de datos es enfocarnos en seleccionar aquellas variables necesarias para nuestro análisis. En la encuesta tenemos información socioeconómica, sociodemográfica, cultural, etc. No tiene sentido trabajar con todas juntas. Para eso utilizamos la función <strong>select()</strong> que nos permite realizar <strong>una selección de variables o columnas.</strong> Vamos a elegir quedarnos con las columnas de información del entrevistado y las columnas que hacen referencia al consumo de radio para poner en prueba esta función.</p>
+<p><br></p>
+<pre class="r"><code>#Selección de columnas 
+encuesta_clean &lt;- select(encuesta_cc, id, pondera_dem, fecha, region, sexo, edad, p1, p1otros,
+         p2, p3, p4, p5, p6horas, p6minutos)</code></pre>
+<p><br></p>
+<p>Varias cosas que comentar al respecto. Estamos creando un nuevo conjunto de datos, lo llamamos encuesta_clean para ir guardando las modificaciones que vayamos haciendo. En la función select() lo único que hicimos fue poner el objeto sobre el que se va a correr la función y listar las variables con las que vamos a trabajar. Finalmente nos gustaría mencionar que hay algunas variantes de la función select(), como son select_if() y select_at() que nos permiten realizar selección de variables que cumplen con alguna condición.</p>
+<br>
+<h3 id =  3.2.2>
+3.2.2. Filter
+</h2>
+<p><br> <strong>filter</strong> es una función que <strong>retiene un conjunto de observaciones (es lo mismo que decir filas) que cumplen con la condición que indicamos.</strong> En pocas palabras, filtramos los casos (unidad de análisis) que cumplen con los requisitos que seleccionamos. Para esto se utilizan los operadores de comparación que vimos en la primera sección. Utilizamos la función filter() para quedarnos con ciertas regiones de nuestro set de datos. <br></p>
+<pre class="r"><code># Primero observamos los campos únicos que tiene la variable region
+unique(encuesta_clean$region)</code></pre>
+<pre style="max-height: 150px;"><code>## [1] &quot;CENTRO&quot;    &quot;NEA&quot;       &quot;PATAGONIA&quot;
+## [4] &quot;NOA&quot;       &quot;CUYO&quot;      &quot;CABA&quot;     
+## [7] &quot;PBA&quot;       NA</code></pre>
+<pre class="r"><code># Nos vamos a quedar con la región NOA y NEA
+encuesta_clean &lt;-  filter(encuesta_clean, region %in% c(&quot;NOA&quot;, &quot;NEA&quot;))
+
+# Inspeccionamos que sean esas dos únicas regiones
+unique(encuesta_clean$region)</code></pre>
+<pre style="max-height: 150px;"><code>## [1] &quot;NEA&quot; &quot;NOA&quot;</code></pre>
+<p><br> El operador <strong>%in%</strong> es la primera vez que lo mencionamos, como pueden imaginarse nos devuelve todos los casos que contengan a su interior algunas de esas opciones. Para complejizar un poco, se puede filtrar por más de una condición. Por ejemplo, queremos analizar los casos de la región NOA pero sólo los del sexo femenino. Recuerden no confundir el &amp; (y) con el | (ó). No es lo mismo decir filtrar las personas que viven en la región NOA y es del sexo femenino que filtrar a las personas que viene en la region NOA o es del sexo femenino. <br></p>
+<pre class="r"><code># Inspeccionamos el valor de sexo
+unique(encuesta_clean$sexo)</code></pre>
+<pre style="max-height: 150px;"><code>## [1] &quot;Varón&quot; &quot;Mujer&quot;</code></pre>
+<pre class="r"><code>#Nos quedamos con los casos de mujeres de NOA
+mujeres_noa &lt;- filter(encuesta_clean, region==&quot;NOA&quot; &amp; sexo ==&quot;Mujer&quot;)
+
+head(mujeres_noa)</code></pre>
+<pre style="max-height: 150px;"><code>##    id pondera_dem     fecha region  sexo edad
+## 1 346        3123  8/5/2017    NOA Mujer   13
+## 2 347        3418  8/5/2017    NOA Mujer   26
+## 3 348        7784  8/5/2017    NOA Mujer   38
+## 4 349        5619  8/5/2017    NOA Mujer   57
+## 5 350       11019  9/5/2017    NOA Mujer   69
+## 6 356        6363 12/5/2017    NOA Mujer   13
+##                                       p1
+## 1         INFORMACION, ESTUDIAR, CONOCER
+## 2              LA TRADICION, LA HISTORIA
+## 3              LA TRADICION, LA HISTORIA
+## 4 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 5    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 6         INFORMACION, ESTUDIAR, CONOCER
+##   p1otros p2   p3   p4   p5 p6horas p6minutos
+## 1    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
+## 2    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
+## 3    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
+## 4    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
+## 5    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
+## 6    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA</code></pre>
+<p><br> También se puede combinar con funciones. Por ejemplo, podemos seleccionar los casos de nuestra tabla cuya cantidad de horas de escucha de radio sea superior al promedio.</p>
+<p><br></p>
+<pre class="r"><code>#Los que tienen más horas de radio escuchada
+mas_promedio &lt;- filter(encuesta_clean, p6horas &gt;= mean(p6horas, na.rm=T))
+
+head(mas_promedio)</code></pre>
+<pre style="max-height: 150px;"><code>##   id pondera_dem     fecha region  sexo edad
+## 1 44        9649 20/5/2017    NEA Varón   48
+## 2 45        2778 19/5/2017    NEA Varón   63
+## 3 49        4415 19/5/2017    NEA Mujer   55
+## 4 54        1661 17/5/2017    NEA Varón   45
+## 5 57        2904 15/5/2017    NEA Mujer   22
+## 6 62        4393 13/5/2017    NEA Varón   26
+##                                       p1
+## 1                      EL ARTE, LO CULTO
+## 2         INFORMACION, ESTUDIAR, CONOCER
+## 3 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 4         INFORMACION, ESTUDIAR, CONOCER
+## 5                                  NS/NC
+## 6                      EL ARTE, LO CULTO
+##   p1otros p2 p3                          p4 p5
+## 1    &lt;NA&gt; SI SI        ALGUNAS VECES AL MES FM
+## 2    &lt;NA&gt; SI NO TODOS O CASI TODOS LOS DIAS FM
+## 3    &lt;NA&gt; SI NO        ALGUNAS VECES AL MES FM
+## 4    &lt;NA&gt; SI NO TODOS O CASI TODOS LOS DIAS FM
+## 5    &lt;NA&gt; SI NO TODOS O CASI TODOS LOS DIAS FM
+## 6    &lt;NA&gt; SI SI TODOS O CASI TODOS LOS DIAS FM
+##   p6horas p6minutos
+## 1       4         0
+## 2       3        30
+## 3       4         0
+## 4       3         0
+## 5       4        30
+## 6      12         0</code></pre>
+<p><br></p>
+<br>
+<h3 id =  3.2.3>
+3.2.3. Arrange
+</h2>
+<p><br></p>
+<p><strong>Arrange</strong> es una de las funciones que permite en R ordenar las filas de una tabla. Por ejemplo, ordenar de menor a mayor nuestra tabla por edad. <br></p>
+<pre class="r"><code># Ordenamos 
+arrange(encuesta_clean, edad) </code></pre>
+<pre style="max-height: 150px;"><code>##      id pondera_dem     fecha region  sexo edad
+## 1    81        2933 19/5/2017    NEA Varón   13
+## 2   136        2112 16/5/2017    NEA Mujer   13
+## 3   346        3123  8/5/2017    NOA Mujer   13
+## 4   356        6363 12/5/2017    NOA Mujer   13
+## 5   366        4994  9/5/2017    NOA Mujer   13
+## 6   376        6079 10/5/2017    NOA Mujer   13
+## 7   381        3877 14/5/2017    NOA Mujer   13
+## 8   436       13116 13/5/2017    NOA Mujer   13
+## 9   446        3940 16/5/2017    NOA Mujer   13
+## 10  485       10423 28/5/2017    NOA Mujer   13
+## 11  610        1551 18/5/2017    NOA Varón   13
+## 12  811        4595 21/5/2017    NOA Varón   13
+## 13  871        6177 23/5/2017    NOA Varón   13
+## 14 1061        8278  8/5/2017    NOA Varón   13
+## 15 1066       12656  8/5/2017    NOA Mujer   13
+## 16 1071        6927  7/5/2017    NOA Varón   13
+## 17 1351        3094  6/7/2017    NEA Varón   13
+## 18 1396        6630 29/5/2017    NEA Mujer   13
+## 19 1525        2267  8/6/2017    NEA Mujer   13
+## 20   71        1235 12/5/2017    NEA Varón   14
+## 21   76        1309 11/5/2017    NEA Mujer   14
+## 22   86        6219 19/5/2017    NEA Mujer   14
+## 23  126         844 12/5/2017    NEA Mujer   14
+## 24  151        1099 22/5/2017    NEA Varón   14
+## 25  166        2932 28/5/2017    NEA Mujer   14
+## 26  361        6805  9/5/2017    NOA Varón   14
+## 27  426        8935 11/5/2017    NOA Mujer   14
+## 28  496        1818 28/5/2017    NOA Mujer   14
+## 29  511        3143 27/5/2017    NOA Varón   14
+## 30  516        7689 27/5/2017    NOA Mujer   14
+## 31  531        3486  1/6/2017    NOA Varón   14
+## 32  556        6485 28/5/2017    NOA Mujer   14
+## 33  605        7771 17/5/2017    NOA Mujer   14
+## 34  616        9483 18/5/2017    NOA Mujer   14
+## 35  806        8401 20/5/2017    NOA Mujer   14
+## 36  816        5620 21/5/2017    NOA Mujer   14
+## 37  941        5729 13/5/2017    NOA Varón   14
+## 38 1026       11672  6/5/2017    NOA Mujer   14
+## 39 1426        5533  6/6/2017    NEA Mujer   14
+## 40 1431        3686 13/6/2017    NEA Varón   14
+## 41 1551        3902  5/6/2017    NEA Varón   14
+## 42   56       11621 16/5/2017    NEA Mujer   15
+## 43   66        4630 16/5/2017    NEA Mujer   15
+## 44  116       12791 20/5/2017    NEA Mujer   15
+## 45  161        2765 23/5/2017    NEA Varón   15
+## 46  171        7414 22/5/2017    NEA Varón   15
+## 47  196        5855 14/5/2017    NEA Mujer   15
+## 48  201        6893 12/5/2017    NEA Varón   15
+## 49  351        5203 12/5/2017    NOA Varón   15
+## 50  386        5283 14/5/2017    NOA Varón   15
+## 51  411        2058 15/7/2017    NOA Varón   15
+## 52  441        6442 16/5/2017    NOA Varón   15
+## 53  456        6265 12/5/2017    NOA Mujer   15
+## 54  461        2444 22/5/2017    NOA Varón   15
+## 55  466        1495 22/5/2017    NOA Mujer   15
+## 56  491        4460 28/5/2017    NOA Varón   15
+## 57  501        5901 20/5/2017    NOA Varón   15
+## 58  506        5413 20/5/2017    NOA Mujer   15
+## 59  541        5563 19/5/2017    NOA Varón   15
+## 60  626       11533 26/5/2017    NOA Mujer   15
+## 61  756       12452 24/5/2017    NOA Mujer   15
+## 62  761       10268 19/5/2017    NOA Varón   15
+## 63  801       13737 20/5/2017    NOA Varón   15
+## 64  861        5546 22/5/2017    NOA Varón   15
+## 65 1011        4946 24/5/2017    NOA Varón   15
+## 66 1021        4771  6/5/2017    NOA Varón   15
+## 67 1356        2461  6/7/2017    NEA Mujer   15
+## 68 1366        4280  7/7/2017    NEA Mujer   15
+## 69 1421        4174  6/6/2017    NEA Varón   15
+## 70 1541        5391 11/6/2017    NEA Varón   15
+## 71 1550        1429  9/6/2017    NEA Mujer   15
+##                                        p1
+## 1                       EL ARTE, LO CULTO
+## 2               LA TRADICION, LA HISTORIA
+## 3          INFORMACION, ESTUDIAR, CONOCER
+## 4          INFORMACION, ESTUDIAR, CONOCER
+## 5          INFORMACION, ESTUDIAR, CONOCER
+## 6          INFORMACION, ESTUDIAR, CONOCER
+## 7    HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 8               LA TRADICION, LA HISTORIA
+## 9               LA TRADICION, LA HISTORIA
+## 10                                  NS/NC
+## 11              LA TRADICION, LA HISTORIA
+## 12   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 13         INFORMACION, ESTUDIAR, CONOCER
+## 14                                  NS/NC
+## 15         INFORMACION, ESTUDIAR, CONOCER
+## 16                                  NS/NC
+## 17                                   OTRO
+## 18                           LA IDENTIDAD
+## 19                      EL ARTE, LO CULTO
+## 20         INFORMACION, ESTUDIAR, CONOCER
+## 21                      EL ARTE, LO CULTO
+## 22   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 23    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 24              LA TRADICION, LA HISTORIA
+## 25    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 26    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 27    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 28                                  NS/NC
+## 29         INFORMACION, ESTUDIAR, CONOCER
+## 30    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 31              LA TRADICION, LA HISTORIA
+## 32         INFORMACION, ESTUDIAR, CONOCER
+## 33    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 34   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 35              LA TRADICION, LA HISTORIA
+## 36         INFORMACION, ESTUDIAR, CONOCER
+## 37 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 38    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 39 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 40                                  NS/NC
+## 41         INFORMACION, ESTUDIAR, CONOCER
+## 42 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 43 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 44   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 45         INFORMACION, ESTUDIAR, CONOCER
+## 46                      EL ARTE, LO CULTO
+## 47   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 48   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 49              LA TRADICION, LA HISTORIA
+## 50    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 51              LA TRADICION, LA HISTORIA
+## 52              LA TRADICION, LA HISTORIA
+## 53              LA TRADICION, LA HISTORIA
+## 54                                  NS/NC
+## 55         INFORMACION, ESTUDIAR, CONOCER
+## 56              LA TRADICION, LA HISTORIA
+## 57                      EL ARTE, LO CULTO
+## 58                                  NS/NC
+## 59              LA TRADICION, LA HISTORIA
+## 60                                  NS/NC
+## 61   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 62                                  NS/NC
+## 63              LA TRADICION, LA HISTORIA
+## 64         INFORMACION, ESTUDIAR, CONOCER
+## 65   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 66   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 67 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 68         INFORMACION, ESTUDIAR, CONOCER
+## 69    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 70   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 71                                  NS/NC
+##       p1otros p2   p3
+## 1        &lt;NA&gt; NO &lt;NA&gt;
+## 2        &lt;NA&gt; SI   SI
+## 3        &lt;NA&gt; NO &lt;NA&gt;
+## 4        &lt;NA&gt; NO &lt;NA&gt;
+## 5        &lt;NA&gt; NO &lt;NA&gt;
+## 6        &lt;NA&gt; NO &lt;NA&gt;
+## 7        &lt;NA&gt; NO &lt;NA&gt;
+## 8        &lt;NA&gt; NO &lt;NA&gt;
+## 9        &lt;NA&gt; NO &lt;NA&gt;
+## 10       &lt;NA&gt; SI   NO
+## 11       &lt;NA&gt; SI   SI
+## 12       &lt;NA&gt; NO &lt;NA&gt;
+## 13       &lt;NA&gt; NO &lt;NA&gt;
+## 14       &lt;NA&gt; SI   SI
+## 15       &lt;NA&gt; NO &lt;NA&gt;
+## 16       &lt;NA&gt; NO &lt;NA&gt;
+## 17 MONUMENTOS NO &lt;NA&gt;
+## 18       &lt;NA&gt; NO &lt;NA&gt;
+## 19       &lt;NA&gt; SI   NO
+## 20       &lt;NA&gt; SI   NO
+## 21       &lt;NA&gt; SI   NO
+## 22       &lt;NA&gt; NO &lt;NA&gt;
+## 23       &lt;NA&gt; SI   NO
+## 24       &lt;NA&gt; SI   SI
+## 25       &lt;NA&gt; NO &lt;NA&gt;
+## 26       &lt;NA&gt; NO &lt;NA&gt;
+## 27       &lt;NA&gt; NO &lt;NA&gt;
+## 28       &lt;NA&gt; SI   NO
+## 29       &lt;NA&gt; NO &lt;NA&gt;
+## 30       &lt;NA&gt; NO &lt;NA&gt;
+## 31       &lt;NA&gt; NO &lt;NA&gt;
+## 32       &lt;NA&gt; NO &lt;NA&gt;
+## 33       &lt;NA&gt; NO &lt;NA&gt;
+## 34       &lt;NA&gt; NO &lt;NA&gt;
+## 35       &lt;NA&gt; NO &lt;NA&gt;
+## 36       &lt;NA&gt; NO &lt;NA&gt;
+## 37       &lt;NA&gt; NO &lt;NA&gt;
+## 38       &lt;NA&gt; SI   NO
+## 39       &lt;NA&gt; NO &lt;NA&gt;
+## 40       &lt;NA&gt; NO &lt;NA&gt;
+## 41       &lt;NA&gt; NO &lt;NA&gt;
+## 42       &lt;NA&gt; NO &lt;NA&gt;
+## 43       &lt;NA&gt; NO &lt;NA&gt;
+## 44       &lt;NA&gt; SI   NO
+## 45       &lt;NA&gt; NO &lt;NA&gt;
+## 46       &lt;NA&gt; NO &lt;NA&gt;
+## 47       &lt;NA&gt; SI   NO
+## 48       &lt;NA&gt; NO &lt;NA&gt;
+## 49       &lt;NA&gt; NO &lt;NA&gt;
+## 50       &lt;NA&gt; NO &lt;NA&gt;
+## 51       &lt;NA&gt; SI   NO
+## 52       &lt;NA&gt; NO &lt;NA&gt;
+## 53       &lt;NA&gt; SI   NO
+## 54       &lt;NA&gt; NO &lt;NA&gt;
+## 55       &lt;NA&gt; NO &lt;NA&gt;
+## 56       &lt;NA&gt; NO &lt;NA&gt;
+## 57       &lt;NA&gt; SI   SI
+## 58       &lt;NA&gt; NO &lt;NA&gt;
+## 59       &lt;NA&gt; NO &lt;NA&gt;
+## 60       &lt;NA&gt; NO &lt;NA&gt;
+## 61       &lt;NA&gt; NO &lt;NA&gt;
+## 62       &lt;NA&gt; NO &lt;NA&gt;
+## 63       &lt;NA&gt; SI   NO
+## 64       &lt;NA&gt; NO &lt;NA&gt;
+## 65       &lt;NA&gt; NO &lt;NA&gt;
+## 66       &lt;NA&gt; NO &lt;NA&gt;
+## 67       &lt;NA&gt; SI   SI
+## 68       &lt;NA&gt; SI   SI
+## 69       &lt;NA&gt; SI   NO
+## 70       &lt;NA&gt; NO &lt;NA&gt;
+## 71       &lt;NA&gt; NO &lt;NA&gt;
+##                             p4              p5
+## 1                         &lt;NA&gt;            &lt;NA&gt;
+## 2      ALGUNOS DIAS POR SEMANA              FM
+## 3                         &lt;NA&gt;            &lt;NA&gt;
+## 4                         &lt;NA&gt;            &lt;NA&gt;
+## 5                         &lt;NA&gt;            &lt;NA&gt;
+## 6                         &lt;NA&gt;            &lt;NA&gt;
+## 7                         &lt;NA&gt;            &lt;NA&gt;
+## 8                         &lt;NA&gt;            &lt;NA&gt;
+## 9                         &lt;NA&gt;            &lt;NA&gt;
+## 10 TODOS O CASI TODOS LOS DIAS              FM
+## 11        ALGUNAS VECES AL MES AMBAS POR IGUAL
+## 12                        &lt;NA&gt;            &lt;NA&gt;
+## 13                        &lt;NA&gt;            &lt;NA&gt;
+## 14 TODOS O CASI TODOS LOS DIAS              FM
+## 15                        &lt;NA&gt;            &lt;NA&gt;
+## 16                        &lt;NA&gt;            &lt;NA&gt;
+## 17                        &lt;NA&gt;            &lt;NA&gt;
+## 18                        &lt;NA&gt;            &lt;NA&gt;
+## 19 TODOS O CASI TODOS LOS DIAS              AM
+## 20 TODOS O CASI TODOS LOS DIAS              FM
+## 21        ALGUNAS VECES AL MES              FM
+## 22                        &lt;NA&gt;            &lt;NA&gt;
+## 23        ALGUNAS VECES AL MES           NS/NC
+## 24        ALGUNAS VECES AL MES              FM
+## 25                        &lt;NA&gt;            &lt;NA&gt;
+## 26                        &lt;NA&gt;            &lt;NA&gt;
+## 27                        &lt;NA&gt;            &lt;NA&gt;
+## 28 TODOS O CASI TODOS LOS DIAS              FM
+## 29                        &lt;NA&gt;            &lt;NA&gt;
+## 30                        &lt;NA&gt;            &lt;NA&gt;
+## 31                        &lt;NA&gt;            &lt;NA&gt;
+## 32                        &lt;NA&gt;            &lt;NA&gt;
+## 33                        &lt;NA&gt;            &lt;NA&gt;
+## 34                        &lt;NA&gt;            &lt;NA&gt;
+## 35                        &lt;NA&gt;            &lt;NA&gt;
+## 36                        &lt;NA&gt;            &lt;NA&gt;
+## 37                        &lt;NA&gt;            &lt;NA&gt;
+## 38     ALGUNOS DIAS POR SEMANA              FM
+## 39                        &lt;NA&gt;            &lt;NA&gt;
+## 40                        &lt;NA&gt;            &lt;NA&gt;
+## 41                        &lt;NA&gt;            &lt;NA&gt;
+## 42                        &lt;NA&gt;            &lt;NA&gt;
+## 43                        &lt;NA&gt;            &lt;NA&gt;
+## 44     ALGUNOS DIAS POR SEMANA              FM
+## 45                        &lt;NA&gt;            &lt;NA&gt;
+## 46                        &lt;NA&gt;            &lt;NA&gt;
+## 47 TODOS O CASI TODOS LOS DIAS AMBAS POR IGUAL
+## 48                        &lt;NA&gt;            &lt;NA&gt;
+## 49                        &lt;NA&gt;            &lt;NA&gt;
+## 50                        &lt;NA&gt;            &lt;NA&gt;
+## 51        ALGUNAS VECES AL MES              FM
+## 52                        &lt;NA&gt;            &lt;NA&gt;
+## 53     ALGUNOS DIAS POR SEMANA              FM
+## 54                        &lt;NA&gt;            &lt;NA&gt;
+## 55                        &lt;NA&gt;            &lt;NA&gt;
+## 56                        &lt;NA&gt;            &lt;NA&gt;
+## 57     ALGUNOS DIAS POR SEMANA           NS/NC
+## 58                        &lt;NA&gt;            &lt;NA&gt;
+## 59                        &lt;NA&gt;            &lt;NA&gt;
+## 60                        &lt;NA&gt;            &lt;NA&gt;
+## 61                        &lt;NA&gt;            &lt;NA&gt;
+## 62                        &lt;NA&gt;            &lt;NA&gt;
+## 63 TODOS O CASI TODOS LOS DIAS AMBAS POR IGUAL
+## 64                        &lt;NA&gt;            &lt;NA&gt;
+## 65                        &lt;NA&gt;            &lt;NA&gt;
+## 66                        &lt;NA&gt;            &lt;NA&gt;
+## 67 TODOS O CASI TODOS LOS DIAS              FM
+## 68 TODOS O CASI TODOS LOS DIAS              AM
+## 69     ALGUNOS DIAS POR SEMANA              FM
+## 70                        &lt;NA&gt;            &lt;NA&gt;
+## 71                        &lt;NA&gt;            &lt;NA&gt;
+##    p6horas p6minutos
+## 1       NA        NA
+## 2        2         0
+## 3       NA        NA
+## 4       NA        NA
+## 5       NA        NA
+## 6       NA        NA
+## 7       NA        NA
+## 8       NA        NA
+## 9       NA        NA
+## 10       1         0
+## 11       1         0
+## 12      NA        NA
+## 13      NA        NA
+## 14       1         0
+## 15      NA        NA
+## 16      NA        NA
+## 17      NA        NA
+## 18      NA        NA
+## 19       2         0
+## 20       1         0
+## 21       1         0
+## 22      NA        NA
+## 23       1         0
+## 24       0        40
+## 25      NA        NA
+## 26      NA        NA
+## 27      NA        NA
+## 28       4         0
+## 29      NA        NA
+## 30      NA        NA
+## 31      NA        NA
+## 32      NA        NA
+## 33      NA        NA
+## 34      NA        NA
+## 35      NA        NA
+## 36      NA        NA
+## 37      NA        NA
+## 38       1         0
+## 39      NA        NA
+## 40      NA        NA
+## 41      NA        NA
+## 42      NA        NA
+## 43      NA        NA
+## 44       1         0
+## 45      NA        NA
+## 46      NA        NA
+## 47      10         0
+## 48      NA        NA
+## 49      NA        NA
+## 50      NA        NA
+## 51       0        20
+## 52      NA        NA
+## 53       1         0
+## 54      NA        NA
+## 55      NA        NA
+## 56      NA        NA
+## 57       0        30
+## 58      NA        NA
+## 59      NA        NA
+## 60      NA        NA
+## 61      NA        NA
+## 62      NA        NA
+## 63       0        30
+## 64      NA        NA
+## 65      NA        NA
+## 66      NA        NA
+## 67       3         0
+## 68       2         0
+## 69       2         0
+## 70      NA        NA
+## 71      NA        NA
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 729 rows ]</code></pre>
+<p><br> Si agregamos la función desc() podemos invertir el orden. <br></p>
+<pre class="r"><code># Ordenamos de manera descendente
+encuesta_clean %&gt;% 
+  arrange(desc(edad)) %&gt;% 
+  head()</code></pre>
+<pre style="max-height: 150px;"><code>##     id pondera_dem     fecha region  sexo edad
+## 1 1560        3873  5/6/2017    NEA Mujer   92
+## 2 1360        1197  5/7/2017    NEA Mujer   89
+## 3 1030        5055  6/5/2017    NOA Mujer   88
+## 4 1436        3637 13/6/2017    NEA Varón   87
+## 5   70        6501 12/5/2017    NEA Mujer   86
+## 6  185        1874 13/5/2017    NEA Varón   84
+##                                       p1
+## 1              LA TRADICION, LA HISTORIA
+## 2   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 3              LA TRADICION, LA HISTORIA
+## 4   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 5                      EL ARTE, LO CULTO
+## 6 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+##   p1otros p2   p3                          p4
+## 1    &lt;NA&gt; NO &lt;NA&gt;                        &lt;NA&gt;
+## 2    &lt;NA&gt; SI   NO     ALGUNOS DIAS POR SEMANA
+## 3    &lt;NA&gt; NO &lt;NA&gt;                        &lt;NA&gt;
+## 4    &lt;NA&gt; SI   NO TODOS O CASI TODOS LOS DIAS
+## 5    &lt;NA&gt; NO &lt;NA&gt;                        &lt;NA&gt;
+## 6    &lt;NA&gt; SI   NO TODOS O CASI TODOS LOS DIAS
+##                p5 p6horas p6minutos
+## 1            &lt;NA&gt;      NA        NA
+## 2 AMBAS POR IGUAL       6         0
+## 3            &lt;NA&gt;      NA        NA
+## 4 AMBAS POR IGUAL       4        30
+## 5            &lt;NA&gt;      NA        NA
+## 6              FM       1         0</code></pre>
+<p><br></p>
+<br>
+<h3 id =  3.2.4>
+3.2.4. Summarise
+</h2>
+<p><br></p>
+<p><strong>Summarise</strong> nos permite aplicar un <strong>resumen o calcular un indicador que sintetice la información de una o varias variables del dataframe</strong>. Una medida de resumen puede saber la cantidad de personas encuestadas y el universo de personas (utilizando la ponderación). Recuerden que esta encuesta es una muestra (personas que responden la encuesta) de tipo probabilística. Esto quiere decir que usando la ponderación podemos extrapolar los resultados al universo.</p>
+<p><br></p>
+<pre class="r"><code>#Cantidad de personas pr región y sexo
+tabla_cantidad &lt;- summarise(encuesta_clean,
+                           Personas = sum(pondera_dem),
+                           cantidad_de_casos = n())
+
+tabla_cantidad</code></pre>
+<pre style="max-height: 150px;"><code>##   Personas cantidad_de_casos
+## 1  4864089               800</code></pre>
+<p><br></p>
+<p>Como estamos trabajando con una encuesta, para saber la cantidad de personas que forman parte del universo tenemos que sumar la variable de ponderación, en este caso es pondera_dem. Además, creamos la variable cantidad_de_casos, nos sirve para saber cuántas respuestas respondieron la encuesta usando la función n() (que no es para nada intuitivo).</p>
+<br>
+<h3 id =  3.2.5>
+3.2.5. Group by
+</h2>
+<p><br></p>
+<p>Summarise podemos combinarla con una función increíble (que también se combina con mutate y otras funciones) que es <strong>group_by</strong>. En este caso, vamos a agrupar por región y sexo para hacer los conteos de personas que forman parte de la muestra y del universo por grupo. Por ejemplo, va a realizar los cálculos que vimos previamente de las mujeres que son del NEA, mujeres que son del NOA, varones que son del NEA, y varones que son del NOA. Veamos el código y el output que genera:</p>
+<p><br></p>
+<pre class="r"><code>tabla_cantidad &lt;- group_by(encuesta_clean, sexo, region)
+tabla_resumen &lt;- summarise(tabla_cantidad,
+                            Personas = sum(pondera_dem),
+                            cantidad_de_casos = n())
+tabla_resumen</code></pre>
+<pre style="max-height: 150px;"><code>## # A tibble: 4 x 4
+## # Groups:   sexo [2]
+##   sexo  region Personas cantidad_de_casos
+##   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;             &lt;int&gt;
+## 1 Mujer NEA      979450               201
+## 2 Mujer NOA     1552643               201
+## 3 Varón NEA      897181               199
+## 4 Varón NOA     1434815               199</code></pre>
+<p><br> También podríamos realizar esto mismo de manera más sencilla aplicando el count(). Pero la idea era presentarles la combinación de estás hermosas funciones. Veamos cómo se realiza con el count():</p>
+<pre class="r"><code>tabla_cantidad &lt;- group_by(encuesta_clean, sexo, region)
+tabla_cantidad &lt;- summarise(tabla_cantidad,
+                            Personas = sum(pondera_dem),
+                            cantidad_de_casos = n())
+tabla_cantidad</code></pre>
+<pre style="max-height: 150px;"><code>## # A tibble: 4 x 4
+## # Groups:   sexo [2]
+##   sexo  region Personas cantidad_de_casos
+##   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;             &lt;int&gt;
+## 1 Mujer NEA      979450               201
+## 2 Mujer NOA     1552643               201
+## 3 Varón NEA      897181               199
+## 4 Varón NOA     1434815               199</code></pre>
+<br>
+<h3 id =  3.2.6>
+3.2.6. Mutate
+</h2>
+<p><br> La última función que vamos a ver de dplyr es súper, súper, súper necesaria. <strong>mutate</strong> nos permite hacer dos cosas fundamentales: <strong>modificar variables existentes y crear nuevas.</strong> La sintaxis es igual a como venimos trabajando. Vamos a crear dos variables en base a la edad. En primer lugar, vamos a crear una variable que identifique si la persona es menor de edad o no, y en segundo lugar vamos a crear una variable de edad, pero con rangos. Nos vamos a apoyar en dos funciones más <strong>ifelse()</strong> y <strong>case_when()</strong>, para llevar adelante esta tarea.</p>
+<p><br></p>
+<pre class="r"><code># Creamos dos variables en base a la edad
+encuesta_clean &lt;- encuesta_clean %&gt;% 
+  mutate( flag_menor = ifelse( edad&gt;=18, &#39;mayor de edad&#39;, &#39;menor de edad&#39;),
+          edad_categorica = case_when( 
+                              edad &lt;= 30 ~ &#39;30 o menos&#39;,
+                              edad  &gt; 30 &amp; edad &lt;= 45 ~ &#39;31 a 45&#39;,
+                              edad  &gt; 45 &amp; edad &lt;= 60 ~ &#39;46 a 60&#39;,
+                              edad  &gt; 60 &amp; edad &lt;= 75 ~ &#39;61 a 75&#39;,
+                              edad  &gt; 75 ~ &#39;76 o más&#39;,
+                              TRUE ~ &quot;Sin edad&quot;
+                              ) )</code></pre>
+<p><br></p>
+<p>Las dos líneas son muy parecidas, sólo que en ifelse() evalúa una condición, si se cumple devuelve la primera expresión si no se cumple la otra. Con case_when() en cambio evaluamos múltiples condiciones y para cada una el resultado que queremos. Es muy importante tener en cuenta que las condiciones es preferible que sean excluyentes, es decir, que no haya posibilidad de que se cumpla dos veces. Si no lo hacemos así, lo que va a ocurrir es que se va a aplicar la primera condición que sea verdadera. Como con select() aquí también tenemos variantes como el mutate_if() y mutate_at. Es muy útil para cuando necesitamos aplicar una misma transformación a una serie de columnas. Por ejemplo, si queremos pasar un tipo de dato entero a todas las variables que son double, lo podemos hacer muy fácilmente con mutate_if.</p>
+<p><br></p>
+<pre class="r"><code># Convertimos a entero todas las variables que son double
+encuesta_clean %&gt;% 
+  mutate_if(is.double, as.integer) %&gt;% 
+  head()</code></pre>
+<pre style="max-height: 150px;"><code>##   id pondera_dem     fecha region  sexo edad
+## 1 41        9283 20/5/2017    NEA Varón   17
+## 2 42        9280 20/5/2017    NEA Varón   24
+## 3 43        1608 19/5/2017    NEA Varón   35
+## 4 44        9649 20/5/2017    NEA Varón   48
+## 5 45        2778 19/5/2017    NEA Varón   63
+## 6 46        5623 19/5/2017    NEA Mujer   19
+##                               p1 p1otros p2 p3
+## 1      LA TRADICION, LA HISTORIA    &lt;NA&gt; SI SI
+## 2 INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt; SI NO
+## 3      LA TRADICION, LA HISTORIA    &lt;NA&gt; SI NO
+## 4              EL ARTE, LO CULTO    &lt;NA&gt; SI SI
+## 5 INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt; SI NO
+## 6 INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt; SI SI
+##                            p4 p5 p6horas
+## 1 TODOS O CASI TODOS LOS DIAS FM       2
+## 2 TODOS O CASI TODOS LOS DIAS FM       2
+## 3        ALGUNAS VECES AL MES FM       2
+## 4        ALGUNAS VECES AL MES FM       4
+## 5 TODOS O CASI TODOS LOS DIAS FM       3
+## 6        ALGUNAS VECES AL MES AM       1
+##   p6minutos    flag_menor edad_categorica
+## 1         0 menor de edad      30 o menos
+## 2         0 mayor de edad      30 o menos
+## 3         0 mayor de edad         31 a 45
+## 4         0 mayor de edad         46 a 60
+## 5        30 mayor de edad         61 a 75
+## 6         0 mayor de edad      30 o menos</code></pre>
+<p><br></p>
+<br>
+<h3 id =  3.2.7>
+3.2.7. Joins
+</h2>
+<p><br> Muchas veces, tenemos dos o más tablas que comparten entre sí una identificación común. Por ejemplo, imaginemos que estamos trabajando como hicimos antes con un gráfico de las comunas de capital federal y queremos graficar la cantidad de casos de COVID por comuna. En general vamos a tener una tabla con la geografía de las comunas y en la otra tabla una con los casos de COVID por cada una. Para realizar el gráfico vamos a tener que unificarlas. <br> <br>Hay distintos tipos de joins, los más comunes son <strong>left_join()</strong> e <strong>inner_join().</strong> La diferencia entre ellos es que el primero, deja todos los casos de una tabla de referencia (la de la izquierda) y le va pegando todos los casos que encuentra por la columna que comparten de la tabla de la derecha. Si tenemos un caso en la tabla izquierda que no está en la derecha igual lo vamos a visualizar. La función de inner_join() sólo nos va a devolver como resultado los casos que encuentre en ambas tablas.</p>
+<p><br></p>
+<pre class="r"><code># Ejemplo de joins
+# Notas de sociales
+notas_soc &lt;- data.frame(id_alumnes = LETTERS[1:5],
+                     notas_soc = c(10, 8, 9, 5, 9))
+
+# Las notas de matematica
+notas_mat &lt;- data.frame(id_alumnes = LETTERS[1:3],
+                         notas_mat = c(8, 9, 7))
+# Left join
+notas_soc%&gt;% 
+  left_join(notas_mat, by = c(&quot;id_alumnes&quot;=&quot;id_alumnes&quot;))</code></pre>
+<pre style="max-height: 150px;"><code>##   id_alumnes notas_soc notas_mat
+## 1          A        10         8
+## 2          B         8         9
+## 3          C         9         7
+## 4          D         5        NA
+## 5          E         9        NA</code></pre>
+<pre class="r"><code># Inner join
+notas_soc  %&gt;% 
+  inner_join(notas_mat, by = c(&quot;id_alumnes&quot;=&quot;id_alumnes&quot;))</code></pre>
+<pre style="max-height: 150px;"><code>##   id_alumnes notas_soc notas_mat
+## 1          A        10         8
+## 2          B         8         9
+## 3          C         9         7</code></pre>
+<p><br></p>
+<p>La unificación de bases de datos, o tablas, puede realizarse con otras funciones, otras variantes son right_join() y full_join(), si quieren aprender más de joins y de forma interactiva no se pierdan de <a href = "https://github.com/gadenbuie/tidyexplain"> este link </a>.</p>
+<br>
+<h3 id =  3.2.8>
+3.2.8. Pipe
+</h2>
+<p><br></p>
+<p><strong>Si hay algo súper novedoso y útil que introdujo tydiverse en el mundo de R la función pipe</strong>, que no es más ni menos que otro operador, cuyo símbolo es el siguiente: <strong>%&gt;%.</strong> Lo que nos permite el Pipe de R es concatenar funciones de una manera mucho más legible que con R base. Sabemos que suena chino básico, pero con la práctica termina resultando híper amigable. Nosotros decimos que el pipe es como “una línea de montaje”. Esto quiere decir que cada línea de código aplica una transformación al objeto (que estamos trabajando) pero teniendo en cuenta la modificación previa. Esto nos va a permitir ahorrarnos unas cuantas líneas de texto y mejorar la legibilidad del código. Veamos un ejemplo práctico con la encuesta de consumos culturales con la que veníamos trabajando: <br> <br>En un mismo código planteamos: 1- Seleccionar las variables: id, pondera_dem, fecha, region, sexo 2- Filtrar región NOA y NEA 3- Agrupamos por región y contamos cuántas personas respondieron la encuesta</p>
+<pre class="r"><code>encuesta_cc %&gt;% 
+  select(id, pondera_dem, fecha, region, sexo) %&gt;% 
+  filter(region %in% c(&quot;NOA&quot;, &quot;NEA&quot;)) %&gt;% 
+  group_by(region, sexo) %&gt;%
+  summarise(Personas = sum(pondera_dem),
+            cantidad_de_casos = n())</code></pre>
+<pre style="max-height: 150px;"><code>## # A tibble: 4 x 4
+## # Groups:   region [2]
+##   region sexo  Personas cantidad_de_casos
+##   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;             &lt;int&gt;
+## 1 NEA    Mujer   979450               201
+## 2 NEA    Varón   897181               199
+## 3 NOA    Mujer  1552643               201
+## 4 NOA    Varón  1434815               199</code></pre>
+<p><br> <br> En pocas palabras, cada línea de código adiciona una transformación sobre la tabla. Por esto decíamos que el pipe, funciona como una línea de montaje: cada línea de código agrega una modificación del objeto con el que se está trabajando. Al pipe también se lo conoce como las tuberías de r.</p>
+<br>
+<div class="contenidos citas">
+“Cada línea de código adiciona una transformación sobre la tabla. Por esto decíamos que el pipe, funciona como una línea de montaje: cada línea de código agrega una modificación del objeto con el que se está trabajando.”
+</div>
+<p><br></p>
+<br>
+<h2 id="3.2">
+<strong>3.2.</strong> TIDYR
+</h2>
+<p><br></p>
+<p>Otra biblioteca dentro del paradigma de Tidyverse es <strong>tidyr</strong>. La misma nos permite realizar otro tipo de transformaciones que pueden resultar de ayuda. Más adelante, veremos en aplicaciones prácticas separete() y unite() que como sus nombres lo indican nos permiten separar columnas por algún patrón y también unir columnas. <br> <br>Encontramos en este paquete otras dos funciones que queremos que conozcan porque si o si las van a usar en algún momento, sobre todo a la hora de graficar. Estas son <strong>pivot_longer()</strong> y <strong>pivot_wider()</strong>. Cada vez que la usamos, le pegamos una ojeada al machete que nos provee R ejecutando:</p>
+<p><br></p>
+<pre class="r"><code># Recurrimos a la documentación para ver cómo funcionan las funciones
+?pivot_wider
+?pivot_longer</code></pre>
+<p><br></p>
+<p><strong>pivot_wider()</strong> incrementa el número de columnas y reduce el número de filas. Veamos un ejemplo con la tabla resumen que hicimos más arriba.</p>
+<pre class="r"><code># Aplicamos la transformación con pivot_wider
+tabla_wider &lt;- tabla_resumen %&gt;% 
+  pivot_wider(names_from = sexo, 
+              values_from = Personas)
+tabla_wider</code></pre>
+<pre style="max-height: 150px;"><code>## # A tibble: 4 x 4
+##   region cantidad_de_casos   Mujer   Varón
+##   &lt;chr&gt;              &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1 NEA                  201  979450      NA
+## 2 NOA                  201 1552643      NA
+## 3 NEA                  199      NA  897181
+## 4 NOA                  199      NA 1434815</code></pre>
+<p><br>Convertimos cada categoría de sexo en una nueva columna y los valores que llenan cada columna son los de cantidad de personas. Ahora nuestra tabla resumen tiene otro aspecto.</p>
+<p>El caso de pivot_longer() incrementa el número de filas y reduce el nombre de columnas.</p>
+<pre class="r"><code># Vovemos a convertir al formato original la tabla
+tabla_longer &lt;- tabla_wider %&gt;% 
+  pivot_longer(cols = -region,
+               names_to = &quot;sexo2&quot;, 
+               values_to = &quot;Personas&quot;, 
+               values_drop_na = TRUE)
+tabla_longer</code></pre>
+<pre style="max-height: 150px;"><code>## # A tibble: 8 x 3
+##   region sexo2             Personas
+##   &lt;chr&gt;  &lt;chr&gt;                &lt;dbl&gt;
+## 1 NEA    cantidad_de_casos      201
+## 2 NEA    Mujer               979450
+## 3 NOA    cantidad_de_casos      201
+## 4 NOA    Mujer              1552643
+## 5 NEA    cantidad_de_casos      199
+## 6 NEA    Varón               897181
+## 7 NOA    cantidad_de_casos      199
+## 8 NOA    Varón              1434815</code></pre>
+<br>
+<h2 id="3.3">
+<strong>3.3.</strong> LUBRIDATE
+</h2>
+<p><br></p>
+<p>Queremos incorporar a nuestra caja de herramienta unas poquitas funciones más para trabajar con fechas. <strong>lubridate</strong> nos provee una serie de herramientas para crear objetos fechas y manipularlos. Si miramos la tabla con la que venimos trabajando van a encontrar una columna fecha, pero el tipo de dato que contiene es carácter, es decir que R lo está leyendo como texto. Esta puede ser incómodo para realizar algunas funciones temporales como contar los días transcurridos entre una fecha y la otra, o simplemente filtrar información. Vamos a un ejemplo: <br></p>
+<pre class="r"><code># Veamos algunas funciones de lubridate
+library(lubridate)
+
+tabla_con_fechas &lt;- encuesta_clean %&gt;%
+  select(id, fecha) %&gt;% 
+  mutate(fecha2 = dmy(fecha)) %&gt;% # Creamos un objeto fecha
+  mutate(anio = year(fecha2),
+         mes = month(fecha2),
+         dia = day(fecha2),
+         dias_transcurridos =  (Sys.Date() - fecha2) )
+
+tabla_con_fechas</code></pre>
+<pre style="max-height: 150px;"><code>##      id     fecha     fecha2 anio mes dia
+## 1    41 20/5/2017 2017-05-20 2017   5  20
+## 2    42 20/5/2017 2017-05-20 2017   5  20
+## 3    43 19/5/2017 2017-05-19 2017   5  19
+## 4    44 20/5/2017 2017-05-20 2017   5  20
+## 5    45 19/5/2017 2017-05-19 2017   5  19
+## 6    46 19/5/2017 2017-05-19 2017   5  19
+## 7    47 19/5/2017 2017-05-19 2017   5  19
+## 8    48 19/5/2017 2017-05-19 2017   5  19
+## 9    49 19/5/2017 2017-05-19 2017   5  19
+## 10   50 19/5/2017 2017-05-19 2017   5  19
+## 11   51 15/5/2017 2017-05-15 2017   5  15
+## 12   52 16/5/2017 2017-05-16 2017   5  16
+## 13   53 16/5/2017 2017-05-16 2017   5  16
+## 14   54 17/5/2017 2017-05-17 2017   5  17
+## 15   55 16/5/2017 2017-05-16 2017   5  16
+## 16   56 16/5/2017 2017-05-16 2017   5  16
+## 17   57 15/5/2017 2017-05-15 2017   5  15
+## 18   58 15/5/2017 2017-05-15 2017   5  15
+## 19   59 15/5/2017 2017-05-15 2017   5  15
+## 20   60 15/5/2017 2017-05-15 2017   5  15
+## 21   61 16/5/2017 2017-05-16 2017   5  16
+## 22   62 13/5/2017 2017-05-13 2017   5  13
+## 23   63 12/5/2017 2017-05-12 2017   5  12
+## 24   64 13/5/2017 2017-05-13 2017   5  13
+## 25   65 13/5/2017 2017-05-13 2017   5  13
+## 26   66 16/5/2017 2017-05-16 2017   5  16
+## 27   67 12/5/2017 2017-05-12 2017   5  12
+## 28   68 13/5/2017 2017-05-13 2017   5  13
+## 29   69 16/5/2017 2017-05-16 2017   5  16
+## 30   70 12/5/2017 2017-05-12 2017   5  12
+## 31   71 12/5/2017 2017-05-12 2017   5  12
+## 32   72 12/5/2017 2017-05-12 2017   5  12
+## 33   73 11/5/2017 2017-05-11 2017   5  11
+## 34   74 11/5/2017 2017-05-11 2017   5  11
+## 35   75 11/5/2017 2017-05-11 2017   5  11
+## 36   76 11/5/2017 2017-05-11 2017   5  11
+## 37   77 12/5/2017 2017-05-12 2017   5  12
+## 38   78 12/5/2017 2017-05-12 2017   5  12
+## 39   79 11/5/2017 2017-05-11 2017   5  11
+## 40   80 12/5/2017 2017-05-12 2017   5  12
+## 41   81 19/5/2017 2017-05-19 2017   5  19
+## 42   82 19/5/2017 2017-05-19 2017   5  19
+## 43   83 19/5/2017 2017-05-19 2017   5  19
+## 44   84 19/5/2017 2017-05-19 2017   5  19
+## 45   85 19/5/2017 2017-05-19 2017   5  19
+## 46   86 19/5/2017 2017-05-19 2017   5  19
+## 47   87 19/5/2017 2017-05-19 2017   5  19
+## 48   88 19/5/2017 2017-05-19 2017   5  19
+## 49   89 19/5/2017 2017-05-19 2017   5  19
+## 50   90 19/5/2017 2017-05-19 2017   5  19
+## 51   91 22/5/2017 2017-05-22 2017   5  22
+## 52   92 22/5/2017 2017-05-22 2017   5  22
+## 53   93 22/5/2017 2017-05-22 2017   5  22
+## 54   94 22/5/2017 2017-05-22 2017   5  22
+## 55   95 22/5/2017 2017-05-22 2017   5  22
+## 56   96 22/5/2017 2017-05-22 2017   5  22
+## 57   97 22/5/2017 2017-05-22 2017   5  22
+## 58   98 22/5/2017 2017-05-22 2017   5  22
+## 59   99 22/5/2017 2017-05-22 2017   5  22
+## 60  100 22/5/2017 2017-05-22 2017   5  22
+## 61  101 20/5/2017 2017-05-20 2017   5  20
+## 62  102 20/5/2017 2017-05-20 2017   5  20
+## 63  103 20/5/2017 2017-05-20 2017   5  20
+## 64  104 25/5/2017 2017-05-25 2017   5  25
+## 65  105 20/5/2017 2017-05-20 2017   5  20
+## 66  106 20/5/2017 2017-05-20 2017   5  20
+## 67  107 20/5/2017 2017-05-20 2017   5  20
+## 68  108 20/5/2017 2017-05-20 2017   5  20
+## 69  109 20/5/2017 2017-05-20 2017   5  20
+## 70  110 20/5/2017 2017-05-20 2017   5  20
+## 71  111 20/5/2017 2017-05-20 2017   5  20
+## 72  112 20/5/2017 2017-05-20 2017   5  20
+## 73  113 20/5/2017 2017-05-20 2017   5  20
+## 74  114 20/5/2017 2017-05-20 2017   5  20
+## 75  115 20/5/2017 2017-05-20 2017   5  20
+## 76  116 20/5/2017 2017-05-20 2017   5  20
+## 77  117 20/5/2017 2017-05-20 2017   5  20
+## 78  118 20/5/2017 2017-05-20 2017   5  20
+## 79  119 20/5/2017 2017-05-20 2017   5  20
+## 80  120 20/5/2017 2017-05-20 2017   5  20
+## 81  121 12/5/2017 2017-05-12 2017   5  12
+## 82  122 15/5/2017 2017-05-15 2017   5  15
+## 83  123 15/5/2017 2017-05-15 2017   5  15
+## 84  124 15/5/2017 2017-05-15 2017   5  15
+## 85  125 14/5/2017 2017-05-14 2017   5  14
+## 86  126 12/5/2017 2017-05-12 2017   5  12
+## 87  127 15/5/2017 2017-05-15 2017   5  15
+## 88  128 14/5/2017 2017-05-14 2017   5  14
+## 89  129 10/5/2017 2017-05-10 2017   5  10
+## 90  130 10/5/2017 2017-05-10 2017   5  10
+## 91  131 16/5/2017 2017-05-16 2017   5  16
+## 92  132 16/5/2017 2017-05-16 2017   5  16
+## 93  133 16/5/2017 2017-05-16 2017   5  16
+## 94  134 14/5/2017 2017-05-14 2017   5  14
+## 95  135 15/5/2017 2017-05-15 2017   5  15
+## 96  136 16/5/2017 2017-05-16 2017   5  16
+## 97  137 15/5/2017 2017-05-15 2017   5  15
+## 98  138 15/5/2017 2017-05-15 2017   5  15
+## 99  139  8/5/2017 2017-05-08 2017   5   8
+## 100 140 15/5/2017 2017-05-15 2017   5  15
+## 101 141 17/5/2017 2017-05-17 2017   5  17
+## 102 142 19/5/2017 2017-05-19 2017   5  19
+## 103 143 12/5/2017 2017-05-12 2017   5  12
+## 104 144 17/5/2017 2017-05-17 2017   5  17
+## 105 145 19/5/2017 2017-05-19 2017   5  19
+## 106 146 17/5/2017 2017-05-17 2017   5  17
+## 107 147 17/5/2017 2017-05-17 2017   5  17
+## 108 148 17/5/2017 2017-05-17 2017   5  17
+## 109 149 16/5/2017 2017-05-16 2017   5  16
+## 110 150 17/5/2017 2017-05-17 2017   5  17
+## 111 151 22/5/2017 2017-05-22 2017   5  22
+## 112 152 21/5/2017 2017-05-21 2017   5  21
+## 113 153 22/5/2017 2017-05-22 2017   5  22
+## 114 154 22/5/2017 2017-05-22 2017   5  22
+## 115 155 21/5/2017 2017-05-21 2017   5  21
+## 116 156 21/5/2017 2017-05-21 2017   5  21
+## 117 157 21/5/2017 2017-05-21 2017   5  21
+## 118 158 21/5/2017 2017-05-21 2017   5  21
+## 119 159 21/5/2017 2017-05-21 2017   5  21
+## 120 160 22/5/2017 2017-05-22 2017   5  22
+## 121 161 23/5/2017 2017-05-23 2017   5  23
+## 122 162 23/5/2017 2017-05-23 2017   5  23
+## 123 163 24/5/2017 2017-05-24 2017   5  24
+## 124 164 24/5/2017 2017-05-24 2017   5  24
+## 125 165 23/5/2017 2017-05-23 2017   5  23
+## 126 166 28/5/2017 2017-05-28 2017   5  28
+## 127 167 23/5/2017 2017-05-23 2017   5  23
+## 128 168 24/5/2017 2017-05-24 2017   5  24
+## 129 169 24/5/2017 2017-05-24 2017   5  24
+## 130 170 23/5/2017 2017-05-23 2017   5  23
+## 131 171 22/5/2017 2017-05-22 2017   5  22
+## 132 172 22/5/2017 2017-05-22 2017   5  22
+## 133 173 22/5/2017 2017-05-22 2017   5  22
+## 134 174 22/5/2017 2017-05-22 2017   5  22
+## 135 175 22/5/2017 2017-05-22 2017   5  22
+## 136 176 22/5/2017 2017-05-22 2017   5  22
+## 137 177 22/5/2017 2017-05-22 2017   5  22
+## 138 178 22/5/2017 2017-05-22 2017   5  22
+## 139 179 22/5/2017 2017-05-22 2017   5  22
+## 140 180 22/5/2017 2017-05-22 2017   5  22
+## 141 181  7/5/2017 2017-05-07 2017   5   7
+## 142 182  7/5/2017 2017-05-07 2017   5   7
+##     dias_transcurridos
+## 1            1732 days
+## 2            1732 days
+## 3            1733 days
+## 4            1732 days
+## 5            1733 days
+## 6            1733 days
+## 7            1733 days
+## 8            1733 days
+## 9            1733 days
+## 10           1733 days
+## 11           1737 days
+## 12           1736 days
+## 13           1736 days
+## 14           1735 days
+## 15           1736 days
+## 16           1736 days
+## 17           1737 days
+## 18           1737 days
+## 19           1737 days
+## 20           1737 days
+## 21           1736 days
+## 22           1739 days
+## 23           1740 days
+## 24           1739 days
+## 25           1739 days
+## 26           1736 days
+## 27           1740 days
+## 28           1739 days
+## 29           1736 days
+## 30           1740 days
+## 31           1740 days
+## 32           1740 days
+## 33           1741 days
+## 34           1741 days
+## 35           1741 days
+## 36           1741 days
+## 37           1740 days
+## 38           1740 days
+## 39           1741 days
+## 40           1740 days
+## 41           1733 days
+## 42           1733 days
+## 43           1733 days
+## 44           1733 days
+## 45           1733 days
+## 46           1733 days
+## 47           1733 days
+## 48           1733 days
+## 49           1733 days
+## 50           1733 days
+## 51           1730 days
+## 52           1730 days
+## 53           1730 days
+## 54           1730 days
+## 55           1730 days
+## 56           1730 days
+## 57           1730 days
+## 58           1730 days
+## 59           1730 days
+## 60           1730 days
+## 61           1732 days
+## 62           1732 days
+## 63           1732 days
+## 64           1727 days
+## 65           1732 days
+## 66           1732 days
+## 67           1732 days
+## 68           1732 days
+## 69           1732 days
+## 70           1732 days
+## 71           1732 days
+## 72           1732 days
+## 73           1732 days
+## 74           1732 days
+## 75           1732 days
+## 76           1732 days
+## 77           1732 days
+## 78           1732 days
+## 79           1732 days
+## 80           1732 days
+## 81           1740 days
+## 82           1737 days
+## 83           1737 days
+## 84           1737 days
+## 85           1738 days
+## 86           1740 days
+## 87           1737 days
+## 88           1738 days
+## 89           1742 days
+## 90           1742 days
+## 91           1736 days
+## 92           1736 days
+## 93           1736 days
+## 94           1738 days
+## 95           1737 days
+## 96           1736 days
+## 97           1737 days
+## 98           1737 days
+## 99           1744 days
+## 100          1737 days
+## 101          1735 days
+## 102          1733 days
+## 103          1740 days
+## 104          1735 days
+## 105          1733 days
+## 106          1735 days
+## 107          1735 days
+## 108          1735 days
+## 109          1736 days
+## 110          1735 days
+## 111          1730 days
+## 112          1731 days
+## 113          1730 days
+## 114          1730 days
+## 115          1731 days
+## 116          1731 days
+## 117          1731 days
+## 118          1731 days
+## 119          1731 days
+## 120          1730 days
+## 121          1729 days
+## 122          1729 days
+## 123          1728 days
+## 124          1728 days
+## 125          1729 days
+## 126          1724 days
+## 127          1729 days
+## 128          1728 days
+## 129          1728 days
+## 130          1729 days
+## 131          1730 days
+## 132          1730 days
+## 133          1730 days
+## 134          1730 days
+## 135          1730 days
+## 136          1730 days
+## 137          1730 days
+## 138          1730 days
+## 139          1730 days
+## 140          1730 days
+## 141          1745 days
+## 142          1745 days
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 658 rows ]</code></pre>
+<p><br> Utilizamos dmy() que no es más que la forma que traía nuestro formato fecha anterior, estaba el día, el mes y el año. En la biblioteca tenemos todas las combinaciones, incluyendo las horas, los minutos y segundos si los tuviéramos, es súper intuitivo. También creamos unas columnas con el año, el mes y el día, e hicimos un pequeño cálculo de fechas comparando la fecha actual (del día que se ejecute) Sys.Date() y le restamos la fecha de realización de la encuesta. Esto último no lo podríamos hacer con una columna de tipo texto.</p>
+<br>
+<h2 id="3.4">
+<strong>3.4.</strong> STRINGR
+</h2>
+<p><br></p>
+<p><strong>stringr</strong> nos abre las puertas al fabuloso mundo de la manipulación de texto, que no exageramos, es un mundo. Entre otras cosas nos permite trabajar con expresiones regulares para detectar, eliminar, reemplazar, contar patrones en nuestros textos. Dejamos dos enlaces para ampliar sobre estos tópicos [aquí] (<a href="https://es.wikipedia.org/wiki/Expresi%C3%B3n_regular" class="uri">https://es.wikipedia.org/wiki/Expresi%C3%B3n_regular</a>) y para descargar el Cheatsheet de Regex aquí.</p>
+<pre class="r"><code>library(stringr)
+texto = &quot;Vamos a trabajar con un texto creado para estos ejemplos, 
+recuerden que podemos hacer casi las mismas cosas para cada fila de una columna.
+Acá voy a poner unos números para usar de ejemplo; 123498-537&quot;
+
+# Pedimos el largo de una cadena
+str_length(texto)</code></pre>
+<pre style="max-height: 150px;"><code>## [1] 201</code></pre>
+<pre class="r"><code># Contamos un patron
+str_count(string = texto, pattern = &quot;[0-9]&quot;) # contamos números</code></pre>
+<pre style="max-height: 150px;"><code>## [1] 9</code></pre>
+<pre class="r"><code>str_count(string = texto, pattern = &quot;[a-z]&quot;) # contamos minusculas</code></pre>
+<pre style="max-height: 150px;"><code>## [1] 149</code></pre>
+<pre class="r"><code># Detectamos un patron o palabra
+str_detect(string = texto, pattern = &quot;[á|é|í|ó|ú]&quot;) # Si hay palabras con acento</code></pre>
+<pre style="max-height: 150px;"><code>## [1] TRUE</code></pre>
+<pre class="r"><code># Remplazamos un texto
+texto2 &lt;- str_replace_all(string = texto, pattern = &quot;-&quot;, replacement = &quot;/&quot;)
+texto2</code></pre>
+<pre style="max-height: 150px;"><code>## [1] &quot;Vamos a trabajar con un texto creado para estos ejemplos, \nrecuerden que podemos hacer casi las mismas cosas para cada fila de una columna.\nAcá voy a poner unos números para usar de ejemplo; 123498/537&quot;</code></pre>
+<pre class="r"><code># Removemos un patron
+texto3 &lt;- str_remove_all(string = texto2, pattern = &quot;Acá.*&quot;)
+texto3</code></pre>
+<pre style="max-height: 150px;"><code>## [1] &quot;Vamos a trabajar con un texto creado para estos ejemplos, \nrecuerden que podemos hacer casi las mismas cosas para cada fila de una columna.\n&quot;</code></pre>
+</body>
+</html>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

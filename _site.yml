@@ -1,0 +1,24 @@
+name: "cars"
+navbar:
+  title: "Inicio"
+  left:
+    - text: "AprendeR"
+      menu:
+        - text: "1- Introducción"
+          href: 01---introduccion.html
+        - text: "2- dplyr"
+          href: 02---dplyr.html
+        - text: "3- ggplot"
+          href: 03---ggplot.html
+        - text: "4- rmarkdown"
+          href: page-b.html
+
+    - text: "Contacto"
+      href: 05 - contacto.html
+css: style.css      
+output_dir: "."
+output:
+  html_document:
+    theme: yeti
+    highlight: textmate
+

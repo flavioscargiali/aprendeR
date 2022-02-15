@@ -1,0 +1,328 @@
+---
+title: ""
+output:
+  html_document:
+    css: "style.css"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<html>
+<body>
+# INTRODUCCIÓN
+<hr class = "linea">
+
+Nuestras **vidas se encuentran atravesadas por la generación de datos**: votar, tomar un transporte público, responder una encuesta, usar una aplicación en nuestros celulares o relevar información en la aplicación de una política pública. En las sociedades actuales, se convierte en una necesidad el desarrollo de perfiles técnicos, que conozcan herramientas para procesar, transformar, analizar y visualizar información. Organizaciones públicas y privadas están avanzando en la construcción de áreas especializadas en estas tareas. De la misma manera, en el ámbito académico emergen numerosos trabajos que recurren a estos softwares.
+
+Por estos motivos comenzamos a pensar en el desarrollo de este sitio web. Lo entendemos como un aporte para intentar contagiar un poco del entusiasmo con el que nosotros empezamos a utilizar estas herramientas. Es una satisfacción profesional, brindar algunas herramientas para que cada une de ustedes se puedan sumergir en este tipo de softwares y logré construir nuevas aptitudes técnicas para la inserción en el mercado de trabajo. 
+
+<br>
+<h1> CONTENIDOS </h1>
+<hr class = "linea">
+
+<div class = "contenidos"> 
+
+
+<a href="#1" class="contitulo"><b>1. Primer acercamiento</b></a>
+<br><a class="subtitulostabla" href="#1.1"> 1.1. ¿Por qué R?  </a>
+<br><a class="subtitulostabla" href="#1.2"> 1.2. Instalación  </a>
+<br><a class="subtitulostabla" href="#1.3"> 1.3. Conociendo la interfaz  </a>
+<br><a class="subtitulostabla" href="#1.4"> 1.4. Flujo de trabajo: disperso vs integrado  </a>
+<br><a class="subtitulostabla" href="#1.5"> 1.5. La piedra fundacional: el directorio  </a>
+<br><a class="subtitulostabla" href="#1.6"> 1.6. Todo es un objeto  </a>
+<br><a class="subtitulostabla" href="#1.7"> 1.7. Operadores  </a>
+<br><a class="subtitulostabla" href="#1.8"> 1.8. Tipos de de datos  </a>
+<br><a class="subtitulostabla" href="#1.9"> 1.9. Funciones   </a>
+<br><a class="subtitulostabla" href="#1.10"> 1.10. Bibliotecas  </a>
+<br><a href="#2" class="contitulo"><b>2. Primer Proyecto</b></a>
+
+
+</div>
+
+<br>
+<h1  id =  1> PRIMER ACERCAMIENTO </h1>
+<hr class = "linea">
+<h2 id =  1.1> **1.1.** ¿POR QUÉ R</h2>
+
+R es un lenguaje de programación orientado al análisis estadístico, que nos permite dar indicaciones dentro de un software, para el procesamiento y la visualización de datos. Esto favorece la apertura de nuevos horizontes y desafíos en la construcción de análisis y modelados de datos. **R es un desarrollo de Software Libre y es gratuito**, es decir que cualquier persona puede descargar R para trabajar. De esta manera, nos libramos de la agobiante tarea de buscar esa versión crackeada del software que necesitamos o de pagar una licencia con precios exorbitantes. 
+<br>
+<br>También, es una puerta de entrada a la programación. Salir de la costumbre de encontrar y usar botones como hacemos en Excel o en SPSS y comenzar a escribir las instrucciones nos abre un mundo de posibilidades y libertades. Entre las que podemos mencionar: nos permite un ahorro significativo de tiempo al independizarnos de tareas rutinarias (que hacemos una y otra vez), escribir una vez y ejecutar cuando y cuantas veces queramos e ir hacia un **flujo de trabajo integrado**. Por todo esto elegimos R y muchas otras razones.
+
+<br>
+<h2 id =  1.2> **1.2.** INSTALACIÓN </h2>
+
+A continuación, presentamos un instructivo, con el paso a paso de la instalación de R y Rstudio. Pero, ¿son dos programas?. Sí. Primero, descargamos y ejecutamos el instalador de R. Este primer programa es la base sobre la que funciona RStudio. A modo de síntesis, R es el lenguaje (o el motor de un auto), RStudio la carcasa (con todas sus comodidades). Este último programa es un entorno de desarrollo integrado (IDE) para el lenguaje de programación R. Este entorno incluye: una consola, editor de script, gestión del espacio de trabajo, entre otras muchas ventajas. 
+
+<iframe class="scribd_iframe_embed" title="Instructivo R y RStudio" src="https://www.scribd.com/embeds/483487530/content?start_page=1&view_mode=scroll&access_key=key-sOaWPy6aghG5CxaK1ieA" tabindex="0" data-auto-height="true" data-aspect-ratio="0.7074509803921568" scrolling="no" width="100%" height="600" frameborder="0"></iframe><p  style="   margin: 12px auto 6px auto;   font-family: Helvetica,Arial,Sans-serif;   font-style: normal;   font-variant: normal;   font-weight: normal;   font-size: 14px;   line-height: normal;   font-size-adjust: none;   font-stretch: normal;   -x-system-font: none;   display: block;"   ><a title="View Instructivo R y RStudio on Scribd" href="https://www.scribd.com/document/483487530/Instructivo-R-y-RStudio#from_embed"  style="text-decoration: underline;">Instructivo R y RStudio</a> by <a title="View Flavio Scargiali's profile on Scribd" href="https://www.scribd.com/user/26806034/Flavio-Scargiali#from_embed"  style="text-decoration: underline;">Flavio Scargiali</a></p>
+
+<br>
+<h2 id =  1.3> **1.3.** CONOCIENDO LA INTERFAZ</h2>
+
+RStudio es un entorno de desarrollo integrado (IDE) para R, no es el único, pero es el más usado (y la verdad que es muy completo). La interfaz se compone esencialmente de 4 ventanas o paneles:
+
+- **Source:** aquí abrimos los distintos tipos de archivos para escribir nuestras instrucciones y programas. El más común es el script de R, que no es más que una especie de bloc de notas que nos reconoce las palabras reservadas de R y nos ayuda a escribir con autocompletado y mucho más.
+- **Console:** es donde se ejecuta las instrucciones y donde visualizamos los el estado del procesamiento de las mismas
+- **Environment:** fundamental, acá vemos todos los objetos que vamos creando. 
+- **Panel:** en donde vemos, los archivos, gráficos, bibliotecas, ayudas y visualizador de objetos del tipo web.
+<br>
+Por otro lado, en la barra superior encontramos un montón de ayudas y herramientas que nos permiten personalizar RStudio (y que nos hacen la vida un poco más fácil).
+<br>
+<br>
+<img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\interfaz.PNG">
+<br>
+<br>
+
+<h2 id =  1.4> **1.4.** FLUJO DE TRABAJO: DISPERSO VS INTEGRADO</h2>
+<br>
+En general, nos desmienten si no corresponde, el flujo de trabajo tradicional para cargar, transformar, visualizar y presentar nuestros resultados es super engorroso, involucra varios programas y tiene un componente manual muy importante, el Ctrl + C y Ctrl + V. Es lo que más aplicamos en este flujo. Esto genera varios problemas, se pierde la trazabilidad del dato y si tenemos que replicar el trabajo es tarea de experto en rompecabezas: hay que unir los pedazos haciendo malabares. Por el contrario R, en conjunto con Rstudio, facilitan mucho la vida porque en el mismo software: leemos los archivos, los transformamos, creamos visualizaciones y compartimos los resultados. Compartimos una imagen para reforzar este punto. 
+<br>
+<img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\flujo de trabajo.PNG">
+<br>
+A lo largo de las guías, van a poder ir observando como en R se integra el proceso de trabajo de punta a punta evitando recurrir a diferentes softwares. 
+<br>
+<br>
+<h2 id =  1.5> **1.5.** LA PIEDRA FUNDACIONAL: EL DIRECTORIO</h2>
+<br>
+<div class = "contenidos citas"> “Una ley universal en este mundo: el primer error que vamos a encontrar es consecuencia de que no definimos correctamente el directorio del trabajo” </div>
+<br>
+Una ley universal en este mundo: el primer error que vamos a encontrar es consecuencia de que no definimos correctamente el directorio de trabajo. ¿Qué es eso? Simple, es la carpeta desde donde R parte para buscar los archivos que necesitemos. Esto es parte esencial del flujo de trabajo. Para eso, contamos con dos funciones básicas.
+<br>
+
+```{r eval=F}
+# Obtener el directorio de trabajo
+getwd()
+```
+
+<br>
+Corriendo esta función vamos a saber dónde está R en ese momento y si lo queremos modificar, para establecer un nuevo punto lo hacemos otra función:
+<br>
+
+```{r eval=F}
+# Setear el directorio de trabajo
+setwd("C:/Users/colis/Desktop")
+```
+
+<br>Ahora tenemos el directorio de trabajo en el escritorio (recuerden sustituir la ruta a la carpeta por la de ustedes). Otra opción muy interesante es trabajar con Rproject, una funcionalidad de Rstudio, que nos permite encapsular el directorio. De esta forma definimos la carpeta donde vamos a crear el proyecto y ya está. Ahora cada vez que abran el proyecto RStudio ubica el directorio de trabaja en el mismo lugar que lo definieron.
+<br>
+<br>
+<div class = "contenidos citas">“Un tip de buena práctica es crear tres carpetas, que en cualquier trabajo van a estar presentes, datos, scripts, y resultados.”</div>
+
+<br>Una práctica habitual cuando trabajamos con R es comenzar por crear una carpeta donde guardamos todos los materiales de trabajo y en ella crear el Proyecto de R. Un tip de buena práctica es crear tres carpetas, que en cualquier trabajo van a estar presentes, datos, scripts, y resultados. 
+<br>
+
+<br>
+<h2  id =  1.6> **1.6.** TODO ES UN OBJETO </h2>
+<br>
+
+Cualquier cosa que existe en R y que tiene un nombre es un OBJETO: gráficos, números, vectores, funciones, secuencias, bases de datos, etc. Pero vayamos a un ejemplo práctico concreto. Vamos a crear nuestro primer objeto: uno que se llame “weber” y que contenga la frase “Clásico de la sociología”. Para las/los que vienen de otros campos disciplinarios aclaramos que, como vamos a usarlos en otros ejercicios, Weber, Durkheim y Marx son los intelectuales fundadores de la Sociología.
+<br>
+<br>Dos puntos muy importantes: R es sensible a los signos de puntuación, las mayúsculas y las minúsculas. A lo Paulina Cocina: “escriban a lo pelado”. Por ejemplo, weber sin mayúscula (sabemos que es un nombre propio). Seguramente a muchas/os de ustedes (nos pasó) les están sangrando los ojos, pero facilita un montón de cosas y les aseguramos que evitan otro montón de errores. Principalmente se aplica esta recomendación en los nombres de los objetos. Pero lo vamos a ir viendo paso a paso. No se preocupen.
+<br> 
+```{r}
+#Todo es un objeto en R
+weber <- "Clásico de la Sociología"
+weber
+```
+
+<br>
+<br>De manera sencilla, lo que realizamos utilizando el operador <- es asignar “Clásico de la Sociología” a weber. Cuando escribimos weber y corremos el código, la consola de RStudio nos devuelve “Clásico de la Sociología”.
+ 
+<br>
+<h2  id =  1.7> **1.7.** OPERADORES </h2>
+<br>
+
+Vamos a introducirnos en los operadores básicos. Seguramente sean muy conocidos por ustedes. Pero experimentemos para que quede claro su uso. 
+
+<div style= "color:black;font-size: 14px"> **Tipos de Operadores** </div>
+
+**Operadores Comparación** | **Operadores Arirmeticos** | **Operadores Lógicos**
+------------ | ------------- | ------------- | -------------
+`>` Mayor|`+` Suma| `!` Negación
+`>=` Mayor o igual|`-` Resta | `|` O lógico 
+`<` Menor|`*` Multiplicación| `&` Y lógico
+`<=` Menor o igual|`/` División| 
+`==` Igual|`^` Portencia
+`!=` Diferente|
+| | |
+
+
+<br>
+<h3> **1.7.1. Operadores de comparación** </h3>
+<br>
+
+Los operadores de comparación generan un resultado a partir de que se cumpla o no una condición. Por ejemplo, queremos saber si Weber es igual a Marx. Recuerden que a Weber le asignamos la frase “Clásico de la Sociología”. Ahora creamos otro objeto que se llama Marx y le asignamos también “Clásico de la Sociología”. Posteriormente, pedimos que compare a Weber y a Marx para evaluar si son iguales.
+<br>
+```{r}
+#¿Marx igual a Weber?
+marx <- "Clásico de la Sociología"
+marx == weber
+```
+<br>
+Magia. Cuando comparamos a través del == (igual) a Marx y a Weber, nos devuelve TRUE. En pocas palabras, efectivamente Marx y Weber, que son objetos que nosotros construimos, son iguales. Pero, ¿por qué? ¿Recuerdan que a los dos les asignamos la frase “Clásico de la Sociología”?.  ¿Qué sucede con el operador lógico?= (diferente de)? Veamos:
+ 
+<br>
+```{r}
+#¿Marx diferente a Weber?
+marx!=weber
+```
+<br>
+
+Después de correr el código, nos está diciendo, a pedido nuestro (esto es muy importante: no hay nada que R corra si nosotras/os no lo indicamos), que Marx y Weber no son diferentes (FALSE). Recuerden que, lo que comparamos es la asignación que hicimos “Clásicos de la Sociología”. Veamos que sucede con (tediosos pero muy útiles) > o <. Construimos dos nuevos objetos: uno el año de nacimiento de Marx y otro el año de nacimiento de Weber. Y la pregunta a la que queremos generar una respuesta es: ¿Quién nació antes?
+ 
+<br>
+```{r}
+#Años de nacimiento de Weber y Marx
+nacimiento_ano_weber <- 1864
+nacimiento_ano_marx <- 1818
+
+#Comparación Nacimiento
+nacimiento_ano_weber > nacimiento_ano_marx
+
+nacimiento_ano_weber<nacimiento_ano_marx
+```
+<br>
+
+La comparación resultó que Weber nació después de Marx. Simplemente, porque 1864 es mayor (>) a 1818 que es el año de nacimiento de Marx. Por esto, la primera comparación nos devolvió TRUE (Weber nació después de Marx) y la segunda FALSE (Weber nació antes que Marx). A los operadores lógicos menor y mayor se los puede combinar con el igual <=(igual o menor)/>=(igual o mayor). Esto quiere decir que se incluye el valor en la condición. Por ejemplo, si decimos > a 4 no incluimos el 4, pero si decimos >= incluimos el 4.
+ 
+Parece tediosa esta parte, pero está muy relacionada con la lógica de funcionamiento de R. Y ahora en serio: sirven y mucho.
+
+
+<br>
+<h3> **1.7.2. Operadores aritméticos** </h3>
+<br>
+
+Este tipo de operadores, los usamos todo el tiempo en nuestra vida cotidiana: sumamos, restamos, dividimos, multiplicamos, etc. R lo que hace es funcionar como una calculadora.  Veamos cómo funcionan.:
+ 
+<br>
+```{r}
+#Suma
+2+2
+
+#Resta
+2-2
+
+#División
+2/2
+
+#Múltiplicación
+2*2
+
+#Potencia
+2^2
+```
+
+<br>
+ 
+Veamos un ejemplo con un poco más de complejidad. Imagínense que son profesores y quieren sumar un punto más a todas/os las/los alumnos por su buen desenvolvimiento en las prácticas. Y lo quieren hacer de manera rápida. Para esto, arman un objeto que se llama notas_alumnes. En este objeto, ponen las calificaciones de las y los alumnas/os (8, 7, 8, 9, 8) y suman un punto más a cada nota. Veamos cómo se hace en R:
+ 
+<br>
+```{r}
+#Suma de un punto a todos los/las alumnas
+notas_alumnes <- c(8,7,8,9,8)
+notas_alumnes <- notas_alumnes + 1
+notas_alumnes
+```
+<br> 
+ 
+Después de sumar uno al objeto con las notas de los alumnes, nos devuelve todos los valores con un punto más. No queremos seguir aburriendo con estos operadores. Pero sí, vayan practicando y encontrando la lógica del procesamiento de la información que realiza el software.
+ 
+
+<br>
+<h3> **1.7.3. Operadores lógicos **</h3>
+<br>
+Para finalizar con los operadores más comunes, presentamos los operadores lógicos. Estos nos ayudan a evaluar una o más expresiones lógicas, es decir, los datos FALSE y TRUE. Bajemos a tierra con unos ejemplos: 
+ 
+<br>
+```{r}
+#Negación
+!(marx==weber)
+
+# Utilizamos el comparador y los lógicos
+# Lo leemos como: marx es igual a weber Ó el nacimiento de ambos es igual
+(marx==weber) | (nacimiento_ano_weber == nacimiento_ano_marx)
+
+# Utilizamos el comarador o lógicos
+# Lo leemos como: marx es igual a weber y el nacimiento de ambos es igual
+(marx==weber) & (nacimiento_ano_weber == nacimiento_ano_marx)
+
+```
+<br>
+
+Habíamos visto cómo utilizar los operadores de comparación marx y weber, el resultado era verdadero porque ambos objetos los definimos como ‘Clásicos de la Sociología’. Entonces utilizamos el operador negación, como consecuencia el TRUE se convierte en FALSE. Luego utilizamos los operadores | o lógicos e & y lógicos. Para evaluar dos expresiones de verdadero o falso. Por supuesto que estos ejemplos son de juguetes, pero van a ser claves en la medida que nos vayamos profundizando  en este lenguaje.
+
+<br>
+<h2  id =  1.8> **1.8.** TIPOS DE DATOS </h2>
+<br>
+Con los ejemplos que estuvimos viendo hasta el momento nos encontramos con tres tipos de datos esenciales. Los de texto, los numéricos y los booleanos o lógicos. Para saber qué clase de dato o de variable estamos usando aplicamos la función class()
+
+<br>
+```{r}
+class(marx) 
+
+class(nacimiento_ano_weber)
+
+compara <- marx==weber
+class(compara)
+```
+<br>
+Hicimos una variable que se llama compara que toma el valor TRUE porque, como habíamos visto antes es igual. De los numéricos, se desprenden otros tipos, pueden ser enteros como también tener decimales, dando nacimiento a los tipos INTEGER y FLOAT. Por último, mencionemos un tipo especial de dato, los FACTOR. Son un tipo particular de datos de texto, la diferencia es que le podemos otorgar un orden particular, lo cual es muy útil para trabajar con variables ordinales. Por ejemplo, una aplicación clara puede ser la respuesta de una encuesta cuyas opciones son: Muy bueno, bueno, regular, malo, muy malo. Las posibles respuestas son texto, pero sabemos que tienen un orden.
+
+<br>
+<h2  id =  1.9> **1.9.** FUNCIONES </h2>
+<br>
+
+Las funciones son instrucciones (acciones) predefinidas, a la que se les asigna un nombre. Aceptan argumentos, es decir, especificaciones sobre cómo deben funcionar. Ejemplo de funciones: mean(), sd(), filter(), etc. Toman valores de entrada y nos devuelve un resultado.
+Hay un montón de funciones (miles y miles) que previamente un/a programador/a diseñó y están disponibles para que nosotros/as las usemos. En R todo lo hacemos con funciones, y es muy difícil que no encontremos lo que necesitamos. En general tenemos el problema contrario, todo se puede hacer de múltiples maneras.
+“ En R todo lo hacemos con funciones, y es muy difícil que no encontremos lo que necesitamos. En general tenemos el problema contrario, todo se puede hacer de múltiples maneras.”
+<br>
+<br>Lo mágico de R, es que en caso de que no encontremos lo que necesitamos o queremos algo que se adapte a nuestras necesidades, podemos definir nuestras propias funciones. Esto lo vamos a dejar para más adelante, pero está bueno mencionarlo, porque es el verdadero diferencial que nos ofrece R.
+<br>
+<br>Retomemos nuestro objeto notas_alumnes para indagar sobre las estadísticas básicas. Para esto, utilizamos las funciones: mean(), sum(), median(), sd() var() y quantile(). Notemos que, en todos los casos, entre paréntesis definimos el objeto al que queremos aplicarle el cálculo, como primer argumento. Además, en el caso del percentil utilizamos la (,) para separar los argumentos y pasamos 0.90 al argumento probs para que nos del percentil 90.
+ 
+```{r}
+#Promedio del curso
+mean(notas_alumnes)
+
+#Suma de las notas
+sum(notas_alumnes)
+
+#Mediana
+median(notas_alumnes)
+
+#Desvío estándar
+sd(notas_alumnes)
+
+#Varianza
+var(notas_alumnes)
+
+#Percentil 90
+quantile(notas_alumnes, probs = 0.90)
+```
+
+<br>¿Qué pasa si hacemos notas_alumnes/5? Si nosotros indicamos que haga notas_alumnes/5, el programa entiende que tiene que dividir cada una de las notas de los alumnos por 5. Por esto es importante conocer la lógica de funcionamiento. Este comentario también, lo hacemos extensivo a cualquier software estadístico que utilicen.
+
+<br>
+<h2  id =  1.10> **1.10.** BIBLIOTECAS </h2>
+<br>
+Además de las funciones básicas que tiene R (se conoce como R base), se pueden instalar bibliotecas que agrupan un conjunto de diferentes funciones que favorecen algún área de la transformación y visualización de la información. Por ejemplo, el paquete ggplot2 tiene un conjunto de funciones relacionadas con las representaciones gráficas. Otro ejemplo es dplyr que es un conjunto de funciones vinculadas a la manipulación de los datos. A modo de síntesis, una biblioteca o library contiene un conjunto de funciones que en su agrupamiento responde a una necesidad del procesamiento, la visualización, modelización y/o transformación de datos, elaboración de informes, etc.
+En R, los paquetes se instalan con la función install.packages() y se los activa con library(). Sin instalar, no tendremos las bibliotecas en nuestra computadora; y sin activarlo, no tendremos disponibles las funciones de la librería cuando estemos trabajando. En este curso utilizamos muchos paquetes, de ellos los tres paquetes principales son: tidyverse, simple features (sf) y EPH.
+ 
+<br>
+<div class = "contenidos citas">“La misma comunidad de R actualiza y/o construye permanentemente paquetes con nuevas funcionalidades.”</div>
+<br>
+ 
+La comunidad de R actualiza y/o construye permanentemente paquetes con nuevas funcionalidades. En los próximos encuentros, vamos a mostrar algunos ejemplos. Por ahora, creemos que es suficiente.
+Un párrafo aparte merece tidyverse, no es una biblioteca, sino que es un conjunto de ellas. Más que eso, podríamos decir que es un paradigma de programación en R, que nos permite realizar acciones de una manera mucho más intuitiva que con R base. Al ser un conjunto de bibliotecas abarcan mucho de lo que necesitamos. Son parte de tidyverse las ya mencionadas ggplot2 y dplyr, además encontramos tidyr, haven, stringr, lubridate, forecast, tidymodel y más. No es la intención de esta introducción verlas todas, pero sí que sepan que existen y que pueden recurrir a ellas para resolver problemas con los que se topen.A continuación, les dejamos alguno de los paquetes que usaremos en el curso:
+ 
+<br>
+```{r eval=FALSE}
+install.packages(c("tidyverse", "eph", "sf", 
+                   "funModeling", "readxl"))
+```
+<br>
+
+</body>
+</html>

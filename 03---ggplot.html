@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>03---ggplot.knit</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Inicio</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    AprendeR
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01---introduccion.html">1- Introducción</a>
+    </li>
+    <li>
+      <a href="02---dplyr.html">2- dplyr</a>
+    </li>
+    <li>
+      <a href="03---ggplot.html">3- ggplot</a>
+    </li>
+    <li>
+      <a href="page-b.html">4- rmarkdown</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="05 - contacto.html">Contacto</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<html>
+<body>
+<div id="ggplot" class="section level1">
+<h1>GGPLOT</h1>
+<hr class = "linea">
+<p>El 10 de junio de 2007 ocurrió un gran acontecimiento que marcó el comienzo de una nueva forma de concebir la visualización de datos. Ese día, el desarrollador y estadístico, Hadley Wickam publicó <strong>un paquete fundamental en el mundo de R: ggplot.</strong></p>
+<br>
+<div class="contenidos citas">
+“ggplot se comprende como una estructura de palabras que se combinan para permitirnos realizar diferentes y variadas representaciones gráficas a través del uso del lenguaje R.”
+</div>
+<p><br> A partir de ese momento, el paquete fue ganando terreno alcanzando millones y millones de descargas. Pero, <strong>¿qué significa ggplot?</strong> Es la combinación gg y plot. El prefijo <strong>gg hace referencia a la “gramática de los gráficos”.</strong> Todavía seguimos en un nivel de abstracción muy alto. Se entiende por gramática a la parte de la lingüística que estudia la estructura de las palabras y sus accidentes, así como la manera en que se combinan para formar oraciones; incluye la morfología y la sintaxis. De esta manera, ggplot se comprende como una estructura de palabras que se combinan para permitirnos realizar diferentes y variadas representaciones gráficas a través del uso del lenguaje R. <br> <br>Por su parte, <strong>además de su traducción tradicional del inglés al español como gráfico, nos gusta entenderlo con otro de sus significados: “trama”.</strong> El origen de esta palabra hace referencia al conjunto de hilos que, combinados y enlazados entre sí, consiguen darle forma a una tela. De manera sencilla, ggplot proporciona un conjunto de funciones que se combinan para formar una representación gráfica. Vamos a conocer la potencialidad de este paquete a través de la práctica. <br> <br>Para bucear en este hermoso paquete, utilizamos tres variables: región, generación y tasa de desocupación para ir analizando las potencialidades de este paquete. <br> <br><strong>CARGA DE DATOS</strong> <br> <br>Para ver los diferentes tipos y elementos de los gráficos utilizando este gran paquete que es ggplot, trabajamos con la Encuesta Permanente de Hogares (EPH). La intención es poner en relación la región del país (NOA, NEA, GBA, CUYO, PAMPEANA y PATAGÓNICA), las generaciones (18 a 21 años, 22 a 38, 39 a 54, 55 a 73, 74 o más) y la tasa de desocupación. Este último indicador es el cociente entre los desocupados (Todas las personas de 10 años y más que no trabajaron en la semana de referencia, estaban disponibles y buscaron activamente trabajo) y la población económicamente activa (suma de ocupados y desocupados) multiplicado por 100.</p>
+<pre class="r"><code># Activamos las bibliotecas a utilizar
+library(tidyverse)
+library(eph)
+
+# Selecciono las variables a utilizar 
+variables &lt;- c(&quot;REGION&quot;,&quot;CH06&quot;, &quot;ESTADO&quot;,&quot;PONDERA&quot;)
+
+# Cargo la tabla
+eph &lt;- get_microdata(type = &quot;individual&quot;,
+                     year = 2021,
+                     trimester = 1,
+                     vars = variables)
+
+# Construcción de resumen con información laboral
+eph_region &lt;- eph %&gt;% 
+  filter(CH06 &gt;= 18) %&gt;% 
+  mutate(EDAD_CAT = case_when(CH06 &lt;= 21 ~ &quot;18 y 21 años&quot;,
+                              CH06 &gt;= 22 &amp; CH06 &lt;= 38 ~ &quot;22 y 38 años&quot;,
+                              CH06 &gt;= 39 &amp; CH06 &lt;= 54 ~ &quot;39 y 54 años&quot;,
+                              CH06 &gt;= 55 &amp; CH06 &lt;= 73 ~ &quot;55 y 73 años&quot;,
+                              TRUE ~ &quot;74 años o más&quot;)) %&gt;% 
+  group_by(REGION, EDAD_CAT) %&gt;% 
+  summarise(POBLACION = sum(PONDERA),
+            OCUPADOS = sum(PONDERA[ESTADO == 1]),
+            DESOCUPADOS = sum(PONDERA[ESTADO == 2]),
+            INACTIVOS = sum(PONDERA[ESTADO == 3]),
+            TNA = DESOCUPADOS/(OCUPADOS + DESOCUPADOS)*100,
+            TNA_O = OCUPADOS/(OCUPADOS + DESOCUPADOS)*100) %&gt;% 
+  organize_labels(type = &quot;hogar&quot;) %&gt;% 
+  mutate_at(.vars = c(&quot;REGION&quot;), ~as.factor(.)) %&gt;% 
+  mutate(REGION = ifelse(REGION == &quot;Gran Buenos Aires&quot;, &quot;GBA&quot;, 
+                         paste0(REGION)))
+
+# Visualizo la tabla para la ejercitación 
+eph_region</code></pre>
+<pre style="max-height: 150px;"><code>## # A tibble: 30 x 8
+## # Groups:   REGION [6]
+##    REGION   EDAD_CAT      POBLACION OCUPADOS
+##    &lt;chr&gt;    &lt;chr&gt;             &lt;int&gt;    &lt;int&gt;
+##  1 GBA      18 y 21 años     914403   275904
+##  2 GBA      22 y 38 años    3426505  2372138
+##  3 GBA      39 y 54 años    3299452  2525780
+##  4 GBA      55 y 73 años    2593123  1183192
+##  5 GBA      74 años o más    787913    62205
+##  6 Noroeste 18 y 21 años     190045    47126
+##  7 Noroeste 22 y 38 años     706274   462084
+##  8 Noroeste 39 y 54 años     544985   417600
+##  9 Noroeste 55 y 73 años     400261   171484
+## 10 Noroeste 74 años o más    121389     4643
+## # ... with 20 more rows, and 4 more variables:
+## #   DESOCUPADOS &lt;int&gt;, INACTIVOS &lt;int&gt;,
+## #   TNA &lt;dbl&gt;, TNA_O &lt;dbl&gt;</code></pre>
+<br>
+<h1>
+CONTENIDOS
+</h1>
+<hr class = "linea">
+<div class="contenidos">
+<p><a href="#1" class="contitulo"><b>1. Primeros Pasos</b></a> <br><a class="subtitulostabla" href="#1.1"> 1.1. Formas de iniciar </a> <br><a class="subtitulostabla" href="#1.2"> 1.2. Gráfico de dispersión </a> <br><a class="subtitulostabla" href="#1.3"> 1.3. Gráfico de línea </a> <br><a class="subtitulostabla" href="#1.4"> 1.4. Gráfico de barras </a> <br><a class="subtitulostabla" href="#1.5"> 1.5. Gráfico de diagrama de cajas </a> <br><a class="subtitulostabla" href="#1.6"> 1.6. Facetado </a> <br><a class="subtitulostabla" href="#1.7"> 1.7. Otros tipos de gráficos </a> <br><a href="#2" class="contitulo"><b>2. Escalas</b></a> <br><a class="subtitulostabla" href="#2.1"> 2.1. Continuas X e Y </a> <br><a class="subtitulostabla" href="#2.2"> 2.2. Colores y rellenos </a> <br><a href="#3" class="contitulo"><b>3. Mejorando la visualización</b></a> <br><a class="subtitulostabla" href="#3.1"> 3.1. Titulos </a> <br><a class="subtitulostabla" href="#3.2"> 3.2. Eje secundario </a> <br><a class="subtitulostabla" href="#3.3"> 3.3. Temas </a> <br><a class="subtitulostabla" href="#3.4"> 3.4. Temas personalizados </a></p>
+</div>
+<br>
+<h1 id="1">
+PRIMEROS PASOS
+</h1>
+<hr class = "linea">
+<h2 id="1.1">
+<strong>1.1.</strong> FORMAS DE INICIAR
+</h2>
+<p><br> Como primera aproximación a la visualización con este paquete, creamos un gráfico de puntos con la intención de analizar hacia dentro de las generaciones cómo es la dinámica de las regiones en término de desocupación. Para esto, indicamos en el eje X la generación, en el Y la tasa de desocupación y en cada punto la ubicación de las regiones Para esto utilizamos ggplot(). Veamos el código: <br></p>
+<pre class="r"><code>#Indicamos a R la creación del área del gráfico con sus respectivos ejes x e y
+ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) </code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<p>Que decepción. Pero, ¿qué pasó? ¿Por qué está vacío el gráfico? Simplemente, porque indicamos a R que represente los ejes cartesianos, pero no la forma ni el contenido. Pero… , ¿qué sucedió? ¿Por qué sólo aparecen los ejes? ggplot() permite construir un objeto ggplot, es decir una representación gráfica, pero falta agregar todas las especificaciones. Esta función de inicialización, puede ser utilizada para declarar la tabla que vayamos a utilizar y para detallar el conjunto de especificaciones estéticas (ejes, colore, rellenos, tamaño, etc.), que son comunes a todos las subsecuentes capas a menos que se especifiquen otros criterios. <br> <br> Según la documentación de esta función hay tres maneras distintas de invocar a ggplot.</p>
+<ul>
+<li><p>ggplot(df, aes(x, y, other aesthetics)): se recomienda si todas las capas usan la misma tabla (df) y los mismos criterios estéticos. También, se pueden agregar capas usando datos de otra tabla.</p></li>
+<li><p>ggplot(df): este tipo de invocación específica la tabla a usar para el gráfico pero no los detalles estéticos. Este tipo es utilizado cuando se utiliza una tabla de manera predominante pero los criterios estéticos pueden variar de una capa a la otra.</p></li>
+<li><p>ggplot(): se usa para iniciar un “esqueleto” de un objeto ggplot a la que se le agregan las diferentes capas. Es recomendable utilizar cuando utilizamos múltiples tablas para producir diferentes capas.</p></li>
+</ul>
+<p><br><strong>ggplot() utiliza el + para agregar los diferentes componentes del gráfico.</strong> Se destaca que estos tipos de objetos funcionan por capas. A modo sencillo, siempre que corramos únicamente la función ggplot() sin ninguna otra capa, devuelve el “lienzo” sobre el que va a representar la información. El arte aparece cuando agregamos las sucesivas capas. En nuestro ejemplo, especificamos a R que la tabla que utilizamos se llama “eph_region”, el gráfico está formado por un eje X con el nombre de las generaciones, un eje Y con la tasa de ocupación, y un “relleno” a partir de la variable región.</p>
+<br>
+<div class="contenidos citas">
+“ggplot está basada en la gramática de gráficos, la idea de que se puede construir cualquier gráfico a partir de los mismos componentes: datos, un sistema de coordenadas y objetos geométricos (geom) - marcas que representan los puntos de datos (cheatsheet ggplot).”
+</div>
+<p><br></p>
+<p>Sin embargo, no detalla el tipo de gráfico que queremos. Como mencionamos arriba, queremos puntos que ubiquen a regiones en estos ejes. ¿Se imaginan el nombre de la función que permite realizar este tipo de gráfico?. Esto lo hacemos, agregando a nuestra línea de código inicial una capa con la función geom_point(). Geom significa geometría y point significa punto. Entonces, esta función representa puntos en los ejes cartesianos. Otra vez, traduciendo la función al español todo es más fácil. Recuerde que para concatenar las capas no sirve el pipe (%&gt;%), se utiliza el signo +. <br></p>
+<pre class="r"><code>ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
+  geom_point()</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /> <br> Previo a continuar, recordemos que ggplot está basada en la gramática de gráficos, la idea de que se puede construir cualquier gráfico a partir de los mismos componentes: datos, un sistema de coordenadas y objetos geométricos (geom) - marcas que representan los puntos de datos (cheatsheet ggplot). Les queremos mostrar una plantilla que sirve para armar nuestras visualizaciones. <br></p>
+<b>ggplot(data = (DATOS) + <br>
+<p style="margin-left: 15px;">
+(FUNCIÓN_GEOM)(mapping = aes(ESTETICOS) + <br>(FUNCIÓN_ESCALA) + <br>(FUNCIÓN_TEMA) + <br>(FUNCIÓN FACETADO) (EN CASO DE QUE HAGAN ESTE TIPO DE GRÁFICOS)
+</p>
+<p></b></p>
+<p><br>Veamos en la siguiente sección cómo continuamos con nuestro gráfico de dispersión a través de ir agregando nuevas capas y funciones. También, en las siguientes partes de las guías nos sumergimos en cada una de las funciones que forma parte de la plantilla.</p>
+<br>
+<h2 id="1.2">
+<strong>1.2.</strong> GRÁFICO DE DISPERSIÓN
+</h2>
+<p><br></p>
+<p>El gráfico de punto, o también conocido como gráfico de dispersión, es usado para visualizar la relación entre dos variables continuas, una continua y una categórica o dos categóricas. Dentro de este tipo de geometrías, podemos aplicar los siguientes criterios estéticos (aes()).</p>
+<p><strong>Criterios estéticos de posición:</strong> Indicamos la posición de las variables. Es decir, qué variable representamos en el eje x y cual en el y.</p>
+<ul>
+<li><strong>x</strong> (posición)</li>
+<li><strong>y</strong> (posición)</li>
+</ul>
+<p><br></p>
+<pre class="r"><code># Gráfico de dispersión ----
+ggplot(data = eph_region, 
+       aes(x = EDAD_CAT, 
+           y = TNA)) +
+  geom_point() </code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p><strong>Criterios estéticos:</strong> Veamos qué sucede con aplicación de algunos de los criterios estéticos:</p>
+<ul>
+<li><strong>color:</strong> cambiar el color de los puntos</li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## Color ----
+ggplot(data = eph_region, 
+       aes(x = EDAD_CAT, 
+           y = TNA)) +
+  geom_point(aes(color = REGION)) </code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<ul>
+<li><strong>shape:</strong> definición del tipo de forma</li>
+</ul>
+<p><br> <img src="Imagenes/scale_shape-6.png"> <br></p>
+<pre class="r"><code>## Shape ----
+ggplot(data = eph_region, 
+       aes(x = EDAD_CAT, 
+           y = TNA)) +
+  geom_point(aes(color = REGION),
+             shape = 22)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<ul>
+<li><strong>size:</strong> aumentamos o disminuimos el tamaño</li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## Size ----
+ggplot(data = eph_region, 
+       aes(x = EDAD_CAT, 
+           y = TNA)) +
+  geom_point(aes(color = REGION), 
+             fill = &quot;black&quot;, 
+             shape = 22, 
+             size = 1)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<ul>
+<li><strong>fill</strong> (cambiar relleno) y <strong>stroke</strong> (cambiar tamaño de los bordes)</li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## Fill ----
+# No todas las formas tienen fill
+ggplot(data = eph_region, 
+       aes(x = EDAD_CAT, 
+           y = TNA)) +
+  geom_point(aes(color = REGION), 
+             fill = &quot;black&quot;, 
+             shape = 22, 
+             size = 1)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<pre class="r"><code>## Stroke ---- 
+ggplot(data = eph_region, 
+       aes(x = EDAD_CAT, 
+           y = TNA)) +
+  geom_point(aes(color = REGION, 
+                 stroke = 2), 
+             fill = &quot;black&quot;, 
+             shape = 22, 
+             size = 2)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<ul>
+<li><strong>alpha:</strong> transparencia de los puntos</li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## Stroke ---- 
+ggplot(data = eph_region, 
+       aes(x = EDAD_CAT, 
+           y = TNA)) +
+  geom_point(aes(color = REGION, 
+                 stroke = 2), 
+             fill = &quot;black&quot;, 
+             shape = 22, 
+             size = 2,
+             alpha = 0.5)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<h2 id="1.3">
+<strong>1.3.</strong> GRÁFICO DE LÍNEA
+</h2>
+<p><br></p>
+<p>Un gráfico de línea permite conectar las observaciones en el orden que aparece en la tabla (geom_path) o del eje x (geom_line). En el caso, de que quisiéramos unir de acuerdo a un “grupo” (por ejemplo unir los puntos de acuerdo a la evolución de la tasa de desocupación según la generación) podemos especificarlo en el criterio estético group. <br> <br> <strong>Criterios estéticos de posición:</strong> Indicamos la posición de las variables. Es decir, qué variable la representamos en el eje x y cual en el y.</p>
+<ul>
+<li><strong>x</strong>(posición)</li>
+<li><strong>y</strong> (posición)</li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## ¿Qué pasa si únicamente especificamos? ----
+ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
+  geom_line()</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<p>Si no especificamos el grupo dentro del aes(), sucede que r interpreta que tiene que unir con una línea los valores de la tasa de desocupación en cada región. Pero nuestro interés está en ver la evolución de la tasa de desocupación según los grupos de edad. Por esto, tenemos que agrupar las líneas por la variables de la generación(EDAD_CAT). Veamos cómo hacerlo usando group.</p>
+<p><strong>Criterios estéticos:</strong></p>
+<ul>
+<li><strong>group</strong></li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## group: Agrupamos para mejorar nuestra visualización ----
+ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
+  geom_line(aes(group = REGION))</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<ul>
+<li><strong>colour:</strong> color de la línea</li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## Color de la línea ----
+ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
+  geom_line(aes(group = REGION, color = REGION))</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<ul>
+<li><strong>size:</strong> tamaño de la línea</li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## Tamaño de la línea ----
+ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
+  geom_line(aes(group = REGION, color = REGION), size = 1)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<ul>
+<li><strong>linetype:</strong> tipo de línea</li>
+</ul>
+<p><br> <img style = "width: 50%;height:auto;display: block; margin-left: auto;margin-right: auto;" src="Imagenes/scale_linetype-3.png"> <br></p>
+<p><br></p>
+<pre class="r"><code>## Tipo de línea ----
+ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
+  geom_line(aes(group = REGION, color = REGION), size = 1, linetype = &quot;dotted&quot;)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<br>
+<h2 id="1.4">
+<strong>1.4.</strong> GRÁFICO DE BARRAS
+</h2>
+<p><br></p>
+<p>Un gráfico de líne permite conectar las observaciones en el orden que aparece en la tabla (geom_path) o del eje x (geom_line). En el caso, de que quisiéramos unir de acuerdo a un “grupo” (por ejemplo unir los puntos de acuerdo a la evolución de la tasa de desocupación según la generación) podemos especificarlo en el criterio estético group. <br></p>
+<p><strong>Criterios estéticos de posición:</strong> Indicamos la posición de las variables. Es decir, qué variable representamos en el eje x y cual en el y.</p>
+<ul>
+<li><strong>x</strong> (posición)</li>
+<li><strong>y</strong> (posición)</li>
+</ul>
+<p><br></p>
+<pre class="r"><code># Gráfico de barras ----
+# Prestar atención a la estructura de nuestra base
+ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA))</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Por esto nos tenemos que valer de las diferentes posiciones de las barras ----
+ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA),
+           position = &quot;dodge2&quot;)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p><strong>Criterios estéticos:</strong> Veamos qué sucede con aplicación de algunos de los criterios estéticos:</p>
+<p><br></p>
+<ul>
+<li><strong>fill</strong>: cambio el relleno de las columnas</li>
+</ul>
+<pre class="r"><code>## fill ----
+ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA, 
+               fill = EDAD_CAT),
+           position = &quot;dodge2&quot;)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<ul>
+<li><strong>color:</strong> cambiar el color de los puntos</li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## Color ----
+ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA, 
+               fill = EDAD_CAT),
+           color = &quot;Black&quot;, 
+           position = &quot;dodge2&quot;)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<ul>
+<li><strong>linetype:</strong> tipo de línea del borde las columnas</li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## linetye ----
+ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA, 
+               fill = EDAD_CAT),
+           color = &quot;Black&quot;, 
+           position = &quot;dodge2&quot;,
+           linetype = &quot;dashed&quot;)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<ul>
+<li><strong>size:</strong> aumentamos o disminuimos el tamaño del borde la columna</li>
+</ul>
+<pre class="r"><code>## size ----
+ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA, 
+               fill = EDAD_CAT),
+           color = &quot;Black&quot;, 
+           position = &quot;dodge2&quot;,
+           linetype = &quot;dashed&quot;,
+           size = 1)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<ul>
+<li><strong>alpha:</strong> transparencia de los puntos</li>
+</ul>
+<p><br></p>
+<pre class="r"><code>## Alpha ----
+ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA, 
+               fill = EDAD_CAT,
+               alpha = TNA),
+           color = &quot;Black&quot;, 
+           position = &quot;dodge2&quot;,
+           linetype = &quot;dashed&quot;,
+           size = 1)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<h2 id="1.4">
+<strong>1.4.</strong> GRÁFICO DE DIAGRAMA DE CAJAS
+</h2>
+<p><br></p>
+<p>El box plot o diagrama de caja, que es un método estandarizado para representar gráficamente una serie de datos numéricos a través de sus cuartiles. De esta manera, el gráfico muestra a simple vista la mediana y los cuartiles de los datos, pudiendo también representar los valores atípicos de estos. A continuación se presentan en la imagen los elementos de un gráfico de este tipo:</p>
+<p><img src="Imagenes/boxplot.png"> <br></p>
+<p><strong>Criterios estéticos:</strong> Veamos qué sucede con aplicación de algunos de los criterios estéticos:</p>
+<p><br></p>
+<pre class="r"><code># Gráfico boxplot ----
+ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
+  geom_boxplot() </code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<ul>
+<li><strong>fill</strong>: cambio el relleno</li>
+</ul>
+<pre class="r"><code>## fill ----
+ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA, fill = EDAD_CAT)) +
+  geom_boxplot() </code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<ul>
+<li><strong>color</strong>: cambio el color del borde</li>
+</ul>
+<pre class="r"><code>## color ----
+ggplot(data = eph_region, 
+       aes(x = EDAD_CAT , 
+           y = TNA, 
+           fill = EDAD_CAT),
+       color = &quot;black&quot;) +
+  geom_boxplot() </code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<ul>
+<li><strong>size</strong>: modifico el tamaño del borde</li>
+</ul>
+<pre class="r"><code>## size ----
+ggplot(data = eph_region, 
+       aes(x = EDAD_CAT , 
+           y = TNA)) +
+  geom_boxplot(aes(fill = EDAD_CAT),
+               color = &quot;black&quot;, 
+               size = 0.8)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /> <br></p>
+<ul>
+<li><strong>alpha</strong>: ajusto la transparencia</li>
+</ul>
+<pre class="r"><code>## Alpha ----
+ggplot(data = eph_region, 
+       aes(x = EDAD_CAT , 
+           y = TNA)) +
+  geom_boxplot(aes(fill = EDAD_CAT),
+               color = &quot;black&quot;, 
+               size = 1,
+               alpha = 0.3)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<h2 id="1.5">
+<strong>1.5.</strong> FACETADO
+</h2>
+<p><br> <code>facet_wrap()</code> es una función que nos brinda R, para poder visualizar nuestros gráficos, a partir de generar una representación por separado, según las categorías de una variable de corte. Retomemos el gráfico de barra con las edades, las regiones y la tasa de desocupación. Cuando aplicamos la función <code>facet_wrap()</code> e indicamos la edad como corte, lo que construimos es un gráfico, que compara de esta manera las regiones por cada una de los grupos etarios. Veamos el código y la visualización:</p>
+<pre class="r"><code># Facetado por la variables EDAD_CAT ----
+ggplot(eph_region) +
+  geom_col(aes(x = TNA, 
+               y = REGION, 
+               fill = EDAD_CAT),
+           color = &quot;Black&quot;, 
+           position = &quot;dodge2&quot;) +
+  facet_wrap(~EDAD_CAT)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<h2 id="1.6">
+<strong>1.6.</strong> OTROS TIPO DE GÁFICOS
+</h2>
+<p><br></p>
+<p>El recorrido que hicimos hasta ahora solo muestra algunas de las potencialidades que tiene este paquete. Sin embargo, les dejamos algunos recursos para que puedan ver la variedad de posibilidades que tiene <strong>ggplot</strong>: <br> <br> <strong>+</strong> <a class="subtitulostabla" href="https://www.data-to-viz.com/"> DATA TO VIZ </a> <br>Es una página que contiene una galería de los diversos tipos de gráficos que se pueden construir en R. <br> <br> <strong>+</strong> <a class="subtitulostabla" href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/spanish/data-visualization_es.pdf"> CHEATSHEET GGPLOT </a> <br>Los famosos machetes de R nos brindan de manera resumida y concisa el detalle de las principales funciones de los paquetes. Como vimos con dplyr, a continuación le compartimos la de ggplot. <br> <br> <strong>+</strong> <a class="subtitulostabla" href="https://ggplot2.tidyverse.org/reference/index.html"> REFERENCIA GGPLOT </a> <br>Por último, compartimos la página oficial de tidyverse (específicamente de ggplot) con la referencia sobre los distintos aspectos de ggplot.</p>
+<br>
+<h1 id="2">
+ESCALAS
+</h1>
+<hr class = "linea">
+<h2 id="2.1">
+<strong>2.1.</strong> CONTINUAS X E Y
+</h2>
+<p><br></p>
+<p>Las <strong>escalas controlan los detalles de cómo los valores de los datos se traducen en propiedades visuales.</strong> Se pueden “anular” las escalas predeterminadas para modificar detalles como las etiquetas de los ejes o las categorías de la leyenda, o para usar una traducción completamente diferente de los datos a la estética. Las escalas se encuentran fuertemente relacionadas con los criterios definidos dentro del aes(), en el que se definen los valores de X e Y pero también criterios estéticos como el relleno, color de los bordes, opacidad, tamaño, etc. Tanto para los ejes como para los criterios estéticos se puede definir la escala. A los fines de esta introducción, presentamos cómo modificar las escalas continuas de los ejes x e y. Además, cómo cambiar las escalas de colores para el relleno y para los bordes. Sin embargo, invitamos a que sigan explorando este mundo que son las escalas.</p>
+<p>Si miramos el gráfico de barras que venimos trabajando, observamos que el eje X contiene los valores de la tasa de desocupación. R por default imprimió el eje X con limites entre 0 y 40 con cortes del eje de 10 en 10. Supongamos, que nos interesa dar “formato” al eje X y que nos interesa que tenga como limites 0 y 30 con cortes de 3 en 3 para visualizar mejor los datos. Vemos el código de cómo se hace esto:</p>
+<pre class="r"><code># Escala X e Y continua
+ggplot(eph_region) +
+  geom_col(aes(x = TNA, 
+               y = REGION, 
+               fill = EDAD_CAT),
+           color = &quot;Black&quot;, 
+           position = &quot;dodge2&quot;) +
+  scale_x_continuous(name = &quot;Tasa desocupación&quot;, 
+                     breaks = seq(1,30, by = 3), 
+                     limits = c(0,30))</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>De esta manera, usando la función <code>scale_x_continuos()</code> y algunos de los argumento modificamos la escala del eje X. En el listado, se presenta un detalle de los argumentos utilizados:</p>
+<ul>
+<li><strong>name:</strong> es el nombre que le quedamos dar al eje.</li>
+<li><strong>break:</strong> son los cortes del eje. En este caso indicamos que corte de 3 en 3.</li>
+<li><strong>limits:</strong> especifica el limite de los datos a visualizar. En el gráfico, limita la información a aquellos valores comprendidos entre 0 y 30.</li>
+</ul>
+<p>¿Qué pasa si nosotros tenemos el eje continuo en la Y? Lo único que cambia es el nombre de función: la X por la Y. En vez de llamar <code>a scale_x_continuos()</code>, usamos (<code>scale_y_continuos()</code>).</p>
+<br>
+<h2 id="2.2">
+<strong>2.3.</strong> COLORES Y RELLENOS
+</h2>
+<p><br></p>
+<p>En esta sección aprendemos cómo cambiar la escala de colores. Al momento de trabajar con este tipo de escalas, es necesario tener en claro con el tipo de variables que estamos trabajando. Es decir, si son nominales, ordinales o numéricas. Además, es importante definir previo a la selección de los colores el tipo de análisis que se quiere presentar: ¿es secuencial?, ¿es divergente?, ¿es cualitativo?, etc. Veamos un ejemplo: Por default r nos colorea el relleno de la siguiente manera:</p>
+<pre class="r"><code># Default de colores de R
+ggplot(eph_region) +
+  geom_col(aes(x = TNA, 
+               y = REGION, 
+               fill = EDAD_CAT),
+           color = &quot;Black&quot;, 
+           position = &quot;dodge2&quot;) +
+  scale_x_continuous(name = &quot;Tasa desocupación&quot;, 
+                     breaks = seq(1,30, by = 3), 
+                     limits = c(0,30))</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>En primer lugar, definimos, un vector con los colores seleccionados. En este caso puntual, usamos los códigos html del color:</p>
+<pre class="r"><code># Definición de colores 
+colores &lt;- c(&quot;#fecc8f&quot;,&quot;#fbb91f&quot;, &quot;#e85362&quot;, &quot;#952c80&quot;, &quot;#56177d&quot;, &quot;#29115a&quot;)
+
+# Gráfico con escala manual 
+ggplot(eph_region) +
+  geom_col(aes(x = TNA, 
+               y = REGION, 
+               fill = EDAD_CAT),
+           color = &quot;Black&quot;, 
+           position = &quot;dodge2&quot;) +
+  scale_x_continuous(name = &quot;Tasa desocupación&quot;, 
+                     breaks = seq(1,40, by = 4), 
+                     limits = c(0,40)) +
+  scale_fill_manual(&quot;Edades&quot;, values = colores)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>En síntesis, armamos un vector con cinco colores (que es igual a la cantidad de categorías que tiene la variable edad) y con <code>scale_fill_manual()</code> cambiamos el relleno de las barras. Además, entre comilla, si lo desean, pueden poner el “nombre” que quieren que aparezca en la leyenda. Dentro del argumento values escribimos el objeto que contiene los colores que definimos para el gráfico. Este mismo procedimiento se puede aplicar para el “color” de los bordes. La diferencia es que tenemos que llama <code>scale_color_manual()</code></p>
+<pre class="r"><code># Escala de colores: default
+
+ggplot(eph_region) +
+  geom_col(aes(x = TNA, 
+               y = REGION,
+               color = EDAD_CAT),
+           fill = NA, 
+           position = &quot;dodge2&quot;) +
+  scale_x_continuous(name = &quot;Tasa desocupación&quot;, 
+                     breaks = seq(1,40, by = 4), 
+                     limits = c(0,40)) </code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Escala de colores: manual
+# Definición de colores 
+colores &lt;- c(&quot;#fecc8f&quot;,&quot;#fbb91f&quot;, &quot;#e85362&quot;, &quot;#952c80&quot;, &quot;#56177d&quot;, &quot;#29115a&quot;)
+
+ggplot(eph_region) +
+  geom_col(aes(x = TNA, 
+               y = REGION, 
+               color = EDAD_CAT),
+           fill = NA, 
+           position = &quot;dodge2&quot;) +
+  scale_x_continuous(name = &quot;Tasa desocupación&quot;, 
+                     breaks = seq(1,40, by = 4), 
+                     limits = c(0,40)) +
+  scale_color_manual(&quot;Edades&quot;, values = colores)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>En un mismo bloque de código, pueden combinar escalas de rellenos, bordes, opacidad, tamaño, etc. También, se pueden utilizar escalas pre definidas en algún paquete. Es decir, nos ahorramos la tarea de definir los colores. Una de estos paquetes, que se pueden usar en r, es <code>RColorBrewer</code>.</p>
+<pre class="r"><code># Activo paquete
+library(RColorBrewer)
+
+# Paletas disponibles
+ RColorBrewer::display.brewer.all()</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>A continuación, se presenta un ejemplo usando una de las paletas de este paquete:</p>
+<pre class="r"><code># Ejemplo con RColorBrewer
+
+ggplot(eph_region) +
+  geom_col(aes(x = TNA,
+               y = REGION,
+               fill = EDAD_CAT),
+           color = &quot;black&quot;,
+           position = &quot;dodge2&quot;) +
+    scale_x_continuous(name = &quot;Tasa desocupación&quot;, 
+                       breaks = seq(1,40, by = 4), 
+                       limits = c(0,40)) +
+  scale_fill_brewer(palette = &quot;Set1&quot;)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-35-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Existen un montón de paquetes para trabajar con los colores de las escalas. Por ahora llegamos hasta acá, pero como siempre los invitamos a que sigan profundizando sobre este tema.</p>
+<br>
+<h1 id="3">
+MEJORANDO LA VISUALIZACIÓN
+</h1>
+<hr class = "linea">
+<h2 id="3.1">
+<strong>3.1.</strong> TITULOS
+</h2>
+<p><br></p>
+<p>A los gráficos que venimos trabajando, le faltan los nombres de los ejes, el título y la fuente. Para dar nombre a cada uno de estos elementos, tenemos una función muy intuitivas que es <code>labs()</code>, que resume la posibilidad de escribir el título, los nombres de los ejes, el subtítulo y la fuente. Lo único que tenemos que hacer es aclarar en cada uno de los argumentos de la función, los textos entre comillas que queremos que aparezcan. Sigamos con el ejemplo que estamos trabajando:</p>
+<pre class="r"><code># Labs ----
+ggplot(eph_region) +
+  geom_col(aes(x = TNA,
+               y = REGION,
+               fill = EDAD_CAT),
+           color = &quot;black&quot;,
+           position = &quot;dodge2&quot;) +
+  scale_x_continuous(name = &quot;Tasa desocupación&quot;, 
+                     breaks = seq(1,40, by = 4), 
+                     limits = c(0,40)) +
+  scale_fill_manual(&quot;Edad&quot;,values = colores) +
+  labs(y = &quot;Región&quot;, 
+       x = &quot;Tasa desocupación&quot;, 
+       title = &quot;Tasa desocupación según regiones por edad&quot;,
+       caption = &quot;Fuente: INDEC&quot;)</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<h2 id="3.2">
+<strong>3.2.</strong> EJE SECUNDARIO
+</h2>
+<p><br></p>
+<p>En ggplot, también tenemos la posibilidad de agregar un eje secundario para poder graficar más de una variable numérica. Con <code>sex_axis()</code> podemos construir este eje secundario posicionado en oposición y en relación con el eje primario. Todos los valores del eje secundario, se basan en una transformación uno a uno con respecto al eje primario. Veamos un ejemplo en el que se representa en la misma visualización la tasa de desocupación y la tasa de ocupación.</p>
+<pre class="r"><code># Eje secundario ----
+## Color de la línea ----
+ggplot(data = eph_region) +
+  geom_line(aes(x = EDAD_CAT , y = TNA, group = REGION, color = REGION)) +
+  geom_line(aes(x = EDAD_CAT , y = TNA_O/3, group = REGION, color = REGION, alpha = &quot;Tasa ocupación&quot;)) +
+  scale_color_manual(&quot;Regiones&quot;, values = colores) +
+  scale_y_continuous(name = &quot;Tasa desocupacion&quot;, breaks = seq(0,50, 5),
+                     sec.axis = sec_axis(~ . * 3, &quot;Tasa ocupación&quot;,
+                                         breaks = seq(0,100,10))) +
+  guides(alpha = guide_legend(&quot;Tasa Ocupación&quot;))</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>En este caso, se observa una transformación de uno a uno del eje primario (se multiplica el eje por tres).</p>
+<br>
+<h2 id="3.3">
+<strong>3.3.</strong> TEMAS
+</h2>
+<p><br></p>
+<p>Ggplot nos brinda una serie de tema personalizado para hacer más lindas nuestras visualizaciones. <code>theme_gray()</code>, <code>theme_bw()</code>, <code>theme_linedraw()</code>, <code>theme_light()</code>, <code>theme_dark()</code>, <code>theme_minimal()</code>, <code>theme_classic()</code> y <code>theme_void()</code>. Para ilustrar su uso, seleccionamos el <code>theme_minimal()</code>. Pueden seguir probando con los otros tipos de temas, lo único que tienen que hacer es sustituir el theme_minimal(), por el tema que quieran:</p>
+<pre class="r"><code># Theme minimal ----
+ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA , 
+               fill = EDAD_CAT), 
+           position = position_dodge2(padding = 0.2),
+           width = 0.8, 
+           color = &quot;black&quot;) +
+  labs(x = &quot;Región del país&quot;,
+       y = &quot;Tasa de desocupación&quot;,
+       title = &quot;Tasa de desocupación por generación&quot;,
+       subtitle = &quot;Según regiones. 1T - 2020&quot;,
+       caption = &quot;Fuente: EPH 2020 - INDEC&quot;) +
+  guides(fill = guide_legend(title=&quot;Generación&quot;)) +
+  scale_fill_manual(&quot;Generación&quot;, values = colores) +
+  theme_minimal()</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-38-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<h2 id="3.4">
+<strong>3.4.</strong> TEMAS PERSONALIZADOS
+</h2>
+<p><br></p>
+<p>Para cerrar esta sección, vamos a trabajar con algunos elementos para personalizar el tema de nuestros gráficos. Por una cuestión de extensión, sólo presentamos el uso de algunos (van a ver que la mayoría de los argumentos de las funciones son similares). Entre los elementos que se pueden customizar se encuentran: los títulos (titulo, subtitulo, ejes X e Y, fuente, etc.), los fondos (panel, área del gráfico, leyenda, etc.), las líneas (ejes, ticks de los ejes, líneas de corte, etc.). Con la función <code>theme()</code> se pueden pasar los diferentes argumentos para personalizar la visualización. A modo de ejemplo se señala en la imagen algunos de los elementos posibles de ser personalizados.</p>
+<p><br> <img src="Imagenes/theme.png"> <br></p>
+<p>Queremos destacar que cada argumento de la función <code>theme()</code> es acompañada por una de las funciones <code>element_</code> (puede ser text, rect, line, blank). En la tabla se hace una descripción del tipo de formato que se aplica con cada una de estas funciones.</p>
+<table>
+<colgroup>
+<col width="21%" />
+<col width="57%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Elemento</th>
+<th>Descripción</th>
+<th>Argumentos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>element_text()</td>
+<td>Se utiliza con textos</td>
+<td>element_text(family = NULL, face = NULL, colour = NULL, size = NULL, hjust = NULL, vjust = NULL, angle = NULL, lineheight = NULL, color = NULL, margin = NULL,debug = NULL)</td>
+</tr>
+<tr class="even">
+<td>element_line()</td>
+<td>Se utiliza con líneas</td>
+<td>element_line(colour = NULL, size = NULL, linetype = NULL, lineend = NULL color = NULL, arrow = NULL)</td>
+</tr>
+<tr class="odd">
+<td>element_rect()</td>
+<td>Se utiliza con bordes y fondos</td>
+<td>element_rect(fill = NULL, colour = NULL, size = NULL, linetype = NULL, color = NULL)</td>
+</tr>
+<tr class="even">
+<td>element_blank()</td>
+<td>Se utiliza para dejar el argumento en blanco</td>
+<td>element_blanK()</td>
+</tr>
+</tbody>
+</table>
+<p>A continuación, a modo de ejemplo presentamos una visualización con alguno de los elementos del tema personalizado. También, se observa la relación entre los argumentos y las funciones element_. Abajo del código, hay una ayuda de que significa cada uno de los elementos del tema trabajado.</p>
+<pre class="r"><code>ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA , 
+               fill = EDAD_CAT), 
+           position = position_dodge2(padding = 0.2),
+           width = 0.8, 
+           color = &quot;black&quot;) +
+  labs(x = &quot;Región del país&quot;,
+       y = &quot;Tasa de desocupación&quot;,
+       title = &quot;Tasa de desocupación por generación&quot;,
+       subtitle = &quot;Según regiones. 1T - 2020&quot;,
+       caption = &quot;Fuente: EPH 2020 - INDEC&quot;) +
+  guides(fill = guide_legend(title=&quot;Generación&quot;)) +
+  scale_fill_manual(&quot;Generación&quot;, values = colores) +
+  theme_minimal() +
+  theme(axis.line = element_line(colour = &quot;black&quot;, 
+                                 size  = 0.5),
+        axis.ticks =  element_line(size = 1),
+        axis.title = element_text(size = 10),
+        axis.text.x = element_text(size = 8,angle =45, 
+                                   hjust = 0.95, 
+                                   vjust=1),
+        legend.title = element_text(face = &quot;bold&quot;),
+        plot.background = element_rect(fill =  &quot;#f1f1f1&quot;,
+                                       color = &quot;#f1f1f1&quot;),
+        panel.border = element_rect(color = &quot;black&quot;, 
+                                    fill = NA),
+        title = element_text(size = 12, face = &quot;bold&quot;),
+        plot.subtitle = element_text(color = &quot;#5D6D7E&quot;, size = 10))</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto;" /></p>
+<table>
+<colgroup>
+<col width="36%" />
+<col width="20%" />
+<col width="43%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argumento</th>
+<th>Tipo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>axis.title =</td>
+<td>element_text()</td>
+<td>Dar formato al título de los ejes.</td>
+</tr>
+<tr class="even">
+<td>legend.title =</td>
+<td>element_text()</td>
+<td>Dar formato al título de la leyenda.</td>
+</tr>
+<tr class="odd">
+<td>title =</td>
+<td>element_text()</td>
+<td>Dar formato al título del gráfico.</td>
+</tr>
+<tr class="even">
+<td>subtitle =</td>
+<td>element_text()</td>
+<td>Dar formato subtitulo del gráfico.</td>
+</tr>
+<tr class="odd">
+<td>plot.background =</td>
+<td>element_rect()</td>
+<td>Dar formato al fondo del gráfico.</td>
+</tr>
+<tr class="even">
+<td>panel.border =</td>
+<td>element_rect()</td>
+<td>Dar formato al borde del panel.</td>
+</tr>
+<tr class="odd">
+<td>axis.line =</td>
+<td>element_line()</td>
+<td>Dar formato a las líneas de los ejes.</td>
+</tr>
+<tr class="even">
+<td>axis.ticks =</td>
+<td>element_line()</td>
+<td>Dar formato a los “ticks” de los ejes. Es decir, la marca que identifica las categorías de las variables en los ejes</td>
+</tr>
+</tbody>
+</table>
+<p>Por último, les dejamos una buena práctica: se pueden guardar un tema personalizado como una lista. De esta manera, lo único que tienen que hacer es llamar esa lista con la personalización de los gráficos. Veamos un ejemplo:</p>
+<pre class="r"><code># Settings ----
+tema_personalizado &lt;- list(theme_minimal() +
+                             theme(axis.line = element_line(colour = &quot;black&quot;, 
+                                                            size  = 0.5),
+                                   axis.ticks =  element_line(size = 1),
+                                   axis.title = element_text(size = 10),
+                                   axis.text.x = element_text(size = 8,angle =45, 
+                                                              hjust = 0.95, 
+                                                              vjust=1),
+                                   legend.title = element_text(face = &quot;bold&quot;),
+                                   plot.background = element_rect(fill =  &quot;#f1f1f1&quot;,
+                                                                  color = &quot;#f1f1f1&quot;),
+                                   panel.border = element_rect(color = &quot;black&quot;, 
+                                                               fill = NA),
+                                   title = element_text(size = 12, face = &quot;bold&quot;),
+                                   plot.subtitle = element_text(color = &quot;#5D6D7E&quot;,
+                                                                size = 10)))
+
+
+ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA , 
+               fill = EDAD_CAT), 
+           position = position_dodge2(padding = 0.2),
+           width = 0.8, 
+           color = &quot;black&quot;) +
+  labs(x = &quot;Región del país&quot;,
+       y = &quot;Tasa de desocupación&quot;,
+       title = &quot;Tasa de desocupación por generación&quot;,
+       subtitle = &quot;Según regiones. 1T - 2020&quot;,
+       caption = &quot;Fuente: EPH 2020 - INDEC&quot;) +
+  guides(fill = guide_legend(title=&quot;Generación&quot;)) +
+  scale_fill_manual(&quot;Generación&quot;, values = colores) +
+ tema_personalizado</code></pre>
+<p><img src="03---ggplot_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /></p>
+</body>
+</html>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

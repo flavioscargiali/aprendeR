@@ -1,0 +1,728 @@
+---
+title: ""
+output:
+  html_document:
+    css: "style.css"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = F,warning = F,error = F,fig.align = 'center', attr.output='style="max-height: 150px;"')
+```
+
+<html>
+<body>
+# INTRODUCCIÓN
+<hr class = "linea">
+
+En esta segunda sección,  nos proponemos avanzar en el uso de **tidyverse como una forma de facilitar la programación en R.** En especial sobre dplyr (paquete dentro de tidyverse) es una gramática de manipulación de datos, que proporciona un conjunto consistente de verbos que ayudan a resolver los desafíos más comunes dentro de la transformación de datos.
+Con estas herramientas en nuestro maletín nos vamos a introducir al mundo de la EPH para calcular la Tasa de Desocupación. Además, presentamos algunas funciones útiles para realizar análisis exploratorio de datos. Antes que nada, conversemos sobre dos temas introductorios, pero bien importantes para manejar datos en R: **los tipos de objetos y las formas de acceder a los mismos.**
+
+
+<br>
+<h1> CONTENIDOS </h1>
+<hr class = "linea">
+
+<div class = "contenidos"> 
+
+
+<a href="#1" class="contitulo"><b>1. Tipos de objetos</b></a>
+<br><a class="subtitulostabla" href="#1.1"> 1.1. Vectores  </a>
+<br><a class="subtitulostabla" href="#1.2"> 1.2. Matrices  </a>
+<br><a class="subtitulostabla" href="#1.3"> 1.3. Dataframes  </a>
+<br><a class="subtitulostabla" href="#1.4"> 1.4. Listas  </a>
+<br><a class="subtitulostabla" href="#1.5"> 1.5. Modificando objetos  </a>
+<br><a href="#2" class="contitulo"><b>2. Carga de datos</b></a>
+<br><a href="#3" class="contitulo"><b>3. Transformación de datos</b></a>
+<br><a class="subtitulostabla" href="#3.1"> 3.1. Tidyverse  </a>
+<br><a class="subtitulostabla" href="#3.2"> 3.2. Dplyr  </a>
+<br><a class="subtitulostabla subitem" href="#3.2.1"> 3.2.1 Select  </a>
+<br><a class="subtitulostabla subitem" href="#3.2.2"> 3.2.2 Filter  </a>
+<br><a class="subtitulostabla subitem" href="#3.2.3"> 3.2.3 Arrange  </a>
+<br><a class="subtitulostabla subitem" href="#3.2.4"> 3.2.4 Summarise  </a>
+<br><a class="subtitulostabla subitem" href="#3.2.5"> 3.2.5 Group by  </a>
+<br><a class="subtitulostabla subitem" href="#3.2.6"> 3.2.6 Mutate  </a>
+<br><a class="subtitulostabla subitem" href="#3.2.7"> 3.2.7 Joins  </a>
+<br><a class="subtitulostabla subitem" href="#3.2.8"> 3.2.8 pipe  </a>
+<br><a class="subtitulostabla" href="#3.3"> 3.3. Tidyr  </a>
+<br><a class="subtitulostabla" href="#3.4"> 3.4. Lubridate  </a>
+<br><a class="subtitulostabla" href="#3.5"> 3.5. Stringr  </a>
+
+</div>
+
+<br>
+<h1  id =  1> TIPOS DE OBJETOS </h1>
+<hr class = "linea">
+<h2 id =  1.1> **1.1.** VECTORES</h2>
+<br>
+
+Ya hemos visto en la jornada anterior, aunque sin querer explicitarlo mucho, un contenedor básico: los **vectores.** Habíamos dicho que los mismos no pueden contener más de un tipo de dato distinto en su interior. Es decir, podemos tener vectores numéricos, de texto o lógicos. Y que la sintaxis para definirlos es con c( ).
+<br>
+
+```{r}
+notas_alumnes <- c(9, 8, 7, 9, 10)
+
+```
+
+
+<br>
+¿Recuerdan que pasaba si mezclaba tipos de datos distintos cuando estoy definiendo un vector? Por ejemplo:
+<br>
+
+```{r}
+notas_alumnes <- c('A', TRUE, 7, 'C', 10)
+```
+
+
+<br>
+<h2 id =  1.2> **1.2.** MATRICES</h2>
+<br>
+
+Otro tipo de objeto son las **matrices**, no vamos a profundizar en ellas. De todas formas, si es importante que por sepan que existen, ya que muchas veces cuando obtenemos un resultado de alguna función en R, el tipo de objeto que nos devuelve R es una Matriz.:
+<br>
+
+```{r}
+# Creamos una matriz de 3x3 con numeros del 1 al 9
+mi_matriz <- matrix(1:9, nrow = 3, ncol = 3, byrow = TRUE) 
+
+#Le pregunto al R si el objeto que defini es una matriz
+is.matrix(mi_matriz)
+```
+
+
+<br>
+<h2 id =  1.3> **1.3.** DATAFRAMES</h2>
+<br>
+
+Como una combinación de vectores y matrices, tenemos los **dataframes.** Este sí, es el tipo de objeto que es más común para nosotres, nos recuerda mucho a las tablas en Excel, Spss o Stata. Es muy importante considerar que en general nuestros datos contienen **OBSERVACIONES** (o casos) en las **FILAS y VARIABLES** (o características de esas observaciones) en las **COLUMNAS**. Cada columna será una característica distinta de esa UNIDAD DE ANÁLISIS. Otro elemento a destacar es que, en un Data Frame cada columna es un vector y puede ser tratada como tal.
+Vamos a definir una tabla básica con las características de nuestros alumnes.
+
+
+```{r}
+# Tenemos las notas de 5 estudiantes
+notas_alumnes <- c(9, 8, 7, 9, 10)
+
+#Ahora escribimos los nombre
+# El orden de los nombres tiene que corresponder a sus notas
+nombre_alumnes <- c('Maria', 'Juana', 'Pedro', 'Mariana', 'Inti')
+
+#Ahora definimos una nota de concepto
+concepto_alumnes <- c('Muy bueno', 'Bueno', 'Muy bueno', 'Regular', 'Bueno')
+
+#Hagamos una tabla con toda la información
+curso <- data.frame(nombres = nombre_alumnes,
+                    notas = notas_alumnes,
+                    concepto= concepto_alumnes)
+curso
+```
+
+
+<br>
+<h2 id =  1.4> **1.4.** LISTAS</h2>
+<br>
+
+Por último, hay un tipo especial de objetos, que se llama lista. La particularidad es que pueden contener cualquier tipo de objetos e incluso. Por ejemplo, puede tener un data frame o varios, a la vez que contiene otro vector u otra lista. Parece un poco rebuscado (al principio lo es) pero paso a paso diría Mostaza. Veamos un ejemplo:
+<br>
+
+```{r}
+# Voy a poner todo lo que tengo en una lista
+mi_lista <- list(tabla= curso, 
+                 matriz= mi_matriz, 
+                 mi_nombre= 'Leandro', mi_edad=25)
+mi_lista
+```
+
+
+<br> 
+Las listas pueden ser muy útiles para guardar, por ejemplo, múltiples tablas. También es bueno conocerlas, porque **suelen ser el contenedor de resultados como gráficos o modelos estadísticos.**
+ 
+
+
+<br>
+<h2 id =  1.5> **1.5.** MODIFICANDO OBJETOS</h2>
+<br>
+
+Todos los objetos que hemos visto, además de lo que contienen adentro, tienen otros atributos, como ser la clase (que vimos en la jornada anterior), los nombres, el largo, etc. **Un atributo muy importante es el índice.** El cual nos sirve para acceder a un elemento específico de nuestro objeto. Veamos de manera resumida algunos ejemplos.
+Los vectores son objetos que tienen una sola dimensión. Por lo cual a ellos podemos acceder con el número de posición del elemento o cuando cumplen una condición lógica, es decir que se quede con los elementos que cumplen determinada condición.
+
+<br>
+```{r}
+#Volvemos a los alumnes
+notas_alumnes <- c(9, 8, 7, 9, 10)
+
+#El indice en R comienza en 1
+notas_alumnes[3]
+
+# Notas menores a 8
+notas_alumnes[notas_alumnes < 8]
+```
+
+<br>
+Para los objetos que tienen dos dimensiones como las matrices y los data frames, la dinámica es la misma sólo que tenemos que agregar las columnas de referencia. Además, es bueno mencionar que, si queremos acceder a una columna y tratarla como si fuera un vector, podemos acceder a ella escribiendo nombre_tabla$nombre_columna.
+<br>
+
+```{r}
+# Me quedo con el primer registro de la primer columna
+curso[ 1, 1]
+```
+
+```{r}
+# Segunda fila todos los registros
+curso[ 2, ]
+```
+
+```{r}
+#Todos los que tienen mayor o igual que 9 en nota
+curso[ curso$notas >= 9, ]
+```
+
+<br>
+<h1  id =  1> CARGA DE DATOS </h1>
+<hr class = "linea">
+<br>
+A continuación, revisamos las **funciones que usamos para cargar en nuestro ambiente de trabajo los diferentes tipos de extensiones.** Además, les explicamos que especificando el **encoding** (es decir la codificación del texto que interpreta la pc) pueden evitar que les aparezcan símbolos extraños (por ejemplo cuando en vez de la á aparece Ã).  Esto último es clave para todas las tareas que vayamos a realizar con los datos.  Pero previo a sumergirnos, queremos aclarar que podemos **cargar los archivos csv de tres maneras distintas:**
+<br>
+<br>
+<br>- **Con la ruta local del archivo** (es decir la ubicación del archivo dentro de mi pc desde el disco duro c en adelante). Esto es lo mismo, que abrir en word la opción archivo y abrir para buscar un documento en las carpetas de sus pc. La única diferencia es que en vez de hacer clic en botones tienen que escribir la ruta. Para probar las diferentes formas de cargar, les dejemos una carpeta con los archivos necesarios <a class = link href = "https://drive.google.com/drive/folders/1AX7L2Nr4hqMvvWlVd-DbYtxcc6gkzmLO?usp=sharing">acá</a>.  
+
+<br>
+
+```{r eval=F}
+# Cargar un archivo que está en la carpeta de descargas (recuerden cambiar el nombre de las carpetas)
+forma1 <- read.csv("C:/Users/flavi/Downloads/encc_2017.csv", encoding = "UTF-8")
+```
+
+<br>- **Seteando y accediendo a las carpetas/archivos a través del directorio.** Para esto primero, definen la carpeta que van a utilizar como directorio de trabajo. Para luego, guardar en ella todos los archivos que necesitan.
+<br>
+
+```{r eval=F}
+# Seteo mi carpeta de descarga como directorio (Recuerden actualiza de acuerdo a las carpetas en sus computadoras)
+setwd("C:/Users/flavi/Downloads/")
+
+# Cargo la base en el ambiente de trabajo
+forma2 <- read.csv("encc_2017.csv", encoding = "UTF-8")
+```
+
+<br>- Con el link de internet (pero recuerden que pueden dar de bajo el archivo. Por esto, la opción local es más segura pero menos inmediata) 
+<br>
+
+```{r eval=FALSE}
+# Cargo 
+forma3 <- read.csv("https://datos.cultura.gob.ar/dataset/251c2ac2-e670-451c-9dbf-a4212af225b5/resource/171494ce-e3cf-43fb-ad6e-f204bae1bb19/download/encc_2017.csv", encoding = "UTF-8")
+
+```
+
+<br>
+Ahora veamos cómo cargar los diferentes extensiones de los archivos:
+<br>
+<br> <h3>csv/.txt</h3>
+<br>
+Como ya saben, r nos permite de distinta forma alcanzar un mismo objetivo. A continuación presentamos, las funciones más comunes para cargar un csv/txt. Algunas vienen por default en r (como parte de rbase, utils, etc.), en otras es necesario activar un paquete. 
+<br>
+Dentro de las funciones que viene por **default en r** se encuentran: 
+- read.delim() [se puede especificar delimitador] 
+- read.csv() [delimitador “,”]
+- read.csv2() [delimitador “;”]
+<br>
+
+```{r eval=FALSE}
+# Vector con el link de descarga 
+link <- "https://datos.cultura.gob.ar/dataset/251c2ac2-e670-451c-9dbf-a4212af225b5/resource/171494ce-e3cf-43fb-ad6e-f204bae1bb19/download/encc_2017.csv"
+
+# Prueba de lectura (no creamos objetos porque es sólo una prueba de cómo funcionan)
+read.delim(link,sep = ",", encoding = "UTF-8")
+
+# Podemos usar read.csv porque el delimitador es una coma (,). ¿Por qué no se puede usar read.csv2? Porque es para los archivos separados por punto y coma (;)
+read.csv(link, encoding = "UTF-8")
+
+
+```
+
+<br>Hay una función que tiene como beneficio la posibilidad de cargar la tabla únicamente con las variables que son de interés para nosotres. Este es muy bueno, para cuando tenemos tablas muy grandes y nuestras pc no cumplen con los requerimientos de memorias necesarios para cargar todos los datos. Además, tiene una muy buena performance en la lectura del archivo. La función se llama **fread** y se encuentra en el paquete **data.table**.
+<br>
+fread()[se puede especificar delimitador]
+<br>
+
+```{r eval=FALSE}
+# Activo el paquete data.table
+library(data.table)
+
+# Creamos vectores para seleccionar únicamente las variables que nos interesan. 
+variables <- c("id", "pondera_dem", "fecha", "region", "sexo", "edad", "p1"," p1otros",
+         "p2", "p3", "p4", "p5", "p6horas", "p6minutos")
+
+# Cargamos la tabla únicamente con las variables selecionadas
+fread(link, select = variables, sep = ",", encoding = "UTF-8")
+```
+
+Dentro del paquete **readr** de la familia tidyverse encontramos: 
+
+read_csv() [delimitador “,”]
+read_csv2() [delimitador “,”]
+
+```{r eval=FALSE}
+# Cargo la biblioteca
+library(tidyverse)
+
+# Prueba de lectura (no creamos objetos porque es sólo una prueba de cómo funcionan)
+read_csv(link,,locale = locale(encoding = "UTF-8") )
+
+# Podemos usar read_csv porque el delimitador es una coma (,). ¿Por qué no se puede usar read_csv2? Porque es para los archivos separados por punto y coma (;)
+```
+
+Las planillas de Excel son quizás el formato más común que nos encontremos, por eso es bueno conocer la función de lectura básica. ¡Para eso cargamos la librería **readxl** y aplicamos la función léeme el excel y listo!
+read_excel()
+<br>
+<br> <h3>.xlsx</h3>
+<br>
+
+```{r eval=FALSE}
+# Cargo la biblioteca
+library(readxl)
+
+# Cargo el archivo desde mi directorio de trabajo (recuerden cambiar el nombre de las carpetas)
+archivo_excel <- read_excel("CuadroDeuda.xlsx")
+```
+
+La librería **haven** permite leer archivos de varios orígenes como SPSS, Stata y SAS. 
+
+<br> <h3>.sav, .dta, .sas </h3>
+
+```{r eval=FALSE}
+# Cargo la biblioteca
+library(haven)
+
+# Cargo el archivo SPSS
+archivo_spss <- read_sav("datos/LOWBWT.sav",encoding = "UTF-8")
+
+# Cargo el achivo de stata
+archivo_stata <- read_dta("datos/LOWBWT.dta",encoding = "UTF-8")
+
+# Cargo el archivo de archivo sas
+archivo_sas <- read_sas("datos/LOWBWT.sas7bdat",encoding = "UTF-8")
+```
+
+<br>
+<br> <h3>Resumen de las principales funciones </h3>
+
+|   Función  	|     Paquete     	|              Extensión              	|          Encoding          	|
+|:----------:	|:---------------:	|:-----------------------------------:	|:--------------------------:	|
+| read_delim 	| utils (default) 	| .csv/.txt [Especificar delimitador] 	|     encoding = “UTF-8”     	|
+|  read.csv  	| utils (default) 	|     .csv/.txt [Delimitador “,”]     	|     encoding = “UTF-8”     	|
+|  read.csv2 	| utils (default) 	|     .csv/.txt [Delimitador “;”]     	|     encoding = “UTF-8”     	|
+|  read_csv  	|      readr      	|     .csv/.txt [Delimitador “,”]     	| locale(encoding = "UTF-8") 	|
+|  read_csv2 	|      readr      	|     .csv/.txt [Delimitador “;”]     	| locale(encoding = "UTF-8") 	|
+|    fread   	|    data.table   	| .csv/.txt [Especificar delimitador] 	|     encoding = 'UTF-8'     	|
+| read_excel 	|      readxl     	|                .xlsx                	|         -    	|
+|  read_sav  	|      haven      	|              .sas7bdat              	|     encoding = 'UTF-8'     	|
+|  read_dta  	|      haven      	|                 .dta                	|     encoding = 'UTF-8'     	|
+|  read_sas  	|      haven      	|                 .sas                	|     encoding = 'UTF-8'     	|
+<br>
+Cómo ven se puede leer cualquier archivo de una forma simple y con una sintaxis amigable. En todos los casos vimos que el **único parámetro obligatorio fue la dirección del archivo.**
+Lo bueno de R, es que cuando cargamos una tabla. **Las transformaciones no las hacemos sobre el archivo original, sino que las hacemos sobre el objeto de R. Por eso no nos tenemos que preocupar por mandarnos un lío y guardar.** Está todo escrito y uno lo ejecuta cuando quiere.
+
+<br>
+<div class = "contenidos citas">“Se puede leer cualquier archivo de una forma simple y con una sintaxis amigable.”</div>
+<br>
+
+Ahora, si queremos guardar una tabla transformada, también lo podemos hacer de una forma muy sencilla, en vez de decirle a R lee, le vamos a decir escribí. Como en este ejemplo:
+
+```{r eval = F}
+write.csv(x = archivo_excel, file = "resultados/CuadroDeuda.csv")
+```
+
+<br>Cuando guardamos un archivo tenemos dos parámetros obligatorios. El primero le dice a R que va a guardar y el segundo dónde, con qué nombre y que extensión va a tener.
+<br>
+<br>Con esto es más que suficiente para que comiencen a leer sus datos. No obstante, sepan que con R nos podemos conectar a bases de datos como SQLServer, SQLite, PostgresSQL y más. <a href = "https://db.rstudio.com/odbc/">Hay conexiones de todo tipo y color.</a>
+<br> 
+
+
+<br>
+<h1  id =  3> TRANSFORMACIÓN DE DATOS </h1>
+<hr class = "linea">
+<h2 id =  3.1> **3.1.** TIDYVERSE</h2>
+<br>
+
+Tidyverse es una colección de paquetes de código abierto que fue creada por Hadley Wickham que hoy en día funciona como un paradigma de programación en R. Esto es así porque el conjunto de bibliotecas, veremos algunas funciones de algunos de ellos, permiten hacer de forma simplificada y más legible muchas de las cosas que podemos hacer con R base. Si utilizan R lo más probable es que la primera biblioteca que activen será tidyverse. Sin ir más lejos ya la hemos usado en múltiples ocasiones. Son parte de tidyverse  ggplot. dplyr, tidyr, haven, stringr, lubridate, forecast, tidymodel y más. 
+
+<br>
+<div class = "contenidos citas">“Tidyverse es una colección de paquetes de código abierto que fue creada por Hadley Wickham que hoy en día funciona como un paradigma de programación en R.”</div>
+<br>
+
+<br>
+<img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\restid.PNG">
+<br>
+
+```{r}
+# Activamos la libreria
+library(tidyverse)
+```
+
+
+<br>
+<h2 id =  3.2> **3.2.** DPLYR</h2>
+<br>
+
+Pasemos a ver cómo se realizan algunas de estas acciones con el concepto de **dplyr¨¨. A modo de simplificación, son seis las principales funciones a utilizar: filter, mutate, select, arrange, group_by y summarise. Sus nombres son verbos que nos indican que es lo que vamos a hacer: manipular datos.
+Antes de pasar a la EPH, vamos a traer un set de datos de la Encuesta Nacional de Consumos Culturales, que descargamos desde aquí. Vamos a cargar el Set de datos y aplicar las funciones de Tidyverse sobre el mismo.
+
+<br>
+<div class = "contenidos citas">“Son seis las principales funciones a utilizar: **filter, mutate, select, arrange, group_by y summarise.**”</div>
+<br>
+
+```{r}
+rm(list = ls()) #limpiamos el ambiente de trabajo
+
+# Cargamos los datos de la encuesta
+encuesta_cc <- read_csv("https://datos.cultura.gob.ar/dataset/251c2ac2-e670-451c-9dbf-a4212af225b5/resource/171494ce-e3cf-43fb-ad6e-f204bae1bb19/download/encc_2017.csv") %>% 
+  as.data.frame() #Cargar tabla 
+
+encuesta_cc #Imprimo la tabla
+```
+
+ 
+Lo más conveniente para realizar una inspección a la tabla es realizar algunas de las funciones de Análisis exploratorio de datos que vimos en la jornada anterior. Como el objetivo de este apartado es otro, lo vamos a dejar para que practiquen cada une de ustedes. Podemos descargar desde aquí el cuestionario aplicado en la encuesta.
+<br>
+<br>¡Ahora sí, empecemos con la presentación y la práctica de las funciones de dplyr!
+
+
+<br>
+<h3 id =  3.2.1> 3.2.1. Select</h2>
+<br>
+
+Lo primero que tenemos que notar con este conjunto de datos es que tienen una infinidad de columnas (es un cuestionario largo) por lo cual, la primera tarea como analistas de datos es enfocarnos en seleccionar aquellas variables necesarias para nuestro análisis. En la encuesta tenemos información socioeconómica, sociodemográfica, cultural, etc. No tiene sentido trabajar con todas juntas. Para eso utilizamos la función **select()** que nos permite realizar **una selección de variables o columnas.** Vamos a elegir quedarnos con las columnas de información del entrevistado y las columnas que hacen referencia al consumo de radio para poner en prueba esta función.
+
+<br>
+```{r}
+#Selección de columnas 
+encuesta_clean <- select(encuesta_cc, id, pondera_dem, fecha, region, sexo, edad, p1, p1otros,
+         p2, p3, p4, p5, p6horas, p6minutos)
+```
+<br>
+
+Varias cosas que comentar al respecto. Estamos creando un nuevo conjunto de datos, lo llamamos encuesta_clean para ir guardando las modificaciones que vayamos haciendo. En la función select() lo único que hicimos fue poner el objeto sobre el que se va a correr la función y listar las variables con las que vamos a trabajar. Finalmente nos gustaría mencionar que hay algunas variantes de la función select(), como son select_if() y select_at() que nos permiten realizar selección de variables que cumplen con alguna condición.
+
+
+<br>
+<h3 id =  3.2.2> 3.2.2. Filter</h2>
+<br>
+**filter** es una función que **retiene un conjunto de observaciones (es lo mismo que decir filas) que cumplen con la condición que indicamos.** En pocas palabras, filtramos los casos (unidad de análisis) que cumplen con los requisitos que seleccionamos. Para esto se utilizan los operadores de comparación que vimos en la primera sección. Utilizamos la función filter() para quedarnos con ciertas regiones de nuestro set de datos.
+<br>
+```{r}
+# Primero observamos los campos únicos que tiene la variable region
+unique(encuesta_clean$region)
+```
+
+```{r}
+# Nos vamos a quedar con la región NOA y NEA
+encuesta_clean <-  filter(encuesta_clean, region %in% c("NOA", "NEA"))
+
+# Inspeccionamos que sean esas dos únicas regiones
+unique(encuesta_clean$region)
+```
+
+<br>
+El operador **%in%** es la primera vez que lo mencionamos, como pueden imaginarse nos devuelve todos los casos que contengan a su interior algunas de esas opciones. Para complejizar un poco, se puede filtrar por más de una condición. Por ejemplo, queremos analizar los casos de la región NOA pero sólo los del sexo femenino. Recuerden no confundir el & (y) con el | (ó). No es lo mismo decir filtrar las personas que viven en la región NOA y es del sexo femenino que filtrar a las personas que viene en la region NOA o es del sexo femenino.
+<br>
+```{r}
+# Inspeccionamos el valor de sexo
+unique(encuesta_clean$sexo)
+```
+
+```{r}
+#Nos quedamos con los casos de mujeres de NOA
+mujeres_noa <- filter(encuesta_clean, region=="NOA" & sexo =="Mujer")
+
+head(mujeres_noa)
+```
+
+
+<br>
+También se puede combinar con funciones. Por ejemplo, podemos seleccionar los casos de nuestra tabla cuya cantidad de horas de escucha de radio sea superior al promedio.
+
+<br>
+```{r}
+#Los que tienen más horas de radio escuchada
+mas_promedio <- filter(encuesta_clean, p6horas >= mean(p6horas, na.rm=T))
+
+head(mas_promedio)
+```
+<br>
+
+<br>
+<h3 id =  3.2.3> 3.2.3. Arrange</h2>
+<br>
+
+**Arrange** es una de las funciones que permite en R ordenar las filas de una tabla. Por ejemplo, ordenar de menor a mayor nuestra tabla por edad.
+<br>
+```{r}
+# Ordenamos 
+arrange(encuesta_clean, edad) 
+```
+
+<br>
+Si agregamos la función desc() podemos invertir el orden.
+<br>
+```{r}
+# Ordenamos de manera descendente
+encuesta_clean %>% 
+  arrange(desc(edad)) %>% 
+  head()
+```
+<br>
+
+<br>
+<h3 id =  3.2.4> 3.2.4. Summarise</h2>
+<br>
+
+**Summarise** nos permite aplicar un **resumen o calcular un indicador que sintetice la información de una o varias variables del dataframe**. Una medida de resumen puede saber la cantidad de personas encuestadas y el universo de personas (utilizando la ponderación). Recuerden que esta encuesta es una muestra (personas que responden la encuesta) de tipo probabilística. Esto quiere decir que usando la ponderación podemos extrapolar los resultados al universo. 
+
+<br>
+```{r}
+#Cantidad de personas pr región y sexo
+tabla_cantidad <- summarise(encuesta_clean,
+                           Personas = sum(pondera_dem),
+                           cantidad_de_casos = n())
+
+tabla_cantidad
+```
+<br>
+
+Como estamos trabajando con una encuesta, para saber la cantidad de personas que forman parte del universo tenemos que sumar la variable de ponderación, en este caso es pondera_dem. Además, creamos la variable cantidad_de_casos, nos sirve para saber cuántas respuestas respondieron la encuesta usando la función n() (que no es para nada intuitivo). 
+
+
+<br>
+<h3 id =  3.2.5> 3.2.5. Group by</h2>
+<br>
+
+Summarise podemos combinarla con una función increíble (que también se combina con mutate y otras funciones) que es **group_by**. En este caso, vamos a agrupar por región y sexo para hacer los conteos de personas que forman parte de la muestra y del universo por grupo. Por ejemplo,  va a realizar los cálculos que vimos previamente de las mujeres que son del NEA, mujeres que son del NOA, varones que son del NEA, y varones que son del NOA. Veamos el código y el output que genera: 
+
+<br>
+```{r}
+tabla_cantidad <- group_by(encuesta_clean, sexo, region)
+tabla_resumen <- summarise(tabla_cantidad,
+                            Personas = sum(pondera_dem),
+                            cantidad_de_casos = n())
+tabla_resumen
+```
+<br>
+También podríamos realizar esto mismo de manera más sencilla aplicando el count(). Pero la idea era presentarles la combinación de estás hermosas funciones. Veamos cómo se realiza con el count():
+
+```{r}
+tabla_cantidad <- group_by(encuesta_clean, sexo, region)
+tabla_cantidad <- summarise(tabla_cantidad,
+                            Personas = sum(pondera_dem),
+                            cantidad_de_casos = n())
+tabla_cantidad
+```
+
+
+<br>
+<h3 id =  3.2.6> 3.2.6. Mutate</h2>
+<br>
+La última función que vamos a ver de dplyr es súper, súper, súper necesaria. **mutate** nos permite hacer dos cosas fundamentales: **modificar variables existentes y crear nuevas.**
+La sintaxis es igual a como venimos trabajando. Vamos a crear dos variables en base a la edad. En primer lugar, vamos a crear una variable que identifique si la persona es menor de edad o no, y en segundo lugar vamos a crear una variable de edad, pero con rangos. Nos vamos a apoyar en dos funciones más **ifelse()** y **case_when()**, para llevar adelante esta tarea.
+
+<br>
+```{r}
+# Creamos dos variables en base a la edad
+encuesta_clean <- encuesta_clean %>% 
+  mutate( flag_menor = ifelse( edad>=18, 'mayor de edad', 'menor de edad'),
+          edad_categorica = case_when( 
+                              edad <= 30 ~ '30 o menos',
+                              edad  > 30 & edad <= 45 ~ '31 a 45',
+                              edad  > 45 & edad <= 60 ~ '46 a 60',
+                              edad  > 60 & edad <= 75 ~ '61 a 75',
+                              edad  > 75 ~ '76 o más',
+                              TRUE ~ "Sin edad"
+                              ) )
+```
+<br>
+
+Las dos líneas son muy parecidas, sólo que en ifelse() evalúa una condición, si se cumple devuelve la primera expresión si no se cumple la otra. Con case_when() en cambio evaluamos múltiples condiciones y para cada una el resultado que queremos. Es muy importante tener en cuenta que las condiciones es preferible que sean excluyentes, es decir, que no haya posibilidad de que se cumpla dos veces. Si no lo hacemos así, lo que va a ocurrir es que se va a aplicar la primera condición que sea verdadera.
+Como con select() aquí también tenemos variantes como el mutate_if() y mutate_at. Es muy útil para cuando necesitamos aplicar una misma transformación a una serie de columnas. Por ejemplo, si queremos pasar un tipo de dato entero a todas las variables que son double, lo podemos hacer muy fácilmente con mutate_if.
+ 
+<br>
+```{r}
+# Convertimos a entero todas las variables que son double
+encuesta_clean %>% 
+  mutate_if(is.double, as.integer) %>% 
+  head()
+```
+
+<br>
+
+
+<br>
+<h3 id =  3.2.7> 3.2.7. Joins</h2>
+<br>
+Muchas veces, tenemos dos o más tablas que comparten entre sí una identificación común. Por ejemplo, imaginemos que estamos trabajando como hicimos antes con un gráfico de las comunas de capital federal y queremos graficar la cantidad de casos de COVID por comuna. En general vamos a tener una tabla con la geografía de las comunas y en la otra tabla una con los casos de COVID por cada una. Para realizar el gráfico vamos a tener que unificarlas. 
+<br>
+<br>Hay distintos tipos de joins, los más comunes son **left_join()** e **inner_join().** La diferencia entre ellos es que el primero, deja todos los casos de una tabla de referencia (la de la izquierda) y le va pegando todos los casos que encuentra por la columna que comparten de la tabla de la derecha. Si tenemos un caso en la tabla izquierda que no está en la derecha igual lo vamos a visualizar. La función de inner_join() sólo nos va a devolver como resultado los casos que encuentre en ambas tablas.
+
+<br>
+```{r}
+# Ejemplo de joins
+# Notas de sociales
+notas_soc <- data.frame(id_alumnes = LETTERS[1:5],
+                     notas_soc = c(10, 8, 9, 5, 9))
+
+# Las notas de matematica
+notas_mat <- data.frame(id_alumnes = LETTERS[1:3],
+                         notas_mat = c(8, 9, 7))
+# Left join
+notas_soc%>% 
+  left_join(notas_mat, by = c("id_alumnes"="id_alumnes"))
+
+# Inner join
+notas_soc  %>% 
+  inner_join(notas_mat, by = c("id_alumnes"="id_alumnes"))
+```
+
+<br>
+
+La unificación de bases de datos, o tablas, puede realizarse con otras funciones, otras variantes son right_join() y full_join(), si quieren aprender más de joins y de forma interactiva no se pierdan de <a href = "https://github.com/gadenbuie/tidyexplain"> este link </a>.
+
+<br>
+<h3 id =  3.2.8> 3.2.8. Pipe </h2>
+<br>
+
+**Si hay algo súper novedoso y útil que introdujo tydiverse en el mundo de R la función pipe**, que no es más ni menos que otro operador, cuyo símbolo es el siguiente: **%>%.** Lo que nos permite el Pipe de R es concatenar funciones de una manera mucho más legible que con R base. Sabemos que suena chino básico, pero con la práctica termina resultando híper amigable. Nosotros decimos que el pipe es como “una línea de montaje”. Esto quiere decir que cada línea de código aplica una transformación al objeto (que estamos trabajando) pero teniendo en cuenta la modificación previa. Esto nos va a permitir ahorrarnos unas cuantas líneas de texto y mejorar la legibilidad del código. Veamos un ejemplo práctico con la encuesta de consumos culturales con la que veníamos trabajando:
+<br>
+<br>En un mismo código planteamos: 
+1- Seleccionar las variables: id, pondera_dem, fecha, region, sexo
+2- Filtrar región NOA y NEA
+3- Agrupamos por región y contamos cuántas personas respondieron la encuesta 
+
+```{r}
+encuesta_cc %>% 
+  select(id, pondera_dem, fecha, region, sexo) %>% 
+  filter(region %in% c("NOA", "NEA")) %>% 
+  group_by(region, sexo) %>%
+  summarise(Personas = sum(pondera_dem),
+            cantidad_de_casos = n())
+```
+<br>
+<br> En pocas palabras, cada línea de código adiciona una transformación sobre la tabla. Por esto decíamos que el pipe, funciona como una línea de montaje: cada línea de código agrega una modificación del objeto con el que se está trabajando. Al pipe también se lo conoce como las tuberías de r. 
+
+<br>
+<div class = "contenidos citas">“Cada línea de código adiciona una transformación sobre la tabla. Por esto decíamos que el pipe, funciona como una línea de montaje: cada línea de código agrega una modificación del objeto con el que se está trabajando.”</div>
+<br>
+
+
+
+<br>
+<h2 id =  3.2> **3.2.** TIDYR</h2>
+<br>
+
+Otra biblioteca dentro del paradigma de Tidyverse es **tidyr**. La misma nos permite realizar otro tipo de transformaciones que pueden resultar de ayuda. Más adelante, veremos en aplicaciones prácticas separete() y unite() que como sus nombres lo indican nos permiten separar columnas por algún patrón y también unir columnas.
+<br>
+<br>Encontramos en este paquete otras dos funciones que queremos que conozcan porque si o si las van a usar en algún momento, sobre todo a la hora de graficar. Estas son **pivot_longer()** y **pivot_wider()**. Cada vez que la usamos, le pegamos una ojeada al machete que nos provee R ejecutando:
+
+<br>
+```{r eval=FALSE}
+# Recurrimos a la documentación para ver cómo funcionan las funciones
+?pivot_wider
+?pivot_longer
+```
+<br>
+
+**pivot_wider()** incrementa el número de columnas y reduce el número de filas. Veamos un ejemplo con la tabla resumen que hicimos más arriba.
+
+```{r}
+# Aplicamos la transformación con pivot_wider
+tabla_wider <- tabla_resumen %>% 
+  pivot_wider(names_from = sexo, 
+              values_from = Personas)
+tabla_wider
+```
+
+<br>Convertimos cada categoría de sexo en una nueva columna y los valores que llenan cada columna son los de cantidad de personas. Ahora nuestra tabla resumen tiene otro aspecto.
+
+El caso de pivot_longer() incrementa el número de filas y reduce el nombre de columnas.
+
+```{r}
+# Vovemos a convertir al formato original la tabla
+tabla_longer <- tabla_wider %>% 
+  pivot_longer(cols = -region,
+               names_to = "sexo2", 
+               values_to = "Personas", 
+               values_drop_na = TRUE)
+tabla_longer
+```
+
+
+<br>
+<h2 id =  3.3> **3.3.** LUBRIDATE</h2>
+<br>
+
+Queremos incorporar a nuestra caja de herramienta unas poquitas funciones más para trabajar con fechas. **lubridate** nos provee una serie de herramientas para crear objetos fechas y manipularlos. Si miramos la tabla con la que venimos trabajando van a encontrar una columna fecha, pero el tipo de dato que contiene es carácter, es decir que R lo está leyendo como texto. Esta puede ser incómodo para realizar algunas funciones temporales como contar los días transcurridos entre una fecha y la otra, o simplemente filtrar información. Vamos a un ejemplo:
+<br>
+```{r}
+# Veamos algunas funciones de lubridate
+library(lubridate)
+
+tabla_con_fechas <- encuesta_clean %>%
+  select(id, fecha) %>% 
+  mutate(fecha2 = dmy(fecha)) %>% # Creamos un objeto fecha
+  mutate(anio = year(fecha2),
+         mes = month(fecha2),
+         dia = day(fecha2),
+         dias_transcurridos =  (Sys.Date() - fecha2) )
+
+tabla_con_fechas
+```
+
+<br>
+Utilizamos dmy() que no es más que la forma que traía nuestro formato fecha anterior, estaba el día, el mes y el año. En la biblioteca tenemos todas las combinaciones, incluyendo las horas, los minutos y segundos si los tuviéramos, es súper intuitivo. También creamos unas columnas con el año, el mes y el día, e hicimos un pequeño cálculo de fechas comparando la fecha actual (del día que se ejecute) Sys.Date() y le restamos la fecha de realización de la encuesta. Esto último no lo podríamos hacer con una columna de tipo texto.
+
+
+<br>
+<h2 id =  3.4> **3.4.** STRINGR</h2>
+<br>
+
+**stringr** nos abre las puertas al fabuloso mundo de la manipulación de texto, que no exageramos, es un mundo. Entre otras cosas nos permite trabajar con expresiones regulares para detectar, eliminar, reemplazar, contar patrones en nuestros textos. Dejamos dos enlaces para ampliar sobre estos tópicos [aquí] (https://es.wikipedia.org/wiki/Expresi%C3%B3n_regular) y para descargar el Cheatsheet de Regex aquí.
+
+```{r}
+library(stringr)
+texto = "Vamos a trabajar con un texto creado para estos ejemplos, 
+recuerden que podemos hacer casi las mismas cosas para cada fila de una columna.
+Acá voy a poner unos números para usar de ejemplo; 123498-537"
+
+# Pedimos el largo de una cadena
+str_length(texto)
+```
+
+```{r}
+# Contamos un patron
+str_count(string = texto, pattern = "[0-9]") # contamos números
+```
+
+
+```{r}
+str_count(string = texto, pattern = "[a-z]") # contamos minusculas
+```
+
+
+```{r}
+# Detectamos un patron o palabra
+str_detect(string = texto, pattern = "[á|é|í|ó|ú]") # Si hay palabras con acento
+```
+
+
+```{r}
+# Remplazamos un texto
+texto2 <- str_replace_all(string = texto, pattern = "-", replacement = "/")
+texto2
+
+```
+
+
+```{r}
+# Removemos un patron
+texto3 <- str_remove_all(string = texto2, pattern = "Acá.*")
+texto3
+```
+
+</body>
+</html>
