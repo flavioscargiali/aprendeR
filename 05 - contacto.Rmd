@@ -1,5 +1,5 @@
 ---
-title: "Contacto"
+title: ""
 ---
 
 ```{r setup, include=FALSE}
