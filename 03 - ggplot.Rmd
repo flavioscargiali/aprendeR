@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "ggplot"
 output:
   html_document:
     css: "style.css"

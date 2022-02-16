@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "Rbase"
 output:
   html_document:
     css: "style.css"
@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <html>
 <body>
-# INTRODUCCIÓN
+# RBASE
 <hr class = "linea">
 
 Nuestras **vidas se encuentran atravesadas por la generación de datos**: votar, tomar un transporte público, responder una encuesta, usar una aplicación en nuestros celulares o relevar información en la aplicación de una política pública. En las sociedades actuales, se convierte en una necesidad el desarrollo de perfiles técnicos, que conozcan herramientas para procesar, transformar, analizar y visualizar información. Organizaciones públicas y privadas están avanzando en la construcción de áreas especializadas en estas tareas. De la misma manera, en el ámbito académico emergen numerosos trabajos que recurren a estos softwares.
