@@ -259,12 +259,12 @@ $(document).ready(function () {
       <a href="03---ggplot.html">3- ggplot</a>
     </li>
     <li>
-      <a href="page-b.html">4- rmarkdown</a>
+      <a href="04---rmarkdown.html">4- rmarkdown</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="05 - contacto.html">Contacto</a>
+  <a href="05---contacto.html">Contacto</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -612,369 +612,621 @@ encuesta_cc &lt;- read_csv(&quot;https://datos.cultura.gob.ar/dataset/251c2ac2-e
   as.data.frame() #Cargar tabla 
 
 encuesta_cc #Imprimo la tabla</code></pre>
-<pre style="max-height: 150px;"><code>##   id pondera_dem     fecha region  sexo edad
-## 1  1        8608 23/5/2017 CENTRO Varón   19
-## 2  2        2869 10/5/2017 CENTRO Varón   24
-##                                       p1 p1otros
-## 1 LA FORMA DE PENSAR, IDEOLOGIA, VALORES    &lt;NA&gt;
-## 2                      EL ARTE, LO CULTO    &lt;NA&gt;
-##   p2 p2_1 p2_1otro p2_2 p3
-## 1 SI &lt;NA&gt;     &lt;NA&gt; &lt;NA&gt; SI
-## 2 SI &lt;NA&gt;     &lt;NA&gt; &lt;NA&gt; NO
-##                        p4 p5 p6horas p6minutos
-## 1    ALGUNAS VECES AL MES FM       1         0
-## 2 ALGUNOS DIAS POR SEMANA FM       1         0
+<pre style="max-height: 150px;"><code>##   id pondera_dem     fecha
+## 1  1        8608 23/5/2017
+## 2  2        2869 10/5/2017
+##   region  sexo edad
+## 1 CENTRO Varón   19
+## 2 CENTRO Varón   24
+##                                       p1
+## 1 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 2                      EL ARTE, LO CULTO
+##   p1otros p2 p2_1 p2_1otro
+## 1    &lt;NA&gt; SI &lt;NA&gt;     &lt;NA&gt;
+## 2    &lt;NA&gt; SI &lt;NA&gt;     &lt;NA&gt;
+##   p2_2 p3
+## 1 &lt;NA&gt; SI
+## 2 &lt;NA&gt; NO
+##                        p4 p5
+## 1    ALGUNAS VECES AL MES FM
+## 2 ALGUNOS DIAS POR SEMANA FM
+##   p6horas p6minutos
+## 1       1         0
+## 2       1         0
 ##   horas_radio minutos_radio
 ## 1           1             0
 ## 2           1             0
 ##                      p7_1
 ## 1    ALGUNAS VECES AL MES
 ## 2 ALGUNOS DIAS POR SEMANA
-##                      p7_2  p7_3
-## 1                   NUNCA NUNCA
-## 2 ALGUNOS DIAS POR SEMANA NUNCA
-##                      p7_4  p7_5
-## 1    ALGUNAS VECES AL MES NUNCA
-## 2 ALGUNOS DIAS POR SEMANA NUNCA
+##                      p7_2
+## 1                   NUNCA
+## 2 ALGUNOS DIAS POR SEMANA
+##    p7_3
+## 1 NUNCA
+## 2 NUNCA
+##                      p7_4
+## 1    ALGUNAS VECES AL MES
+## 2 ALGUNOS DIAS POR SEMANA
+##    p7_5
+## 1 NUNCA
+## 2 NUNCA
 ##                         p8a
 ## 1                 MUSICALES
 ## 2 INFORMATIVOS / NOTICIEROS
-##                     p8b        p8c  p8d  p8e
-## 1 ACTUALIDAD / MAGAZINE       &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
-## 2             MUSICALES CULTURALES &lt;NA&gt; &lt;NA&gt;
-##    p8f  p8g p8otros p9 p10 p10_1 p10_1otr p10_2
-## 1 &lt;NA&gt; &lt;NA&gt;    &lt;NA&gt;  1  SI  &lt;NA&gt;       NA  &lt;NA&gt;
-## 2 &lt;NA&gt; &lt;NA&gt;    &lt;NA&gt;  0  SI  &lt;NA&gt;       NA  &lt;NA&gt;
-##                           p11 p12horas
-## 1     ALGUNOS DIAS POR SEMANA        1
-## 2 TODOS O CASI TODOS LOS DIAS        3
-##   p12minutos horas_musica minutos_musica p13_1
-## 1         30            1             30 NUNCA
-## 2          0            3              0 NUNCA
+##                     p8b
+## 1 ACTUALIDAD / MAGAZINE
+## 2             MUSICALES
+##          p8c  p8d  p8e  p8f
+## 1       &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
+## 2 CULTURALES &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
+##    p8g p8otros p9 p10 p10_1
+## 1 &lt;NA&gt;    &lt;NA&gt;  1  SI  &lt;NA&gt;
+## 2 &lt;NA&gt;    &lt;NA&gt;  0  SI  &lt;NA&gt;
+##   p10_1otr p10_2
+## 1       NA  &lt;NA&gt;
+## 2       NA  &lt;NA&gt;
+##                           p11
+## 1     ALGUNOS DIAS POR SEMANA
+## 2 TODOS O CASI TODOS LOS DIAS
+##   p12horas p12minutos
+## 1        1         30
+## 2        3          0
+##   horas_musica minutos_musica
+## 1            1             30
+## 2            3              0
+##   p13_1
+## 1 NUNCA
+## 2 NUNCA
 ##                     p13_2
 ## 1    ALGUNAS VECES AL MES
 ## 2 ALGUNOS DIAS POR SEMANA
 ##                         p13_3
 ## 1        ALGUNAS VECES AL MES
 ## 2 TODOS O CASI TODOS LOS DIAS
-##                     p13_4 p13_5 p13_6 p13_7
-## 1 ALGUNOS DIAS POR SEMANA NUNCA NUNCA NUNCA
-## 2 ALGUNA VEZ CADA 3 MESES NUNCA NUNCA NUNCA
-##   p13_8                   p13_9         p14_1
-## 1 NUNCA ALGUNOS DIAS POR SEMANA         NUNCA
-## 2 NUNCA                   NUNCA HABITUALMENTE
-##        p14_2         p14_3 p14_4 p14_5
-## 1      NUNCA HABITUALMENTE NUNCA NUNCA
-## 2 CASI NUNCA HABITUALMENTE NUNCA NUNCA
-##              p14_6            p14_7      p14_8
-## 1 DE VEZ EN CUANDO DE VEZ EN CUANDO      NUNCA
-## 2 DE VEZ EN CUANDO DE VEZ EN CUANDO CASI NUNCA
-##        p14_9 p14_10           p14_11
-## 1      NUNCA  NUNCA DE VEZ EN CUANDO
-## 2 CASI NUNCA  NUNCA DE VEZ EN CUANDO
-##             p14_12 p14_13 p14_14         p15 p16
-## 1 DE VEZ EN CUANDO  NUNCA  NUNCA 6 canciones  SI
-## 2            NUNCA  NUNCA  NUNCA 9 canciones  SI
+##                     p13_4
+## 1 ALGUNOS DIAS POR SEMANA
+## 2 ALGUNA VEZ CADA 3 MESES
+##   p13_5 p13_6 p13_7 p13_8
+## 1 NUNCA NUNCA NUNCA NUNCA
+## 2 NUNCA NUNCA NUNCA NUNCA
+##                     p13_9
+## 1 ALGUNOS DIAS POR SEMANA
+## 2                   NUNCA
+##           p14_1      p14_2
+## 1         NUNCA      NUNCA
+## 2 HABITUALMENTE CASI NUNCA
+##           p14_3 p14_4 p14_5
+## 1 HABITUALMENTE NUNCA NUNCA
+## 2 HABITUALMENTE NUNCA NUNCA
+##              p14_6
+## 1 DE VEZ EN CUANDO
+## 2 DE VEZ EN CUANDO
+##              p14_7      p14_8
+## 1 DE VEZ EN CUANDO      NUNCA
+## 2 DE VEZ EN CUANDO CASI NUNCA
+##        p14_9 p14_10
+## 1      NUNCA  NUNCA
+## 2 CASI NUNCA  NUNCA
+##             p14_11
+## 1 DE VEZ EN CUANDO
+## 2 DE VEZ EN CUANDO
+##             p14_12 p14_13
+## 1 DE VEZ EN CUANDO  NUNCA
+## 2            NUNCA  NUNCA
+##   p14_14         p15 p16
+## 1  NUNCA 6 canciones  SI
+## 2  NUNCA 9 canciones  SI
 ##                         p17_1
 ## 1     ALGUNOS DIAS POR SEMANA
 ## 2 TODOS O CASI TODOS LOS DIAS
-##                       p17_2        p18a    p18b
-## 1 ALGUNA VEZ AL AÑO O MENOS     YOUTUBE    &lt;NA&gt;
-## 2   ALGUNOS DIAS POR SEMANA GOOGLE PLAY YOUTUBE
-##   p18c p18d p18e p18f p18g p18otros p19 p20 p21
-## 1 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   NA     &lt;NA&gt;   0   0   0
-## 2 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   NA     &lt;NA&gt; 150   0   0
-##   p22 p23                           p23_1
-## 1   0  NO PORQUE LAS ENTRADAS ESTAN CARAS
-## 2   0  SI                            &lt;NA&gt;
-##   p23_1otr p23_2                            p24
-## 1     &lt;NA&gt;    SI                           &lt;NA&gt;
-## 2     &lt;NA&gt;  &lt;NA&gt; TODAS O CASI TODAS LAS SEMANAS
-##    p25 p25_bis p25_1 p25_1_bis  p26 p26_bis p27
-## 1 &lt;NA&gt;       0  &lt;NA&gt;         0 &lt;NA&gt;       0  NO
-## 2   13      13    13        13  500     500  SI
-##   p27_1 p28 p29 p29_1 p29_1otr p29_2 p30 p30_bis
-## 1     0  NO  SI  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;   3       3
-## 2     2  SI  SI  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;   6       6
-##   p31horas p31minutos horas_diario
-## 1        1          0            1
-## 2        0         30            0
-##   minutos_diario                  p32 p33
-## 1              0 ALGUNAS VECES AL MES   0
-## 2             30    ALGUNA VEZ AL AÑO   0
+##                       p17_2
+## 1 ALGUNA VEZ AL AÑO O MENOS
+## 2   ALGUNOS DIAS POR SEMANA
+##          p18a    p18b p18c
+## 1     YOUTUBE    &lt;NA&gt; &lt;NA&gt;
+## 2 GOOGLE PLAY YOUTUBE &lt;NA&gt;
+##   p18d p18e p18f p18g
+## 1 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   NA
+## 2 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   NA
+##   p18otros p19 p20 p21 p22
+## 1     &lt;NA&gt;   0   0   0   0
+## 2     &lt;NA&gt; 150   0   0   0
+##   p23
+## 1  NO
+## 2  SI
+##                             p23_1
+## 1 PORQUE LAS ENTRADAS ESTAN CARAS
+## 2                            &lt;NA&gt;
+##   p23_1otr p23_2
+## 1     &lt;NA&gt;    SI
+## 2     &lt;NA&gt;  &lt;NA&gt;
+##                              p24
+## 1                           &lt;NA&gt;
+## 2 TODAS O CASI TODAS LAS SEMANAS
+##    p25 p25_bis p25_1
+## 1 &lt;NA&gt;       0  &lt;NA&gt;
+## 2   13      13    13
+##   p25_1_bis  p26 p26_bis p27
+## 1         0 &lt;NA&gt;       0  NO
+## 2        13  500     500  SI
+##   p27_1 p28 p29 p29_1
+## 1     0  NO  SI  &lt;NA&gt;
+## 2     2  SI  SI  &lt;NA&gt;
+##   p29_1otr p29_2 p30 p30_bis
+## 1     &lt;NA&gt;  &lt;NA&gt;   3       3
+## 2     &lt;NA&gt;  &lt;NA&gt;   6       6
+##   p31horas p31minutos
+## 1        1          0
+## 2        0         30
+##   horas_diario minutos_diario
+## 1            1              0
+## 2            0             30
+##                    p32 p33
+## 1 ALGUNAS VECES AL MES   0
+## 2    ALGUNA VEZ AL AÑO   0
 ##   p33_bis p33_1 p33_1_bis
 ## 1       0     0         0
 ## 2       0     0         0
-##                           p34   p34_1
-## 1 TODOS O CASI TODOS LOS DIAS CELULAR
-## 2 TODOS O CASI TODOS LOS DIAS CELULAR
-##                      p35_1 p35_2
-## 1 MENOS DE UNA VEZ POR MES NUNCA
-## 2                    NUNCA NUNCA
-##                         p35_3             p36
-## 1 TODOS O CASI TODOS LOS DIAS AMBAS POR IGUAL
-## 2 TODOS O CASI TODOS LOS DIAS AMBAS POR IGUAL
-##   p37 p37_1                     p38  p39 p39_bis
-## 1  NO    NO                    &lt;NA&gt; &lt;NA&gt;       0
-## 2  SI  &lt;NA&gt; ALGUNOS DIAS POR SEMANA    0       0
-##   p39_1 p39_1_bis  p40 p40_bis
-## 1  &lt;NA&gt;         0 &lt;NA&gt;       0
-## 2     0         0    0       0
-##                           p41 p42 p42_1 p42_1otr
-## 1                        &lt;NA&gt;  SI  &lt;NA&gt;     &lt;NA&gt;
-## 2 TODOS O CASI TODOS LOS DIAS  SI  &lt;NA&gt;     &lt;NA&gt;
-##   p42_2 p43 p43_bis p43_1 p43_1_bis
-## 1  &lt;NA&gt;   1       1     0         0
-## 2  &lt;NA&gt;   3       3     2         2
+##                           p34
+## 1 TODOS O CASI TODOS LOS DIAS
+## 2 TODOS O CASI TODOS LOS DIAS
+##     p34_1
+## 1 CELULAR
+## 2 CELULAR
+##                      p35_1
+## 1 MENOS DE UNA VEZ POR MES
+## 2                    NUNCA
+##   p35_2
+## 1 NUNCA
+## 2 NUNCA
+##                         p35_3
+## 1 TODOS O CASI TODOS LOS DIAS
+## 2 TODOS O CASI TODOS LOS DIAS
+##               p36 p37 p37_1
+## 1 AMBAS POR IGUAL  NO    NO
+## 2 AMBAS POR IGUAL  SI  &lt;NA&gt;
+##                       p38
+## 1                    &lt;NA&gt;
+## 2 ALGUNOS DIAS POR SEMANA
+##    p39 p39_bis p39_1
+## 1 &lt;NA&gt;       0  &lt;NA&gt;
+## 2    0       0     0
+##   p39_1_bis  p40 p40_bis
+## 1         0 &lt;NA&gt;       0
+## 2         0    0       0
+##                           p41
+## 1                        &lt;NA&gt;
+## 2 TODOS O CASI TODOS LOS DIAS
+##   p42 p42_1 p42_1otr p42_2
+## 1  SI  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;
+## 2  SI  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;
+##   p43 p43_bis p43_1 p43_1_bis
+## 1   1       1     0         0
+## 2   3       3     2         2
 ##                                                                               p44
 ## 1 SE LO HABIA RECOMENDADO UN PROFESOR, REFERENTE POLITICO, RELIGIOSO O ESPIRITUAL
 ## 2                                                        PORQUE ESTABA EN SU CASA
-##   p44otros p45 p45_bis p45_1 p45_1_bis
-## 1     &lt;NA&gt;   1       1   600       600
-## 2     &lt;NA&gt;   0       0     0         0
+##   p44otros p45 p45_bis p45_1
+## 1     &lt;NA&gt;   1       1   600
+## 2     &lt;NA&gt;   0       0     0
+##   p45_1_bis
+## 1       600
+## 2         0
 ##                       p46
 ## 1    ALGUNAS VECES AL MES
 ## 2 ALGUNA VEZ CADA 3 MESES
 ##                                         p47
 ## 1 NO LEYO LIBROS EN PANTALLA, SOLO EN PAPEL
 ## 2                   ALGUNA VEZ CADA 3 MESES
-##        p47_1a p47_1b p47_1c p47_1d p47_2
-## 1        &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;     NA  &lt;NA&gt;
-## 2 COMPUTADORA   &lt;NA&gt;   &lt;NA&gt;     NA    NO
-##        p48_1      p48_2 p48_3            p48_4
-## 1 CASI NUNCA      NUNCA NUNCA            NUNCA
-## 2 CASI NUNCA CASI NUNCA NUNCA DE VEZ EN CUANDO
-##           p48_5 p48_6 p48_7            p48_8
-## 1 HABITUALMENTE NUNCA NUNCA            NUNCA
-## 2         NUNCA NUNCA NUNCA DE VEZ EN CUANDO
-##   p48_9 p48_10 p48_11           p48_12
-## 1 NUNCA  NUNCA  NUNCA DE VEZ EN CUANDO
-## 2 NUNCA  NUNCA  NUNCA       CASI NUNCA
-##          p48_13 p48_14     p48_15 p48_16 p49
-## 1 HABITUALMENTE  NUNCA      NUNCA  NUNCA  SI
-## 2         NUNCA  NUNCA CASI NUNCA  NUNCA  SI
-##   p49_1 p49_2 p50horas p50minutos horas_TV
-## 1  &lt;NA&gt;  &lt;NA&gt;        1          0        1
-## 2  &lt;NA&gt;  &lt;NA&gt;        0         45        0
-##   minutos_TV
-## 1          0
-## 2         45
+##        p47_1a p47_1b p47_1c
+## 1        &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;
+## 2 COMPUTADORA   &lt;NA&gt;   &lt;NA&gt;
+##   p47_1d p47_2      p48_1
+## 1     NA  &lt;NA&gt; CASI NUNCA
+## 2     NA    NO CASI NUNCA
+##        p48_2 p48_3
+## 1      NUNCA NUNCA
+## 2 CASI NUNCA NUNCA
+##              p48_4
+## 1            NUNCA
+## 2 DE VEZ EN CUANDO
+##           p48_5 p48_6 p48_7
+## 1 HABITUALMENTE NUNCA NUNCA
+## 2         NUNCA NUNCA NUNCA
+##              p48_8 p48_9
+## 1            NUNCA NUNCA
+## 2 DE VEZ EN CUANDO NUNCA
+##   p48_10 p48_11
+## 1  NUNCA  NUNCA
+## 2  NUNCA  NUNCA
+##             p48_12
+## 1 DE VEZ EN CUANDO
+## 2       CASI NUNCA
+##          p48_13 p48_14
+## 1 HABITUALMENTE  NUNCA
+## 2         NUNCA  NUNCA
+##       p48_15 p48_16 p49 p49_1
+## 1      NUNCA  NUNCA  SI  &lt;NA&gt;
+## 2 CASI NUNCA  NUNCA  SI  &lt;NA&gt;
+##   p49_2 p50horas p50minutos
+## 1  &lt;NA&gt;        1          0
+## 2  &lt;NA&gt;        0         45
+##   horas_TV minutos_TV
+## 1        1          0
+## 2        0         45
 ##                                                          p51a
 ## 1                                        TELEVISION POR CABLE
 ## 2 TELEVISION DIGITAL ABIERTA, CON DECODIFICADOR/ SINTONIZADOR
-##   p51b                      p52
-## 1 &lt;NA&gt;                  NO MIRA
-## 2 &lt;NA&gt; ALGUNAS VECES POR SEMANA
-##                       p53 p54_1 p54_2 p54_3
-## 1 UNA HORA O MENOS AL DIA NUNCA NUNCA NUNCA
-## 2                 NO MIRA NUNCA NUNCA NUNCA
-##                         p54_4            p55_1
-## 1 TODOS O CASI TODOS LOS DIAS            NUNCA
-## 2     ALGUNOS DIAS POR SEMANA DE VEZ EN CUANDO
-##   p55_2      p55_3 p56   p56_1 p56_1_bis p57
-## 1 NUNCA      NUNCA   2       1         1  SI
-## 2 NUNCA CASI NUNCA   1 NINGUNO   NINGUNO  SI
-##   p57_1 p57_1otr p57_2 p58_1
-## 1  &lt;NA&gt;       NA  &lt;NA&gt; NUNCA
-## 2  &lt;NA&gt;       NA  &lt;NA&gt; NUNCA
+##   p51b
+## 1 &lt;NA&gt;
+## 2 &lt;NA&gt;
+##                        p52
+## 1                  NO MIRA
+## 2 ALGUNAS VECES POR SEMANA
+##                       p53
+## 1 UNA HORA O MENOS AL DIA
+## 2                 NO MIRA
+##   p54_1 p54_2 p54_3
+## 1 NUNCA NUNCA NUNCA
+## 2 NUNCA NUNCA NUNCA
+##                         p54_4
+## 1 TODOS O CASI TODOS LOS DIAS
+## 2     ALGUNOS DIAS POR SEMANA
+##              p55_1 p55_2
+## 1            NUNCA NUNCA
+## 2 DE VEZ EN CUANDO NUNCA
+##        p55_3 p56   p56_1
+## 1      NUNCA   2       1
+## 2 CASI NUNCA   1 NINGUNO
+##   p56_1_bis p57 p57_1
+## 1         1  SI  &lt;NA&gt;
+## 2   NINGUNO  SI  &lt;NA&gt;
+##   p57_1otr p57_2 p58_1
+## 1       NA  &lt;NA&gt; NUNCA
+## 2       NA  &lt;NA&gt; NUNCA
 ##                         p58_2
 ## 1        ALGUNAS VECES AL MES
 ## 2 TODOS O CASI TODOS LOS DIAS
-##                     p58_3 p58_4
-## 1    ALGUNAS VECES AL MES NUNCA
-## 2 ALGUNOS DIAS POR SEMANA NUNCA
-##               p58_5                   p58_6
-## 1             NUNCA ALGUNOS DIAS POR SEMANA
-## 2 ALGUNA VEZ AL AÑO ALGUNOS DIAS POR SEMANA
-##                         p58_7             p59_1
-## 1 TODOS O CASI TODOS LOS DIAS ALGUNA VEZ AL AÑO
-## 2     ALGUNOS DIAS POR SEMANA             NUNCA
-##               p59_2                       p59_3
-## 1 ALGUNA VEZ AL AÑO TODOS O CASI TODOS LOS DIAS
-## 2             NUNCA     ALGUNOS DIAS POR SEMANA
-##   p59_4                   p59_5
-## 1 NUNCA       ALGUNA VEZ AL AÑO
-## 2 NUNCA ALGUNOS DIAS POR SEMANA
-##                     p59_6  p60 p61 p62 p63 p63_1
-## 1                   NUNCA  150   0   0  SI  &lt;NA&gt;
-## 2 ALGUNA VEZ CADA 3 MESES 1350   0   0  SI  &lt;NA&gt;
-##   p63_1otr p63_2                       p64 p65
-## 1     &lt;NA&gt;  &lt;NA&gt; ALGUNA VEZ AL AÑO O MENOS   1
-## 2     &lt;NA&gt;  &lt;NA&gt;   ALGUNA VEZ CADA 3 MESES   3
-##   p65_bis p65_1 p65_1_bis
-## 1       1     0         0
-## 2       3     2         2
+##                     p58_3
+## 1    ALGUNAS VECES AL MES
+## 2 ALGUNOS DIAS POR SEMANA
+##   p58_4             p58_5
+## 1 NUNCA             NUNCA
+## 2 NUNCA ALGUNA VEZ AL AÑO
+##                     p58_6
+## 1 ALGUNOS DIAS POR SEMANA
+## 2 ALGUNOS DIAS POR SEMANA
+##                         p58_7
+## 1 TODOS O CASI TODOS LOS DIAS
+## 2     ALGUNOS DIAS POR SEMANA
+##               p59_1
+## 1 ALGUNA VEZ AL AÑO
+## 2             NUNCA
+##               p59_2
+## 1 ALGUNA VEZ AL AÑO
+## 2             NUNCA
+##                         p59_3
+## 1 TODOS O CASI TODOS LOS DIAS
+## 2     ALGUNOS DIAS POR SEMANA
+##   p59_4
+## 1 NUNCA
+## 2 NUNCA
+##                     p59_5
+## 1       ALGUNA VEZ AL AÑO
+## 2 ALGUNOS DIAS POR SEMANA
+##                     p59_6
+## 1                   NUNCA
+## 2 ALGUNA VEZ CADA 3 MESES
+##    p60 p61 p62 p63 p63_1
+## 1  150   0   0  SI  &lt;NA&gt;
+## 2 1350   0   0  SI  &lt;NA&gt;
+##   p63_1otr p63_2
+## 1     &lt;NA&gt;  &lt;NA&gt;
+## 2     &lt;NA&gt;  &lt;NA&gt;
+##                         p64
+## 1 ALGUNA VEZ AL AÑO O MENOS
+## 2   ALGUNA VEZ CADA 3 MESES
+##   p65 p65_bis p65_1 p65_1_bis
+## 1   1       1     0         0
+## 2   3       3     2         2
 ##                                                     p66
 ## 1 NO TENIA DECIDIDO IR A VERLA, LA ELIGIO EN EL MOMENTO
 ## 2 NO TENIA DECIDIDO IR A VERLA, LA ELIGIO EN EL MOMENTO
-##   p66otros            p67_1 p67_2      p67_3
-## 1     &lt;NA&gt; DE VEZ EN CUANDO NUNCA      NUNCA
-## 2     &lt;NA&gt;       CASI NUNCA NUNCA CASI NUNCA
-##              p67_4 p67_5            p67_6
-## 1 DE VEZ EN CUANDO NUNCA    HABITUALMENTE
-## 2 DE VEZ EN CUANDO NUNCA DE VEZ EN CUANDO
-##           p67_7      p67_8         p67_9 p67_10
-## 1         NUNCA      NUNCA         NUNCA  NUNCA
-## 2 HABITUALMENTE CASI NUNCA HABITUALMENTE  NUNCA
-##       p67_11 p68                     p69  p70
-## 1      NUNCA  NO                    &lt;NA&gt; &lt;NA&gt;
-## 2 CASI NUNCA  SI ALGUNA VEZ CADA 3 MESES    2
-##   p70_bis p70_1 p70_1_bis  p71 p71_bis p72 p72_1
-## 1       0  &lt;NA&gt;         0 &lt;NA&gt;       0  SI  &lt;NA&gt;
-## 2       2     2         2  500     500  SI  &lt;NA&gt;
-##   p72_1otr p72_2  p73 p74 p74_1 p74_2 p74_3
-## 1     &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;  SI  &lt;NA&gt;  &lt;NA&gt; NS/NC
-## 2     &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;  NO    NO  &lt;NA&gt;  &lt;NA&gt;
-##   p74_4 p74_4_bis                p75_1
-## 1 NS/NC     NS/NC ALGUNAS VECES AL MES
-## 2  &lt;NA&gt;         0 ALGUNAS VECES AL MES
-##                         p75_2 p75_3
-## 1 TODOS O CASI TODOS LOS DÍAS NUNCA
-## 2 TODOS O CASI TODOS LOS DÍAS NUNCA
-##                     p75_4 p76horas p76minutos
-## 1 ALGUNOS DIAS POR SEMANA        8     NO USA
-## 2                   NUNCA        2     NO USA
-##   horas_internet minutos_internet
-## 1              8           NO USA
-## 2              2           NO USA
+##   p66otros            p67_1
+## 1     &lt;NA&gt; DE VEZ EN CUANDO
+## 2     &lt;NA&gt;       CASI NUNCA
+##   p67_2      p67_3
+## 1 NUNCA      NUNCA
+## 2 NUNCA CASI NUNCA
+##              p67_4 p67_5
+## 1 DE VEZ EN CUANDO NUNCA
+## 2 DE VEZ EN CUANDO NUNCA
+##              p67_6
+## 1    HABITUALMENTE
+## 2 DE VEZ EN CUANDO
+##           p67_7      p67_8
+## 1         NUNCA      NUNCA
+## 2 HABITUALMENTE CASI NUNCA
+##           p67_9 p67_10
+## 1         NUNCA  NUNCA
+## 2 HABITUALMENTE  NUNCA
+##       p67_11 p68
+## 1      NUNCA  NO
+## 2 CASI NUNCA  SI
+##                       p69
+## 1                    &lt;NA&gt;
+## 2 ALGUNA VEZ CADA 3 MESES
+##    p70 p70_bis p70_1
+## 1 &lt;NA&gt;       0  &lt;NA&gt;
+## 2    2       2     2
+##   p70_1_bis  p71 p71_bis p72
+## 1         0 &lt;NA&gt;       0  SI
+## 2         2  500     500  SI
+##   p72_1 p72_1otr p72_2  p73
+## 1  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;
+## 2  &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;
+##   p74 p74_1 p74_2 p74_3 p74_4
+## 1  SI  &lt;NA&gt;  &lt;NA&gt; NS/NC NS/NC
+## 2  NO    NO  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
+##   p74_4_bis
+## 1     NS/NC
+## 2         0
+##                  p75_1
+## 1 ALGUNAS VECES AL MES
+## 2 ALGUNAS VECES AL MES
+##                         p75_2
+## 1 TODOS O CASI TODOS LOS DÍAS
+## 2 TODOS O CASI TODOS LOS DÍAS
+##   p75_3
+## 1 NUNCA
+## 2 NUNCA
+##                     p75_4
+## 1 ALGUNOS DIAS POR SEMANA
+## 2                   NUNCA
+##   p76horas p76minutos
+## 1        8     NO USA
+## 2        2     NO USA
+##   horas_internet
+## 1              8
+## 2              2
+##   minutos_internet
+## 1           NO USA
+## 2           NO USA
 ##                         p77_1
 ## 1 TODOS O CASI TODOS LOS DÍAS
 ## 2                       NUNCA
 ##                         p77_2
 ## 1 TODOS O CASI TODOS LOS DÍAS
 ## 2 TODOS O CASI TODOS LOS DÍAS
-##                  p77_3                     p77_4
-## 1 ALGUNAS VECES AL MES      ALGUNAS VECES AL MES
-## 2                NUNCA ALGUNA VEZ AL AÑO O MENOS
-##                       p77_5 p77_6 p77_7
-## 1      ALGUNAS VECES AL MES NUNCA NUNCA
-## 2 ALGUNA VEZ AL AÑO O MENOS NUNCA NUNCA
+##                  p77_3
+## 1 ALGUNAS VECES AL MES
+## 2                NUNCA
+##                       p77_4
+## 1      ALGUNAS VECES AL MES
+## 2 ALGUNA VEZ AL AÑO O MENOS
+##                       p77_5
+## 1      ALGUNAS VECES AL MES
+## 2 ALGUNA VEZ AL AÑO O MENOS
+##   p77_6 p77_7
+## 1 NUNCA NUNCA
+## 2 NUNCA NUNCA
 ##                         p77_8
 ## 1                       NUNCA
 ## 2 TODOS O CASI TODOS LOS DÍAS
-##                  p77_9                    p77_10
-## 1                NUNCA      ALGUNAS VECES AL MES
-## 2 ALGUNAS VECES AL MES ALGUNA VEZ AL AÑO O MENOS
-##   p78_1 p78_2 p78_3 p78_4 p78_5
-## 1    SI    SI    SI    NO    NO
-## 2    SI    NO    SI    NO    NO
+##                  p77_9
+## 1                NUNCA
+## 2 ALGUNAS VECES AL MES
+##                      p77_10
+## 1      ALGUNAS VECES AL MES
+## 2 ALGUNA VEZ AL AÑO O MENOS
+##   p78_1 p78_2 p78_3 p78_4
+## 1    SI    SI    SI    NO
+## 2    SI    NO    SI    NO
+##   p78_5
+## 1    NO
+## 2    NO
 ##                       p78_1_1
 ## 1 TODOS O CASI TODOS LOS DÍAS
 ## 2 TODOS O CASI TODOS LOS DÍAS
 ##                       p78_1_2
 ## 1 TODOS O CASI TODOS LOS DÍAS
 ## 2                        &lt;NA&gt;
-##                       p78_1_3 p78_1_4 p78_1_5
-## 1 TODOS O CASI TODOS LOS DÍAS    &lt;NA&gt;    &lt;NA&gt;
-## 2                       NUNCA    &lt;NA&gt;    &lt;NA&gt;
-##   p78_2b p78_3b_1 p78_3b                   p79_1
-## 1     NO     &lt;NA&gt;     NA                   NUNCA
-## 2     NO     &lt;NA&gt;     NA ALGUNA VEZ CADA 3 MESES
+##                       p78_1_3
+## 1 TODOS O CASI TODOS LOS DÍAS
+## 2                       NUNCA
+##   p78_1_4 p78_1_5 p78_2b
+## 1    &lt;NA&gt;    &lt;NA&gt;     NO
+## 2    &lt;NA&gt;    &lt;NA&gt;     NO
+##   p78_3b_1 p78_3b
+## 1     &lt;NA&gt;     NA
+## 2     &lt;NA&gt;     NA
+##                     p79_1
+## 1                   NUNCA
+## 2 ALGUNA VEZ CADA 3 MESES
 ##                       p79_2
 ## 1 ALGUNA VEZ AL AÑO O MENOS
 ## 2      ALGUNAS VECES AL MES
-##                       p79_3 p79_4 p79_5
-## 1 ALGUNA VEZ AL AÑO O MENOS NUNCA NUNCA
-## 2   ALGUNA VEZ CADA 3 MESES NUNCA NUNCA
-##                     p79_6                p79_7
-## 1    ALGUNAS VECES AL MES ALGUNAS VECES AL MES
-## 2 ALGUNA VEZ CADA 3 MESES ALGUNAS VECES AL MES
-##   p80horas p80minutos horas_redes minutos_redes
-## 1        4          0           4             0
-## 2        1          0           1             0
+##                       p79_3
+## 1 ALGUNA VEZ AL AÑO O MENOS
+## 2   ALGUNA VEZ CADA 3 MESES
+##   p79_4 p79_5
+## 1 NUNCA NUNCA
+## 2 NUNCA NUNCA
+##                     p79_6
+## 1    ALGUNAS VECES AL MES
+## 2 ALGUNA VEZ CADA 3 MESES
+##                  p79_7
+## 1 ALGUNAS VECES AL MES
+## 2 ALGUNAS VECES AL MES
+##   p80horas p80minutos
+## 1        4          0
+## 2        1          0
+##   horas_redes minutos_redes
+## 1           4             0
+## 2           1             0
 ##                                                          p81
 ## 1 COMENTA, COMPARTE, PARTICIPA Y/U OPINA FRENTE A CONTENIDOS
 ## 2              OBSERVA LOS CONTENIDOS, SIN HACER COMENTARIOS
-##   p81_1a p81_1b p81_1c p81_1d p81_1e p81_1f
-## 1   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;
-## 2   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;
-##   p81_1g p81_1h p81_1i p81_1j p81_1k p81_1l p82
-## 1   &lt;NA&gt;   &lt;NA&gt;     NA     NA     NA     NA   1
-## 2   &lt;NA&gt;   &lt;NA&gt;     NA     NA     NA     NA   1
-##       p83 p84 p85 p85_1 p85_2 p85_3 p85_3_bis
-## 1       1  SI   1    SI    SI   400       400
-## 2 NINGUNA  NO   1    SI    NO   145       145
-##   p86 p87                     p88 p89horas
-## 1   0  SI ALGUNOS DIAS POR SEMANA        1
-## 2   0  NO                    &lt;NA&gt;       NA
-##   p89minutos horas_videojuegos
-## 1          0                 1
-## 2         NA                 0
+##   p81_1a p81_1b p81_1c p81_1d
+## 1   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;
+## 2   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;
+##   p81_1e p81_1f p81_1g p81_1h
+## 1   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;
+## 2   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;
+##   p81_1i p81_1j p81_1k p81_1l
+## 1     NA     NA     NA     NA
+## 2     NA     NA     NA     NA
+##   p82     p83 p84 p85 p85_1
+## 1   1       1  SI   1    SI
+## 2   1 NINGUNA  NO   1    SI
+##   p85_2 p85_3 p85_3_bis p86
+## 1    SI   400       400   0
+## 2    NO   145       145   0
+##   p87                     p88
+## 1  SI ALGUNOS DIAS POR SEMANA
+## 2  NO                    &lt;NA&gt;
+##   p89horas p89minutos
+## 1        1          0
+## 2       NA         NA
+##   horas_videojuegos
+## 1                 1
+## 2                 0
 ##   minutos_videojuegos p90_1
 ## 1                   0 NUNCA
 ## 2                   0  &lt;NA&gt;
-##                         p90_2 p90_3 p90_4  p91
-## 1 TODOS O CASI TODOS LOS DIAS NUNCA NUNCA    0
-## 2                        &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;
-##   p91_bis p92_1 p92_2 p92_3 p92_4 p92_5 p92_6
-## 1       0    NO    NO    NO    NO    NO    NO
-## 2       0    NO    NO    NO    NO    NO    NO
-##   p92_7 p92_8 p92_9 p93_1 p93_2 p93_3 p93_4
-## 1    NO    NO    NO  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
-## 2    NO    NO    NO  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
-##   p94_1 p94_2 p94_3 p94_4 p94_5 p94_6 p95 p96_1
-## 1  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  SI    NO
-## 2  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  SI    NO
-##   p96_2 p96_3 p96_4 p96_5  p97 p97_bis p98 p99
-## 1    NO    NO    NO    NO &lt;NA&gt;       0  SI   1
-## 2    NO    NO    NO    NO &lt;NA&gt;       0  SI   2
-##   p99_bis         p100_1         p100_2
-## 1       1 UNA VEZ AL AÑO          NUNCA
-## 2       2          NUNCA UNA VEZ AL AÑO
-##           p100_3 p100_4 p100_5 p100_6
-## 1          NUNCA  NUNCA  NUNCA  NUNCA
-## 2 UNA VEZ AL AÑO  NUNCA  NUNCA  NUNCA
-##           p101 p102 p102_bis
-## 1 FUE GRATUITO    0        0
-## 2 FUE GRATUITO    0        0
-##                          p103_1 p103_1_1
-## 1            HACE MAS DE 5 AÑOS     &lt;NA&gt;
-## 2 VARIAS VECES EN EL ULTIMO AÑO     1000
-##             p103_2 p103_1_2
-## 1     NO FUE NUNCA     &lt;NA&gt;
-## 2 ENTRE 1 Y 5 AÑOS     &lt;NA&gt;
-##                   p103_3 p103_1_3
-## 1     HACE MAS DE 5 AÑOS     &lt;NA&gt;
-## 2 1 VEZ EN EL ULTIMO AÑO      400
-##                          p103_4 p103_1_4
-## 1 VARIAS VECES EN EL ULTIMO AÑO      300
-## 2 VARIAS VECES EN EL ULTIMO AÑO      300
-##         p103_5 p103_1_5           p103_6
-## 1 NO FUE NUNCA     &lt;NA&gt; ENTRE 1 Y 5 AÑOS
-## 2 NO FUE NUNCA     &lt;NA&gt; ENTRE 1 Y 5 AÑOS
-##   p103_1_6                 p103_7 p103_1_7
-## 1     &lt;NA&gt;           NO FUE NUNCA     &lt;NA&gt;
-## 2     &lt;NA&gt; 1 VEZ EN EL ULTIMO AÑO        0
-##                          p103_8 p103_1_8
-## 1                  NO FUE NUNCA     &lt;NA&gt;
-## 2 VARIAS VECES EN EL ULTIMO AÑO        0
-##                   p103_9 p103_1_9
-## 1           NO FUE NUNCA     &lt;NA&gt;
-## 2 1 VEZ EN EL ULTIMO AÑO      100
-##                  p103_10 p103_110      p103_11
-## 1 1 VEZ EN EL ULTIMO AÑO       50 NO FUE NUNCA
-## 2 1 VEZ EN EL ULTIMO AÑO      600 NO FUE NUNCA
-##   p103_111      p103_12 p103_112
-## 1     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt;
-## 2     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt;
-##                  p103_13 p103_113      p103_14
-## 1           NO FUE NUNCA     &lt;NA&gt; NO FUE NUNCA
-## 2 1 VEZ EN EL ULTIMO AÑO        0 NO FUE NUNCA
-##   p103_114      p103_15 p103_115      p103_16
-## 1     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt; NO FUE NUNCA
-## 2     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt; NO FUE NUNCA
-##   p103_116      p103_17 p103_117
-## 1     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt;
-## 2     &lt;NA&gt; NO FUE NUNCA     &lt;NA&gt;
-##                  p103_18 p103_118
-## 1           NO FUE NUNCA     &lt;NA&gt;
-## 2 1 VEZ EN EL ULTIMO AÑO        0
-##                  p103_19 p103_119
-## 1           NO FUE NUNCA     &lt;NA&gt;
-## 2 1 VEZ EN EL ULTIMO AÑO        0
-##            p103_20 p103_120 p104 p104_1 p104_2
-## 1     NO FUE NUNCA     &lt;NA&gt;    6      3      0
-## 2 ENTRE 1 Y 5 AÑOS     &lt;NA&gt;    1     NA     NA
+##                         p90_2
+## 1 TODOS O CASI TODOS LOS DIAS
+## 2                        &lt;NA&gt;
+##   p90_3 p90_4  p91 p91_bis
+## 1 NUNCA NUNCA    0       0
+## 2  &lt;NA&gt;  &lt;NA&gt; &lt;NA&gt;       0
+##   p92_1 p92_2 p92_3 p92_4
+## 1    NO    NO    NO    NO
+## 2    NO    NO    NO    NO
+##   p92_5 p92_6 p92_7 p92_8
+## 1    NO    NO    NO    NO
+## 2    NO    NO    NO    NO
+##   p92_9 p93_1 p93_2 p93_3
+## 1    NO  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
+## 2    NO  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
+##   p93_4 p94_1 p94_2 p94_3
+## 1  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
+## 2  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
+##   p94_4 p94_5 p94_6 p95 p96_1
+## 1  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  SI    NO
+## 2  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  SI    NO
+##   p96_2 p96_3 p96_4 p96_5
+## 1    NO    NO    NO    NO
+## 2    NO    NO    NO    NO
+##    p97 p97_bis p98 p99
+## 1 &lt;NA&gt;       0  SI   1
+## 2 &lt;NA&gt;       0  SI   2
+##   p99_bis         p100_1
+## 1       1 UNA VEZ AL AÑO
+## 2       2          NUNCA
+##           p100_2
+## 1          NUNCA
+## 2 UNA VEZ AL AÑO
+##           p100_3 p100_4
+## 1          NUNCA  NUNCA
+## 2 UNA VEZ AL AÑO  NUNCA
+##   p100_5 p100_6         p101
+## 1  NUNCA  NUNCA FUE GRATUITO
+## 2  NUNCA  NUNCA FUE GRATUITO
+##   p102 p102_bis
+## 1    0        0
+## 2    0        0
+##                          p103_1
+## 1            HACE MAS DE 5 AÑOS
+## 2 VARIAS VECES EN EL ULTIMO AÑO
+##   p103_1_1           p103_2
+## 1     &lt;NA&gt;     NO FUE NUNCA
+## 2     1000 ENTRE 1 Y 5 AÑOS
+##   p103_1_2
+## 1     &lt;NA&gt;
+## 2     &lt;NA&gt;
+##                   p103_3
+## 1     HACE MAS DE 5 AÑOS
+## 2 1 VEZ EN EL ULTIMO AÑO
+##   p103_1_3
+## 1     &lt;NA&gt;
+## 2      400
+##                          p103_4
+## 1 VARIAS VECES EN EL ULTIMO AÑO
+## 2 VARIAS VECES EN EL ULTIMO AÑO
+##   p103_1_4       p103_5
+## 1      300 NO FUE NUNCA
+## 2      300 NO FUE NUNCA
+##   p103_1_5           p103_6
+## 1     &lt;NA&gt; ENTRE 1 Y 5 AÑOS
+## 2     &lt;NA&gt; ENTRE 1 Y 5 AÑOS
+##   p103_1_6
+## 1     &lt;NA&gt;
+## 2     &lt;NA&gt;
+##                   p103_7
+## 1           NO FUE NUNCA
+## 2 1 VEZ EN EL ULTIMO AÑO
+##   p103_1_7
+## 1     &lt;NA&gt;
+## 2        0
+##                          p103_8
+## 1                  NO FUE NUNCA
+## 2 VARIAS VECES EN EL ULTIMO AÑO
+##   p103_1_8
+## 1     &lt;NA&gt;
+## 2        0
+##                   p103_9
+## 1           NO FUE NUNCA
+## 2 1 VEZ EN EL ULTIMO AÑO
+##   p103_1_9
+## 1     &lt;NA&gt;
+## 2      100
+##                  p103_10
+## 1 1 VEZ EN EL ULTIMO AÑO
+## 2 1 VEZ EN EL ULTIMO AÑO
+##   p103_110      p103_11
+## 1       50 NO FUE NUNCA
+## 2      600 NO FUE NUNCA
+##   p103_111      p103_12
+## 1     &lt;NA&gt; NO FUE NUNCA
+## 2     &lt;NA&gt; NO FUE NUNCA
+##   p103_112
+## 1     &lt;NA&gt;
+## 2     &lt;NA&gt;
+##                  p103_13
+## 1           NO FUE NUNCA
+## 2 1 VEZ EN EL ULTIMO AÑO
+##   p103_113      p103_14
+## 1     &lt;NA&gt; NO FUE NUNCA
+## 2        0 NO FUE NUNCA
+##   p103_114      p103_15
+## 1     &lt;NA&gt; NO FUE NUNCA
+## 2     &lt;NA&gt; NO FUE NUNCA
+##   p103_115      p103_16
+## 1     &lt;NA&gt; NO FUE NUNCA
+## 2     &lt;NA&gt; NO FUE NUNCA
+##   p103_116      p103_17
+## 1     &lt;NA&gt; NO FUE NUNCA
+## 2     &lt;NA&gt; NO FUE NUNCA
+##   p103_117
+## 1     &lt;NA&gt;
+## 2     &lt;NA&gt;
+##                  p103_18
+## 1           NO FUE NUNCA
+## 2 1 VEZ EN EL ULTIMO AÑO
+##   p103_118
+## 1     &lt;NA&gt;
+## 2        0
+##                  p103_19
+## 1           NO FUE NUNCA
+## 2 1 VEZ EN EL ULTIMO AÑO
+##   p103_119          p103_20
+## 1     &lt;NA&gt;     NO FUE NUNCA
+## 2        0 ENTRE 1 Y 5 AÑOS
+##   p103_120 p104 p104_1 p104_2
+## 1     &lt;NA&gt;    6      3      0
+## 2     &lt;NA&gt;    1     NA     NA
 ##   p105                  p106
 ## 1    3 SECUNDARIA INCOMPLETA
 ## 2    2   SECUNDARIA COMPLETA
@@ -990,45 +1242,81 @@ encuesta_cc #Imprimo la tabla</code></pre>
 ##                                                         p110b
 ## 1 TRABAJADOR/OBRERO CALIFICADO. EMPLEADO ADMINISTRATIVO MEDIO
 ## 2 TRABAJADOR/OBRERO CALIFICADO. EMPLEADO ADMINISTRATIVO MEDIO
-##   p111 p111b p112 p113_1 p113_2 p113_3 p113_4
-## 1 &lt;NA&gt;  &lt;NA&gt;   SI     SI     SI     NO     SI
-## 2 &lt;NA&gt;  &lt;NA&gt;   NO     NO     NO     NO     NO
-##   p113_5     p114 p115_1 p115_2 p115_3 p115_4
-## 1     SI   PROPIA     NO     NO     NO     NO
-## 2     SI PRESTADA     NO     NO     NO     NO
-##   p115_5                      p116
-## 1     NO BARRIO DE VIVIENDA SOCIAL
-## 2     NO BARRIO DE VIVIENDA SOCIAL
-##                       p116b         p117
-## 1 BARRIO DE VIVIENDA SOCIAL         CASA
-## 2 BARRIO DE VIVIENDA SOCIAL DEPARTAMENTO
-##   NSEpuntaje NSEcat1 minutos_radio_1
-## 1         66      C3              60
-## 2         46      D1              60
-##   minutos_radio_total horas_radio_total
-## 1                  60                 1
-## 2                  60                 1
-##   minutos_musica_1 minutos_musica_total
-## 1               60                   90
-## 2              180                  180
-##   horas_musica_total minutos_diario_1
-## 1                1.5               60
-## 2                3.0                0
-##   minutos_diario_total horas_diario_total
-## 1                   60                1.0
-## 2                   30                0.5
-##   minutos_tv_1 minutos_tv_total horas_tv_total
-## 1           60               60           1.00
-## 2            0               45           0.75
-##   minutos_internet_1 minutos_internet_total
-## 1                480                    480
-## 2                120                    120
-##   horas_internet_total minutos_redes_1
-## 1                    8             240
-## 2                    2              60
-##   minutos_redes_total horas_redes_total
-## 1                 240                 4
-## 2                  60                 1
+##   p111 p111b p112 p113_1
+## 1 &lt;NA&gt;  &lt;NA&gt;   SI     SI
+## 2 &lt;NA&gt;  &lt;NA&gt;   NO     NO
+##   p113_2 p113_3 p113_4 p113_5
+## 1     SI     NO     SI     SI
+## 2     NO     NO     NO     SI
+##       p114 p115_1 p115_2
+## 1   PROPIA     NO     NO
+## 2 PRESTADA     NO     NO
+##   p115_3 p115_4 p115_5
+## 1     NO     NO     NO
+## 2     NO     NO     NO
+##                        p116
+## 1 BARRIO DE VIVIENDA SOCIAL
+## 2 BARRIO DE VIVIENDA SOCIAL
+##                       p116b
+## 1 BARRIO DE VIVIENDA SOCIAL
+## 2 BARRIO DE VIVIENDA SOCIAL
+##           p117 NSEpuntaje
+## 1         CASA         66
+## 2 DEPARTAMENTO         46
+##   NSEcat1 minutos_radio_1
+## 1      C3              60
+## 2      D1              60
+##   minutos_radio_total
+## 1                  60
+## 2                  60
+##   horas_radio_total
+## 1                 1
+## 2                 1
+##   minutos_musica_1
+## 1               60
+## 2              180
+##   minutos_musica_total
+## 1                   90
+## 2                  180
+##   horas_musica_total
+## 1                1.5
+## 2                3.0
+##   minutos_diario_1
+## 1               60
+## 2                0
+##   minutos_diario_total
+## 1                   60
+## 2                   30
+##   horas_diario_total
+## 1                1.0
+## 2                0.5
+##   minutos_tv_1
+## 1           60
+## 2            0
+##   minutos_tv_total
+## 1               60
+## 2               45
+##   horas_tv_total
+## 1           1.00
+## 2           0.75
+##   minutos_internet_1
+## 1                480
+## 2                120
+##   minutos_internet_total
+## 1                    480
+## 2                    120
+##   horas_internet_total
+## 1                    8
+## 2                    2
+##   minutos_redes_1
+## 1             240
+## 2              60
+##   minutos_redes_total
+## 1                 240
+## 2                  60
+##   horas_redes_total
+## 1                 4
+## 2                 1
 ##   minutos_videojuegos_1
 ## 1                    60
 ## 2                     0
@@ -1059,8 +1347,9 @@ encuesta_clean &lt;- select(encuesta_cc, id, pondera_dem, fecha, region, sexo, e
 <p><br> <strong>filter</strong> es una función que <strong>retiene un conjunto de observaciones (es lo mismo que decir filas) que cumplen con la condición que indicamos.</strong> En pocas palabras, filtramos los casos (unidad de análisis) que cumplen con los requisitos que seleccionamos. Para esto se utilizan los operadores de comparación que vimos en la primera sección. Utilizamos la función filter() para quedarnos con ciertas regiones de nuestro set de datos. <br></p>
 <pre class="r"><code># Primero observamos los campos únicos que tiene la variable region
 unique(encuesta_clean$region)</code></pre>
-<pre style="max-height: 150px;"><code>## [1] &quot;CENTRO&quot;    &quot;NEA&quot;       &quot;PATAGONIA&quot;
-## [4] &quot;NOA&quot;       &quot;CUYO&quot;      &quot;CABA&quot;     
+<pre style="max-height: 150px;"><code>## [1] &quot;CENTRO&quot;    &quot;NEA&quot;      
+## [3] &quot;PATAGONIA&quot; &quot;NOA&quot;      
+## [5] &quot;CUYO&quot;      &quot;CABA&quot;     
 ## [7] &quot;PBA&quot;       NA</code></pre>
 <pre class="r"><code># Nos vamos a quedar con la región NOA y NEA
 encuesta_clean &lt;-  filter(encuesta_clean, region %in% c(&quot;NOA&quot;, &quot;NEA&quot;))
@@ -1076,61 +1365,89 @@ unique(encuesta_clean$sexo)</code></pre>
 mujeres_noa &lt;- filter(encuesta_clean, region==&quot;NOA&quot; &amp; sexo ==&quot;Mujer&quot;)
 
 head(mujeres_noa)</code></pre>
-<pre style="max-height: 150px;"><code>##    id pondera_dem     fecha region  sexo edad
-## 1 346        3123  8/5/2017    NOA Mujer   13
-## 2 347        3418  8/5/2017    NOA Mujer   26
-## 3 348        7784  8/5/2017    NOA Mujer   38
-## 4 349        5619  8/5/2017    NOA Mujer   57
-## 5 350       11019  9/5/2017    NOA Mujer   69
-## 6 356        6363 12/5/2017    NOA Mujer   13
-##                                       p1 p1otros
-## 1         INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt;
-## 2              LA TRADICION, LA HISTORIA    &lt;NA&gt;
-## 3              LA TRADICION, LA HISTORIA    &lt;NA&gt;
-## 4 LA FORMA DE PENSAR, IDEOLOGIA, VALORES    &lt;NA&gt;
-## 5    LOS MODALES, EL BUEN COMPORTAMIENTO    &lt;NA&gt;
-## 6         INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt;
-##   p2   p3   p4   p5 p6horas p6minutos
-## 1 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
-## 2 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
-## 3 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
-## 4 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
-## 5 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA
-## 6 NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;      NA        NA</code></pre>
+<pre style="max-height: 150px;"><code>##    id pondera_dem     fecha
+## 1 346        3123  8/5/2017
+## 2 347        3418  8/5/2017
+## 3 348        7784  8/5/2017
+## 4 349        5619  8/5/2017
+## 5 350       11019  9/5/2017
+## 6 356        6363 12/5/2017
+##   region  sexo edad
+## 1    NOA Mujer   13
+## 2    NOA Mujer   26
+## 3    NOA Mujer   38
+## 4    NOA Mujer   57
+## 5    NOA Mujer   69
+## 6    NOA Mujer   13
+##                                       p1
+## 1         INFORMACION, ESTUDIAR, CONOCER
+## 2              LA TRADICION, LA HISTORIA
+## 3              LA TRADICION, LA HISTORIA
+## 4 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 5    LOS MODALES, EL BUEN COMPORTAMIENTO
+## 6         INFORMACION, ESTUDIAR, CONOCER
+##   p1otros p2   p3   p4   p5
+## 1    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
+## 2    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
+## 3    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
+## 4    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
+## 5    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
+## 6    &lt;NA&gt; NO &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
+##   p6horas p6minutos
+## 1      NA        NA
+## 2      NA        NA
+## 3      NA        NA
+## 4      NA        NA
+## 5      NA        NA
+## 6      NA        NA</code></pre>
 <p><br> También se puede combinar con funciones. Por ejemplo, podemos seleccionar los casos de nuestra tabla cuya cantidad de horas de escucha de radio sea superior al promedio.</p>
 <p><br></p>
 <pre class="r"><code>#Los que tienen más horas de radio escuchada
 mas_promedio &lt;- filter(encuesta_clean, p6horas &gt;= mean(p6horas, na.rm=T))
 
 head(mas_promedio)</code></pre>
-<pre style="max-height: 150px;"><code>##   id pondera_dem     fecha region  sexo edad
-## 1 44        9649 20/5/2017    NEA Varón   48
-## 2 45        2778 19/5/2017    NEA Varón   63
-## 3 49        4415 19/5/2017    NEA Mujer   55
-## 4 54        1661 17/5/2017    NEA Varón   45
-## 5 57        2904 15/5/2017    NEA Mujer   22
-## 6 62        4393 13/5/2017    NEA Varón   26
-##                                       p1 p1otros
-## 1                      EL ARTE, LO CULTO    &lt;NA&gt;
-## 2         INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt;
-## 3 LA FORMA DE PENSAR, IDEOLOGIA, VALORES    &lt;NA&gt;
-## 4         INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt;
-## 5                                  NS/NC    &lt;NA&gt;
-## 6                      EL ARTE, LO CULTO    &lt;NA&gt;
-##   p2 p3                          p4 p5 p6horas
-## 1 SI SI        ALGUNAS VECES AL MES FM       4
-## 2 SI NO TODOS O CASI TODOS LOS DIAS FM       3
-## 3 SI NO        ALGUNAS VECES AL MES FM       4
-## 4 SI NO TODOS O CASI TODOS LOS DIAS FM       3
-## 5 SI NO TODOS O CASI TODOS LOS DIAS FM       4
-## 6 SI SI TODOS O CASI TODOS LOS DIAS FM      12
-##   p6minutos
-## 1         0
-## 2        30
-## 3         0
-## 4         0
-## 5        30
-## 6         0</code></pre>
+<pre style="max-height: 150px;"><code>##   id pondera_dem     fecha
+## 1 44        9649 20/5/2017
+## 2 45        2778 19/5/2017
+## 3 49        4415 19/5/2017
+## 4 54        1661 17/5/2017
+## 5 57        2904 15/5/2017
+## 6 62        4393 13/5/2017
+##   region  sexo edad
+## 1    NEA Varón   48
+## 2    NEA Varón   63
+## 3    NEA Mujer   55
+## 4    NEA Varón   45
+## 5    NEA Mujer   22
+## 6    NEA Varón   26
+##                                       p1
+## 1                      EL ARTE, LO CULTO
+## 2         INFORMACION, ESTUDIAR, CONOCER
+## 3 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+## 4         INFORMACION, ESTUDIAR, CONOCER
+## 5                                  NS/NC
+## 6                      EL ARTE, LO CULTO
+##   p1otros p2 p3
+## 1    &lt;NA&gt; SI SI
+## 2    &lt;NA&gt; SI NO
+## 3    &lt;NA&gt; SI NO
+## 4    &lt;NA&gt; SI NO
+## 5    &lt;NA&gt; SI NO
+## 6    &lt;NA&gt; SI SI
+##                            p4
+## 1        ALGUNAS VECES AL MES
+## 2 TODOS O CASI TODOS LOS DIAS
+## 3        ALGUNAS VECES AL MES
+## 4 TODOS O CASI TODOS LOS DIAS
+## 5 TODOS O CASI TODOS LOS DIAS
+## 6 TODOS O CASI TODOS LOS DIAS
+##   p5 p6horas p6minutos
+## 1 FM       4         0
+## 2 FM       3        30
+## 3 FM       4         0
+## 4 FM       3         0
+## 5 FM       4        30
+## 6 FM      12         0</code></pre>
 <p><br></p>
 <br>
 <h3 id =  3.2.3>
@@ -1140,78 +1457,150 @@ head(mas_promedio)</code></pre>
 <p><strong>Arrange</strong> es una de las funciones que permite en R ordenar las filas de una tabla. Por ejemplo, ordenar de menor a mayor nuestra tabla por edad. <br></p>
 <pre class="r"><code># Ordenamos 
 arrange(encuesta_clean, edad) </code></pre>
-<pre style="max-height: 150px;"><code>##      id pondera_dem     fecha region  sexo edad
-## 1    81        2933 19/5/2017    NEA Varón   13
-## 2   136        2112 16/5/2017    NEA Mujer   13
-## 3   346        3123  8/5/2017    NOA Mujer   13
-## 4   356        6363 12/5/2017    NOA Mujer   13
-## 5   366        4994  9/5/2017    NOA Mujer   13
-## 6   376        6079 10/5/2017    NOA Mujer   13
-## 7   381        3877 14/5/2017    NOA Mujer   13
-## 8   436       13116 13/5/2017    NOA Mujer   13
-## 9   446        3940 16/5/2017    NOA Mujer   13
-## 10  485       10423 28/5/2017    NOA Mujer   13
-## 11  610        1551 18/5/2017    NOA Varón   13
-## 12  811        4595 21/5/2017    NOA Varón   13
-## 13  871        6177 23/5/2017    NOA Varón   13
-## 14 1061        8278  8/5/2017    NOA Varón   13
-## 15 1066       12656  8/5/2017    NOA Mujer   13
-## 16 1071        6927  7/5/2017    NOA Varón   13
-## 17 1351        3094  6/7/2017    NEA Varón   13
-## 18 1396        6630 29/5/2017    NEA Mujer   13
-## 19 1525        2267  8/6/2017    NEA Mujer   13
-## 20   71        1235 12/5/2017    NEA Varón   14
-## 21   76        1309 11/5/2017    NEA Mujer   14
-## 22   86        6219 19/5/2017    NEA Mujer   14
-## 23  126         844 12/5/2017    NEA Mujer   14
-## 24  151        1099 22/5/2017    NEA Varón   14
-## 25  166        2932 28/5/2017    NEA Mujer   14
-## 26  361        6805  9/5/2017    NOA Varón   14
-## 27  426        8935 11/5/2017    NOA Mujer   14
-## 28  496        1818 28/5/2017    NOA Mujer   14
-## 29  511        3143 27/5/2017    NOA Varón   14
-## 30  516        7689 27/5/2017    NOA Mujer   14
-## 31  531        3486  1/6/2017    NOA Varón   14
-## 32  556        6485 28/5/2017    NOA Mujer   14
-## 33  605        7771 17/5/2017    NOA Mujer   14
-## 34  616        9483 18/5/2017    NOA Mujer   14
-## 35  806        8401 20/5/2017    NOA Mujer   14
-## 36  816        5620 21/5/2017    NOA Mujer   14
-## 37  941        5729 13/5/2017    NOA Varón   14
-## 38 1026       11672  6/5/2017    NOA Mujer   14
-## 39 1426        5533  6/6/2017    NEA Mujer   14
-## 40 1431        3686 13/6/2017    NEA Varón   14
-## 41 1551        3902  5/6/2017    NEA Varón   14
-## 42   56       11621 16/5/2017    NEA Mujer   15
-## 43   66        4630 16/5/2017    NEA Mujer   15
-## 44  116       12791 20/5/2017    NEA Mujer   15
-## 45  161        2765 23/5/2017    NEA Varón   15
-## 46  171        7414 22/5/2017    NEA Varón   15
-## 47  196        5855 14/5/2017    NEA Mujer   15
-## 48  201        6893 12/5/2017    NEA Varón   15
-## 49  351        5203 12/5/2017    NOA Varón   15
-## 50  386        5283 14/5/2017    NOA Varón   15
-## 51  411        2058 15/7/2017    NOA Varón   15
-## 52  441        6442 16/5/2017    NOA Varón   15
-## 53  456        6265 12/5/2017    NOA Mujer   15
-## 54  461        2444 22/5/2017    NOA Varón   15
-## 55  466        1495 22/5/2017    NOA Mujer   15
-## 56  491        4460 28/5/2017    NOA Varón   15
-## 57  501        5901 20/5/2017    NOA Varón   15
-## 58  506        5413 20/5/2017    NOA Mujer   15
-## 59  541        5563 19/5/2017    NOA Varón   15
-## 60  626       11533 26/5/2017    NOA Mujer   15
-## 61  756       12452 24/5/2017    NOA Mujer   15
-## 62  761       10268 19/5/2017    NOA Varón   15
-## 63  801       13737 20/5/2017    NOA Varón   15
-## 64  861        5546 22/5/2017    NOA Varón   15
-## 65 1011        4946 24/5/2017    NOA Varón   15
-## 66 1021        4771  6/5/2017    NOA Varón   15
-## 67 1356        2461  6/7/2017    NEA Mujer   15
-## 68 1366        4280  7/7/2017    NEA Mujer   15
-## 69 1421        4174  6/6/2017    NEA Varón   15
-## 70 1541        5391 11/6/2017    NEA Varón   15
-## 71 1550        1429  9/6/2017    NEA Mujer   15
+<pre style="max-height: 150px;"><code>##      id pondera_dem     fecha
+## 1    81        2933 19/5/2017
+## 2   136        2112 16/5/2017
+## 3   346        3123  8/5/2017
+## 4   356        6363 12/5/2017
+## 5   366        4994  9/5/2017
+## 6   376        6079 10/5/2017
+## 7   381        3877 14/5/2017
+## 8   436       13116 13/5/2017
+## 9   446        3940 16/5/2017
+## 10  485       10423 28/5/2017
+## 11  610        1551 18/5/2017
+## 12  811        4595 21/5/2017
+## 13  871        6177 23/5/2017
+## 14 1061        8278  8/5/2017
+## 15 1066       12656  8/5/2017
+## 16 1071        6927  7/5/2017
+## 17 1351        3094  6/7/2017
+## 18 1396        6630 29/5/2017
+## 19 1525        2267  8/6/2017
+## 20   71        1235 12/5/2017
+## 21   76        1309 11/5/2017
+## 22   86        6219 19/5/2017
+## 23  126         844 12/5/2017
+## 24  151        1099 22/5/2017
+## 25  166        2932 28/5/2017
+## 26  361        6805  9/5/2017
+## 27  426        8935 11/5/2017
+## 28  496        1818 28/5/2017
+## 29  511        3143 27/5/2017
+## 30  516        7689 27/5/2017
+## 31  531        3486  1/6/2017
+## 32  556        6485 28/5/2017
+## 33  605        7771 17/5/2017
+## 34  616        9483 18/5/2017
+## 35  806        8401 20/5/2017
+## 36  816        5620 21/5/2017
+## 37  941        5729 13/5/2017
+## 38 1026       11672  6/5/2017
+## 39 1426        5533  6/6/2017
+## 40 1431        3686 13/6/2017
+## 41 1551        3902  5/6/2017
+## 42   56       11621 16/5/2017
+## 43   66        4630 16/5/2017
+## 44  116       12791 20/5/2017
+## 45  161        2765 23/5/2017
+## 46  171        7414 22/5/2017
+## 47  196        5855 14/5/2017
+## 48  201        6893 12/5/2017
+## 49  351        5203 12/5/2017
+## 50  386        5283 14/5/2017
+## 51  411        2058 15/7/2017
+## 52  441        6442 16/5/2017
+## 53  456        6265 12/5/2017
+## 54  461        2444 22/5/2017
+## 55  466        1495 22/5/2017
+## 56  491        4460 28/5/2017
+## 57  501        5901 20/5/2017
+## 58  506        5413 20/5/2017
+## 59  541        5563 19/5/2017
+## 60  626       11533 26/5/2017
+## 61  756       12452 24/5/2017
+## 62  761       10268 19/5/2017
+## 63  801       13737 20/5/2017
+## 64  861        5546 22/5/2017
+## 65 1011        4946 24/5/2017
+## 66 1021        4771  6/5/2017
+## 67 1356        2461  6/7/2017
+## 68 1366        4280  7/7/2017
+## 69 1421        4174  6/6/2017
+## 70 1541        5391 11/6/2017
+## 71 1550        1429  9/6/2017
+##    region  sexo edad
+## 1     NEA Varón   13
+## 2     NEA Mujer   13
+## 3     NOA Mujer   13
+## 4     NOA Mujer   13
+## 5     NOA Mujer   13
+## 6     NOA Mujer   13
+## 7     NOA Mujer   13
+## 8     NOA Mujer   13
+## 9     NOA Mujer   13
+## 10    NOA Mujer   13
+## 11    NOA Varón   13
+## 12    NOA Varón   13
+## 13    NOA Varón   13
+## 14    NOA Varón   13
+## 15    NOA Mujer   13
+## 16    NOA Varón   13
+## 17    NEA Varón   13
+## 18    NEA Mujer   13
+## 19    NEA Mujer   13
+## 20    NEA Varón   14
+## 21    NEA Mujer   14
+## 22    NEA Mujer   14
+## 23    NEA Mujer   14
+## 24    NEA Varón   14
+## 25    NEA Mujer   14
+## 26    NOA Varón   14
+## 27    NOA Mujer   14
+## 28    NOA Mujer   14
+## 29    NOA Varón   14
+## 30    NOA Mujer   14
+## 31    NOA Varón   14
+## 32    NOA Mujer   14
+## 33    NOA Mujer   14
+## 34    NOA Mujer   14
+## 35    NOA Mujer   14
+## 36    NOA Mujer   14
+## 37    NOA Varón   14
+## 38    NOA Mujer   14
+## 39    NEA Mujer   14
+## 40    NEA Varón   14
+## 41    NEA Varón   14
+## 42    NEA Mujer   15
+## 43    NEA Mujer   15
+## 44    NEA Mujer   15
+## 45    NEA Varón   15
+## 46    NEA Varón   15
+## 47    NEA Mujer   15
+## 48    NEA Varón   15
+## 49    NOA Varón   15
+## 50    NOA Varón   15
+## 51    NOA Varón   15
+## 52    NOA Varón   15
+## 53    NOA Mujer   15
+## 54    NOA Varón   15
+## 55    NOA Mujer   15
+## 56    NOA Varón   15
+## 57    NOA Varón   15
+## 58    NOA Mujer   15
+## 59    NOA Varón   15
+## 60    NOA Mujer   15
+## 61    NOA Mujer   15
+## 62    NOA Varón   15
+## 63    NOA Varón   15
+## 64    NOA Varón   15
+## 65    NOA Varón   15
+## 66    NOA Varón   15
+## 67    NEA Mujer   15
+## 68    NEA Mujer   15
+## 69    NEA Varón   15
+## 70    NEA Varón   15
+## 71    NEA Mujer   15
 ##                                        p1
 ## 1                       EL ARTE, LO CULTO
 ## 2               LA TRADICION, LA HISTORIA
@@ -1356,184 +1745,277 @@ arrange(encuesta_clean, edad) </code></pre>
 ## 69       &lt;NA&gt; SI   NO
 ## 70       &lt;NA&gt; NO &lt;NA&gt;
 ## 71       &lt;NA&gt; NO &lt;NA&gt;
-##                             p4              p5
-## 1                         &lt;NA&gt;            &lt;NA&gt;
-## 2      ALGUNOS DIAS POR SEMANA              FM
-## 3                         &lt;NA&gt;            &lt;NA&gt;
-## 4                         &lt;NA&gt;            &lt;NA&gt;
-## 5                         &lt;NA&gt;            &lt;NA&gt;
-## 6                         &lt;NA&gt;            &lt;NA&gt;
-## 7                         &lt;NA&gt;            &lt;NA&gt;
-## 8                         &lt;NA&gt;            &lt;NA&gt;
-## 9                         &lt;NA&gt;            &lt;NA&gt;
-## 10 TODOS O CASI TODOS LOS DIAS              FM
-## 11        ALGUNAS VECES AL MES AMBAS POR IGUAL
-## 12                        &lt;NA&gt;            &lt;NA&gt;
-## 13                        &lt;NA&gt;            &lt;NA&gt;
-## 14 TODOS O CASI TODOS LOS DIAS              FM
-## 15                        &lt;NA&gt;            &lt;NA&gt;
-## 16                        &lt;NA&gt;            &lt;NA&gt;
-## 17                        &lt;NA&gt;            &lt;NA&gt;
-## 18                        &lt;NA&gt;            &lt;NA&gt;
-## 19 TODOS O CASI TODOS LOS DIAS              AM
-## 20 TODOS O CASI TODOS LOS DIAS              FM
-## 21        ALGUNAS VECES AL MES              FM
-## 22                        &lt;NA&gt;            &lt;NA&gt;
-## 23        ALGUNAS VECES AL MES           NS/NC
-## 24        ALGUNAS VECES AL MES              FM
-## 25                        &lt;NA&gt;            &lt;NA&gt;
-## 26                        &lt;NA&gt;            &lt;NA&gt;
-## 27                        &lt;NA&gt;            &lt;NA&gt;
-## 28 TODOS O CASI TODOS LOS DIAS              FM
-## 29                        &lt;NA&gt;            &lt;NA&gt;
-## 30                        &lt;NA&gt;            &lt;NA&gt;
-## 31                        &lt;NA&gt;            &lt;NA&gt;
-## 32                        &lt;NA&gt;            &lt;NA&gt;
-## 33                        &lt;NA&gt;            &lt;NA&gt;
-## 34                        &lt;NA&gt;            &lt;NA&gt;
-## 35                        &lt;NA&gt;            &lt;NA&gt;
-## 36                        &lt;NA&gt;            &lt;NA&gt;
-## 37                        &lt;NA&gt;            &lt;NA&gt;
-## 38     ALGUNOS DIAS POR SEMANA              FM
-## 39                        &lt;NA&gt;            &lt;NA&gt;
-## 40                        &lt;NA&gt;            &lt;NA&gt;
-## 41                        &lt;NA&gt;            &lt;NA&gt;
-## 42                        &lt;NA&gt;            &lt;NA&gt;
-## 43                        &lt;NA&gt;            &lt;NA&gt;
-## 44     ALGUNOS DIAS POR SEMANA              FM
-## 45                        &lt;NA&gt;            &lt;NA&gt;
-## 46                        &lt;NA&gt;            &lt;NA&gt;
-## 47 TODOS O CASI TODOS LOS DIAS AMBAS POR IGUAL
-## 48                        &lt;NA&gt;            &lt;NA&gt;
-## 49                        &lt;NA&gt;            &lt;NA&gt;
-## 50                        &lt;NA&gt;            &lt;NA&gt;
-## 51        ALGUNAS VECES AL MES              FM
-## 52                        &lt;NA&gt;            &lt;NA&gt;
-## 53     ALGUNOS DIAS POR SEMANA              FM
-## 54                        &lt;NA&gt;            &lt;NA&gt;
-## 55                        &lt;NA&gt;            &lt;NA&gt;
-## 56                        &lt;NA&gt;            &lt;NA&gt;
-## 57     ALGUNOS DIAS POR SEMANA           NS/NC
-## 58                        &lt;NA&gt;            &lt;NA&gt;
-## 59                        &lt;NA&gt;            &lt;NA&gt;
-## 60                        &lt;NA&gt;            &lt;NA&gt;
-## 61                        &lt;NA&gt;            &lt;NA&gt;
-## 62                        &lt;NA&gt;            &lt;NA&gt;
-## 63 TODOS O CASI TODOS LOS DIAS AMBAS POR IGUAL
-## 64                        &lt;NA&gt;            &lt;NA&gt;
-## 65                        &lt;NA&gt;            &lt;NA&gt;
-## 66                        &lt;NA&gt;            &lt;NA&gt;
-## 67 TODOS O CASI TODOS LOS DIAS              FM
-## 68 TODOS O CASI TODOS LOS DIAS              AM
-## 69     ALGUNOS DIAS POR SEMANA              FM
-## 70                        &lt;NA&gt;            &lt;NA&gt;
-## 71                        &lt;NA&gt;            &lt;NA&gt;
-##    p6horas p6minutos
-## 1       NA        NA
-## 2        2         0
-## 3       NA        NA
-## 4       NA        NA
-## 5       NA        NA
-## 6       NA        NA
-## 7       NA        NA
-## 8       NA        NA
-## 9       NA        NA
-## 10       1         0
-## 11       1         0
-## 12      NA        NA
-## 13      NA        NA
-## 14       1         0
-## 15      NA        NA
-## 16      NA        NA
-## 17      NA        NA
-## 18      NA        NA
-## 19       2         0
-## 20       1         0
-## 21       1         0
-## 22      NA        NA
-## 23       1         0
-## 24       0        40
-## 25      NA        NA
-## 26      NA        NA
-## 27      NA        NA
-## 28       4         0
-## 29      NA        NA
-## 30      NA        NA
-## 31      NA        NA
-## 32      NA        NA
-## 33      NA        NA
-## 34      NA        NA
-## 35      NA        NA
-## 36      NA        NA
-## 37      NA        NA
-## 38       1         0
-## 39      NA        NA
-## 40      NA        NA
-## 41      NA        NA
-## 42      NA        NA
-## 43      NA        NA
-## 44       1         0
-## 45      NA        NA
-## 46      NA        NA
-## 47      10         0
-## 48      NA        NA
-## 49      NA        NA
-## 50      NA        NA
-## 51       0        20
-## 52      NA        NA
-## 53       1         0
-## 54      NA        NA
-## 55      NA        NA
-## 56      NA        NA
-## 57       0        30
-## 58      NA        NA
-## 59      NA        NA
-## 60      NA        NA
-## 61      NA        NA
-## 62      NA        NA
-## 63       0        30
-## 64      NA        NA
-## 65      NA        NA
-## 66      NA        NA
-## 67       3         0
-## 68       2         0
-## 69       2         0
-## 70      NA        NA
-## 71      NA        NA
+##                             p4
+## 1                         &lt;NA&gt;
+## 2      ALGUNOS DIAS POR SEMANA
+## 3                         &lt;NA&gt;
+## 4                         &lt;NA&gt;
+## 5                         &lt;NA&gt;
+## 6                         &lt;NA&gt;
+## 7                         &lt;NA&gt;
+## 8                         &lt;NA&gt;
+## 9                         &lt;NA&gt;
+## 10 TODOS O CASI TODOS LOS DIAS
+## 11        ALGUNAS VECES AL MES
+## 12                        &lt;NA&gt;
+## 13                        &lt;NA&gt;
+## 14 TODOS O CASI TODOS LOS DIAS
+## 15                        &lt;NA&gt;
+## 16                        &lt;NA&gt;
+## 17                        &lt;NA&gt;
+## 18                        &lt;NA&gt;
+## 19 TODOS O CASI TODOS LOS DIAS
+## 20 TODOS O CASI TODOS LOS DIAS
+## 21        ALGUNAS VECES AL MES
+## 22                        &lt;NA&gt;
+## 23        ALGUNAS VECES AL MES
+## 24        ALGUNAS VECES AL MES
+## 25                        &lt;NA&gt;
+## 26                        &lt;NA&gt;
+## 27                        &lt;NA&gt;
+## 28 TODOS O CASI TODOS LOS DIAS
+## 29                        &lt;NA&gt;
+## 30                        &lt;NA&gt;
+## 31                        &lt;NA&gt;
+## 32                        &lt;NA&gt;
+## 33                        &lt;NA&gt;
+## 34                        &lt;NA&gt;
+## 35                        &lt;NA&gt;
+## 36                        &lt;NA&gt;
+## 37                        &lt;NA&gt;
+## 38     ALGUNOS DIAS POR SEMANA
+## 39                        &lt;NA&gt;
+## 40                        &lt;NA&gt;
+## 41                        &lt;NA&gt;
+## 42                        &lt;NA&gt;
+## 43                        &lt;NA&gt;
+## 44     ALGUNOS DIAS POR SEMANA
+## 45                        &lt;NA&gt;
+## 46                        &lt;NA&gt;
+## 47 TODOS O CASI TODOS LOS DIAS
+## 48                        &lt;NA&gt;
+## 49                        &lt;NA&gt;
+## 50                        &lt;NA&gt;
+## 51        ALGUNAS VECES AL MES
+## 52                        &lt;NA&gt;
+## 53     ALGUNOS DIAS POR SEMANA
+## 54                        &lt;NA&gt;
+## 55                        &lt;NA&gt;
+## 56                        &lt;NA&gt;
+## 57     ALGUNOS DIAS POR SEMANA
+## 58                        &lt;NA&gt;
+## 59                        &lt;NA&gt;
+## 60                        &lt;NA&gt;
+## 61                        &lt;NA&gt;
+## 62                        &lt;NA&gt;
+## 63 TODOS O CASI TODOS LOS DIAS
+## 64                        &lt;NA&gt;
+## 65                        &lt;NA&gt;
+## 66                        &lt;NA&gt;
+## 67 TODOS O CASI TODOS LOS DIAS
+## 68 TODOS O CASI TODOS LOS DIAS
+## 69     ALGUNOS DIAS POR SEMANA
+## 70                        &lt;NA&gt;
+## 71                        &lt;NA&gt;
+##                 p5 p6horas
+## 1             &lt;NA&gt;      NA
+## 2               FM       2
+## 3             &lt;NA&gt;      NA
+## 4             &lt;NA&gt;      NA
+## 5             &lt;NA&gt;      NA
+## 6             &lt;NA&gt;      NA
+## 7             &lt;NA&gt;      NA
+## 8             &lt;NA&gt;      NA
+## 9             &lt;NA&gt;      NA
+## 10              FM       1
+## 11 AMBAS POR IGUAL       1
+## 12            &lt;NA&gt;      NA
+## 13            &lt;NA&gt;      NA
+## 14              FM       1
+## 15            &lt;NA&gt;      NA
+## 16            &lt;NA&gt;      NA
+## 17            &lt;NA&gt;      NA
+## 18            &lt;NA&gt;      NA
+## 19              AM       2
+## 20              FM       1
+## 21              FM       1
+## 22            &lt;NA&gt;      NA
+## 23           NS/NC       1
+## 24              FM       0
+## 25            &lt;NA&gt;      NA
+## 26            &lt;NA&gt;      NA
+## 27            &lt;NA&gt;      NA
+## 28              FM       4
+## 29            &lt;NA&gt;      NA
+## 30            &lt;NA&gt;      NA
+## 31            &lt;NA&gt;      NA
+## 32            &lt;NA&gt;      NA
+## 33            &lt;NA&gt;      NA
+## 34            &lt;NA&gt;      NA
+## 35            &lt;NA&gt;      NA
+## 36            &lt;NA&gt;      NA
+## 37            &lt;NA&gt;      NA
+## 38              FM       1
+## 39            &lt;NA&gt;      NA
+## 40            &lt;NA&gt;      NA
+## 41            &lt;NA&gt;      NA
+## 42            &lt;NA&gt;      NA
+## 43            &lt;NA&gt;      NA
+## 44              FM       1
+## 45            &lt;NA&gt;      NA
+## 46            &lt;NA&gt;      NA
+## 47 AMBAS POR IGUAL      10
+## 48            &lt;NA&gt;      NA
+## 49            &lt;NA&gt;      NA
+## 50            &lt;NA&gt;      NA
+## 51              FM       0
+## 52            &lt;NA&gt;      NA
+## 53              FM       1
+## 54            &lt;NA&gt;      NA
+## 55            &lt;NA&gt;      NA
+## 56            &lt;NA&gt;      NA
+## 57           NS/NC       0
+## 58            &lt;NA&gt;      NA
+## 59            &lt;NA&gt;      NA
+## 60            &lt;NA&gt;      NA
+## 61            &lt;NA&gt;      NA
+## 62            &lt;NA&gt;      NA
+## 63 AMBAS POR IGUAL       0
+## 64            &lt;NA&gt;      NA
+## 65            &lt;NA&gt;      NA
+## 66            &lt;NA&gt;      NA
+## 67              FM       3
+## 68              AM       2
+## 69              FM       2
+## 70            &lt;NA&gt;      NA
+## 71            &lt;NA&gt;      NA
+##    p6minutos
+## 1         NA
+## 2          0
+## 3         NA
+## 4         NA
+## 5         NA
+## 6         NA
+## 7         NA
+## 8         NA
+## 9         NA
+## 10         0
+## 11         0
+## 12        NA
+## 13        NA
+## 14         0
+## 15        NA
+## 16        NA
+## 17        NA
+## 18        NA
+## 19         0
+## 20         0
+## 21         0
+## 22        NA
+## 23         0
+## 24        40
+## 25        NA
+## 26        NA
+## 27        NA
+## 28         0
+## 29        NA
+## 30        NA
+## 31        NA
+## 32        NA
+## 33        NA
+## 34        NA
+## 35        NA
+## 36        NA
+## 37        NA
+## 38         0
+## 39        NA
+## 40        NA
+## 41        NA
+## 42        NA
+## 43        NA
+## 44         0
+## 45        NA
+## 46        NA
+## 47         0
+## 48        NA
+## 49        NA
+## 50        NA
+## 51        20
+## 52        NA
+## 53         0
+## 54        NA
+## 55        NA
+## 56        NA
+## 57        30
+## 58        NA
+## 59        NA
+## 60        NA
+## 61        NA
+## 62        NA
+## 63        30
+## 64        NA
+## 65        NA
+## 66        NA
+## 67         0
+## 68         0
+## 69         0
+## 70        NA
+## 71        NA
 ##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 729 rows ]</code></pre>
 <p><br> Si agregamos la función desc() podemos invertir el orden. <br></p>
 <pre class="r"><code># Ordenamos de manera descendente
 encuesta_clean %&gt;% 
   arrange(desc(edad)) %&gt;% 
   head()</code></pre>
-<pre style="max-height: 150px;"><code>##     id pondera_dem     fecha region  sexo edad
-## 1 1560        3873  5/6/2017    NEA Mujer   92
-## 2 1360        1197  5/7/2017    NEA Mujer   89
-## 3 1030        5055  6/5/2017    NOA Mujer   88
-## 4 1436        3637 13/6/2017    NEA Varón   87
-## 5   70        6501 12/5/2017    NEA Mujer   86
-## 6  185        1874 13/5/2017    NEA Varón   84
-##                                       p1 p1otros
-## 1              LA TRADICION, LA HISTORIA    &lt;NA&gt;
-## 2   HABITOS, COSTUMBRES, COMPORTAMIENTOS    &lt;NA&gt;
-## 3              LA TRADICION, LA HISTORIA    &lt;NA&gt;
-## 4   HABITOS, COSTUMBRES, COMPORTAMIENTOS    &lt;NA&gt;
-## 5                      EL ARTE, LO CULTO    &lt;NA&gt;
-## 6 LA FORMA DE PENSAR, IDEOLOGIA, VALORES    &lt;NA&gt;
-##   p2   p3                          p4
-## 1 NO &lt;NA&gt;                        &lt;NA&gt;
-## 2 SI   NO     ALGUNOS DIAS POR SEMANA
-## 3 NO &lt;NA&gt;                        &lt;NA&gt;
-## 4 SI   NO TODOS O CASI TODOS LOS DIAS
-## 5 NO &lt;NA&gt;                        &lt;NA&gt;
-## 6 SI   NO TODOS O CASI TODOS LOS DIAS
-##                p5 p6horas p6minutos
-## 1            &lt;NA&gt;      NA        NA
-## 2 AMBAS POR IGUAL       6         0
-## 3            &lt;NA&gt;      NA        NA
-## 4 AMBAS POR IGUAL       4        30
-## 5            &lt;NA&gt;      NA        NA
-## 6              FM       1         0</code></pre>
+<pre style="max-height: 150px;"><code>##     id pondera_dem     fecha
+## 1 1560        3873  5/6/2017
+## 2 1360        1197  5/7/2017
+## 3 1030        5055  6/5/2017
+## 4 1436        3637 13/6/2017
+## 5   70        6501 12/5/2017
+## 6  185        1874 13/5/2017
+##   region  sexo edad
+## 1    NEA Mujer   92
+## 2    NEA Mujer   89
+## 3    NOA Mujer   88
+## 4    NEA Varón   87
+## 5    NEA Mujer   86
+## 6    NEA Varón   84
+##                                       p1
+## 1              LA TRADICION, LA HISTORIA
+## 2   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 3              LA TRADICION, LA HISTORIA
+## 4   HABITOS, COSTUMBRES, COMPORTAMIENTOS
+## 5                      EL ARTE, LO CULTO
+## 6 LA FORMA DE PENSAR, IDEOLOGIA, VALORES
+##   p1otros p2   p3
+## 1    &lt;NA&gt; NO &lt;NA&gt;
+## 2    &lt;NA&gt; SI   NO
+## 3    &lt;NA&gt; NO &lt;NA&gt;
+## 4    &lt;NA&gt; SI   NO
+## 5    &lt;NA&gt; NO &lt;NA&gt;
+## 6    &lt;NA&gt; SI   NO
+##                            p4
+## 1                        &lt;NA&gt;
+## 2     ALGUNOS DIAS POR SEMANA
+## 3                        &lt;NA&gt;
+## 4 TODOS O CASI TODOS LOS DIAS
+## 5                        &lt;NA&gt;
+## 6 TODOS O CASI TODOS LOS DIAS
+##                p5 p6horas
+## 1            &lt;NA&gt;      NA
+## 2 AMBAS POR IGUAL       6
+## 3            &lt;NA&gt;      NA
+## 4 AMBAS POR IGUAL       4
+## 5            &lt;NA&gt;      NA
+## 6              FM       1
+##   p6minutos
+## 1        NA
+## 2         0
+## 3        NA
+## 4        30
+## 5        NA
+## 6         0</code></pre>
 <p><br></p>
 <br>
 <h3 id =  3.2.4>
@@ -1566,12 +2048,14 @@ tabla_resumen &lt;- summarise(tabla_cantidad,
 tabla_resumen</code></pre>
 <pre style="max-height: 150px;"><code>## # A tibble: 4 x 4
 ## # Groups:   sexo [2]
-##   sexo  region Personas cantidad_de_casos
-##   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;             &lt;int&gt;
-## 1 Mujer NEA      979450               201
-## 2 Mujer NOA     1552643               201
-## 3 Varón NEA      897181               199
-## 4 Varón NOA     1434815               199</code></pre>
+##   sexo  region Personas
+##   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;
+## 1 Mujer NEA      979450
+## 2 Mujer NOA     1552643
+## 3 Varón NEA      897181
+## 4 Varón NOA     1434815
+## # ... with 1 more variable:
+## #   cantidad_de_casos &lt;int&gt;</code></pre>
 <p><br> También podríamos realizar esto mismo de manera más sencilla aplicando el count(). Pero la idea era presentarles la combinación de estás hermosas funciones. Veamos cómo se realiza con el count():</p>
 <pre class="r"><code>tabla_cantidad &lt;- group_by(encuesta_clean, sexo, region)
 tabla_cantidad &lt;- summarise(tabla_cantidad,
@@ -1580,12 +2064,14 @@ tabla_cantidad &lt;- summarise(tabla_cantidad,
 tabla_cantidad</code></pre>
 <pre style="max-height: 150px;"><code>## # A tibble: 4 x 4
 ## # Groups:   sexo [2]
-##   sexo  region Personas cantidad_de_casos
-##   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;             &lt;int&gt;
-## 1 Mujer NEA      979450               201
-## 2 Mujer NOA     1552643               201
-## 3 Varón NEA      897181               199
-## 4 Varón NOA     1434815               199</code></pre>
+##   sexo  region Personas
+##   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;
+## 1 Mujer NEA      979450
+## 2 Mujer NOA     1552643
+## 3 Varón NEA      897181
+## 4 Varón NOA     1434815
+## # ... with 1 more variable:
+## #   cantidad_de_casos &lt;int&gt;</code></pre>
 <br>
 <h3 id =  3.2.6>
 3.2.6. Mutate
@@ -1610,34 +2096,62 @@ encuesta_clean &lt;- encuesta_clean %&gt;%
 encuesta_clean %&gt;% 
   mutate_if(is.double, as.integer) %&gt;% 
   head()</code></pre>
-<pre style="max-height: 150px;"><code>##   id pondera_dem     fecha region  sexo edad
-## 1 41        9283 20/5/2017    NEA Varón   17
-## 2 42        9280 20/5/2017    NEA Varón   24
-## 3 43        1608 19/5/2017    NEA Varón   35
-## 4 44        9649 20/5/2017    NEA Varón   48
-## 5 45        2778 19/5/2017    NEA Varón   63
-## 6 46        5623 19/5/2017    NEA Mujer   19
-##                               p1 p1otros p2 p3
-## 1      LA TRADICION, LA HISTORIA    &lt;NA&gt; SI SI
-## 2 INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt; SI NO
-## 3      LA TRADICION, LA HISTORIA    &lt;NA&gt; SI NO
-## 4              EL ARTE, LO CULTO    &lt;NA&gt; SI SI
-## 5 INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt; SI NO
-## 6 INFORMACION, ESTUDIAR, CONOCER    &lt;NA&gt; SI SI
-##                            p4 p5 p6horas
-## 1 TODOS O CASI TODOS LOS DIAS FM       2
-## 2 TODOS O CASI TODOS LOS DIAS FM       2
-## 3        ALGUNAS VECES AL MES FM       2
-## 4        ALGUNAS VECES AL MES FM       4
-## 5 TODOS O CASI TODOS LOS DIAS FM       3
-## 6        ALGUNAS VECES AL MES AM       1
-##   p6minutos    flag_menor edad_categorica
-## 1         0 menor de edad      30 o menos
-## 2         0 mayor de edad      30 o menos
-## 3         0 mayor de edad         31 a 45
-## 4         0 mayor de edad         46 a 60
-## 5        30 mayor de edad         61 a 75
-## 6         0 mayor de edad      30 o menos</code></pre>
+<pre style="max-height: 150px;"><code>##   id pondera_dem     fecha
+## 1 41        9283 20/5/2017
+## 2 42        9280 20/5/2017
+## 3 43        1608 19/5/2017
+## 4 44        9649 20/5/2017
+## 5 45        2778 19/5/2017
+## 6 46        5623 19/5/2017
+##   region  sexo edad
+## 1    NEA Varón   17
+## 2    NEA Varón   24
+## 3    NEA Varón   35
+## 4    NEA Varón   48
+## 5    NEA Varón   63
+## 6    NEA Mujer   19
+##                               p1
+## 1      LA TRADICION, LA HISTORIA
+## 2 INFORMACION, ESTUDIAR, CONOCER
+## 3      LA TRADICION, LA HISTORIA
+## 4              EL ARTE, LO CULTO
+## 5 INFORMACION, ESTUDIAR, CONOCER
+## 6 INFORMACION, ESTUDIAR, CONOCER
+##   p1otros p2 p3
+## 1    &lt;NA&gt; SI SI
+## 2    &lt;NA&gt; SI NO
+## 3    &lt;NA&gt; SI NO
+## 4    &lt;NA&gt; SI SI
+## 5    &lt;NA&gt; SI NO
+## 6    &lt;NA&gt; SI SI
+##                            p4
+## 1 TODOS O CASI TODOS LOS DIAS
+## 2 TODOS O CASI TODOS LOS DIAS
+## 3        ALGUNAS VECES AL MES
+## 4        ALGUNAS VECES AL MES
+## 5 TODOS O CASI TODOS LOS DIAS
+## 6        ALGUNAS VECES AL MES
+##   p5 p6horas p6minutos
+## 1 FM       2         0
+## 2 FM       2         0
+## 3 FM       2         0
+## 4 FM       4         0
+## 5 FM       3        30
+## 6 AM       1         0
+##      flag_menor
+## 1 menor de edad
+## 2 mayor de edad
+## 3 mayor de edad
+## 4 mayor de edad
+## 5 mayor de edad
+## 6 mayor de edad
+##   edad_categorica
+## 1      30 o menos
+## 2      30 o menos
+## 3         31 a 45
+## 4         46 a 60
+## 5         61 a 75
+## 6      30 o menos</code></pre>
 <p><br></p>
 <br>
 <h3 id =  3.2.7>
@@ -1656,19 +2170,29 @@ notas_mat &lt;- data.frame(id_alumnes = LETTERS[1:3],
 # Left join
 notas_soc%&gt;% 
   left_join(notas_mat, by = c(&quot;id_alumnes&quot;=&quot;id_alumnes&quot;))</code></pre>
-<pre style="max-height: 150px;"><code>##   id_alumnes notas_soc notas_mat
-## 1          A        10         8
-## 2          B         8         9
-## 3          C         9         7
-## 4          D         5        NA
-## 5          E         9        NA</code></pre>
+<pre style="max-height: 150px;"><code>##   id_alumnes notas_soc
+## 1          A        10
+## 2          B         8
+## 3          C         9
+## 4          D         5
+## 5          E         9
+##   notas_mat
+## 1         8
+## 2         9
+## 3         7
+## 4        NA
+## 5        NA</code></pre>
 <pre class="r"><code># Inner join
 notas_soc  %&gt;% 
   inner_join(notas_mat, by = c(&quot;id_alumnes&quot;=&quot;id_alumnes&quot;))</code></pre>
-<pre style="max-height: 150px;"><code>##   id_alumnes notas_soc notas_mat
-## 1          A        10         8
-## 2          B         8         9
-## 3          C         9         7</code></pre>
+<pre style="max-height: 150px;"><code>##   id_alumnes notas_soc
+## 1          A        10
+## 2          B         8
+## 3          C         9
+##   notas_mat
+## 1         8
+## 2         9
+## 3         7</code></pre>
 <p><br></p>
 <p>La unificación de bases de datos, o tablas, puede realizarse con otras funciones, otras variantes son right_join() y full_join(), si quieren aprender más de joins y de forma interactiva no se pierdan de <a href = "https://github.com/gadenbuie/tidyexplain"> este link </a>.</p>
 <br>
@@ -1685,12 +2209,14 @@ notas_soc  %&gt;%
             cantidad_de_casos = n())</code></pre>
 <pre style="max-height: 150px;"><code>## # A tibble: 4 x 4
 ## # Groups:   region [2]
-##   region sexo  Personas cantidad_de_casos
-##   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;             &lt;int&gt;
-## 1 NEA    Mujer   979450               201
-## 2 NEA    Varón   897181               199
-## 3 NOA    Mujer  1552643               201
-## 4 NOA    Varón  1434815               199</code></pre>
+##   region sexo  Personas
+##   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;
+## 1 NEA    Mujer   979450
+## 2 NEA    Varón   897181
+## 3 NOA    Mujer  1552643
+## 4 NOA    Varón  1434815
+## # ... with 1 more variable:
+## #   cantidad_de_casos &lt;int&gt;</code></pre>
 <p><br> <br> En pocas palabras, cada línea de código adiciona una transformación sobre la tabla. Por esto decíamos que el pipe, funciona como una línea de montaje: cada línea de código agrega una modificación del objeto con el que se está trabajando. Al pipe también se lo conoce como las tuberías de r.</p>
 <br>
 <div class="contenidos citas">
@@ -1715,12 +2241,14 @@ tabla_wider &lt;- tabla_resumen %&gt;%
               values_from = Personas)
 tabla_wider</code></pre>
 <pre style="max-height: 150px;"><code>## # A tibble: 4 x 4
-##   region cantidad_de_casos   Mujer   Varón
-##   &lt;chr&gt;              &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-## 1 NEA                  201  979450      NA
-## 2 NOA                  201 1552643      NA
-## 3 NEA                  199      NA  897181
-## 4 NOA                  199      NA 1434815</code></pre>
+##   region cantidad_de_casos
+##   &lt;chr&gt;              &lt;int&gt;
+## 1 NEA                  201
+## 2 NOA                  201
+## 3 NEA                  199
+## 4 NOA                  199
+## # ... with 2 more variables:
+## #   Mujer &lt;dbl&gt;, Varón &lt;dbl&gt;</code></pre>
 <p><br>Convertimos cada categoría de sexo en una nueva columna y los valores que llenan cada columna son los de cantidad de personas. Ahora nuestra tabla resumen tiene otro aspecto.</p>
 <p>El caso de pivot_longer() incrementa el número de filas y reduce el nombre de columnas.</p>
 <pre class="r"><code># Vovemos a convertir al formato original la tabla
@@ -1731,16 +2259,16 @@ tabla_longer &lt;- tabla_wider %&gt;%
                values_drop_na = TRUE)
 tabla_longer</code></pre>
 <pre style="max-height: 150px;"><code>## # A tibble: 8 x 3
-##   region sexo2             Personas
-##   &lt;chr&gt;  &lt;chr&gt;                &lt;dbl&gt;
-## 1 NEA    cantidad_de_casos      201
-## 2 NEA    Mujer               979450
-## 3 NOA    cantidad_de_casos      201
-## 4 NOA    Mujer              1552643
-## 5 NEA    cantidad_de_casos      199
-## 6 NEA    Varón               897181
-## 7 NOA    cantidad_de_casos      199
-## 8 NOA    Varón              1434815</code></pre>
+##   region sexo2        Personas
+##   &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt;
+## 1 NEA    cantidad_de~      201
+## 2 NEA    Mujer          979450
+## 3 NOA    cantidad_de~      201
+## 4 NOA    Mujer         1552643
+## 5 NEA    cantidad_de~      199
+## 6 NEA    Varón          897181
+## 7 NOA    cantidad_de~      199
+## 8 NOA    Varón         1434815</code></pre>
 <br>
 <h2 id="3.3">
 <strong>3.3.</strong> LUBRIDATE
@@ -1759,292 +2287,435 @@ tabla_con_fechas &lt;- encuesta_clean %&gt;%
          dias_transcurridos =  (Sys.Date() - fecha2) )
 
 tabla_con_fechas</code></pre>
-<pre style="max-height: 150px;"><code>##      id     fecha     fecha2 anio mes dia
-## 1    41 20/5/2017 2017-05-20 2017   5  20
-## 2    42 20/5/2017 2017-05-20 2017   5  20
-## 3    43 19/5/2017 2017-05-19 2017   5  19
-## 4    44 20/5/2017 2017-05-20 2017   5  20
-## 5    45 19/5/2017 2017-05-19 2017   5  19
-## 6    46 19/5/2017 2017-05-19 2017   5  19
-## 7    47 19/5/2017 2017-05-19 2017   5  19
-## 8    48 19/5/2017 2017-05-19 2017   5  19
-## 9    49 19/5/2017 2017-05-19 2017   5  19
-## 10   50 19/5/2017 2017-05-19 2017   5  19
-## 11   51 15/5/2017 2017-05-15 2017   5  15
-## 12   52 16/5/2017 2017-05-16 2017   5  16
-## 13   53 16/5/2017 2017-05-16 2017   5  16
-## 14   54 17/5/2017 2017-05-17 2017   5  17
-## 15   55 16/5/2017 2017-05-16 2017   5  16
-## 16   56 16/5/2017 2017-05-16 2017   5  16
-## 17   57 15/5/2017 2017-05-15 2017   5  15
-## 18   58 15/5/2017 2017-05-15 2017   5  15
-## 19   59 15/5/2017 2017-05-15 2017   5  15
-## 20   60 15/5/2017 2017-05-15 2017   5  15
-## 21   61 16/5/2017 2017-05-16 2017   5  16
-## 22   62 13/5/2017 2017-05-13 2017   5  13
-## 23   63 12/5/2017 2017-05-12 2017   5  12
-## 24   64 13/5/2017 2017-05-13 2017   5  13
-## 25   65 13/5/2017 2017-05-13 2017   5  13
-## 26   66 16/5/2017 2017-05-16 2017   5  16
-## 27   67 12/5/2017 2017-05-12 2017   5  12
-## 28   68 13/5/2017 2017-05-13 2017   5  13
-## 29   69 16/5/2017 2017-05-16 2017   5  16
-## 30   70 12/5/2017 2017-05-12 2017   5  12
-## 31   71 12/5/2017 2017-05-12 2017   5  12
-## 32   72 12/5/2017 2017-05-12 2017   5  12
-## 33   73 11/5/2017 2017-05-11 2017   5  11
-## 34   74 11/5/2017 2017-05-11 2017   5  11
-## 35   75 11/5/2017 2017-05-11 2017   5  11
-## 36   76 11/5/2017 2017-05-11 2017   5  11
-## 37   77 12/5/2017 2017-05-12 2017   5  12
-## 38   78 12/5/2017 2017-05-12 2017   5  12
-## 39   79 11/5/2017 2017-05-11 2017   5  11
-## 40   80 12/5/2017 2017-05-12 2017   5  12
-## 41   81 19/5/2017 2017-05-19 2017   5  19
-## 42   82 19/5/2017 2017-05-19 2017   5  19
-## 43   83 19/5/2017 2017-05-19 2017   5  19
-## 44   84 19/5/2017 2017-05-19 2017   5  19
-## 45   85 19/5/2017 2017-05-19 2017   5  19
-## 46   86 19/5/2017 2017-05-19 2017   5  19
-## 47   87 19/5/2017 2017-05-19 2017   5  19
-## 48   88 19/5/2017 2017-05-19 2017   5  19
-## 49   89 19/5/2017 2017-05-19 2017   5  19
-## 50   90 19/5/2017 2017-05-19 2017   5  19
-## 51   91 22/5/2017 2017-05-22 2017   5  22
-## 52   92 22/5/2017 2017-05-22 2017   5  22
-## 53   93 22/5/2017 2017-05-22 2017   5  22
-## 54   94 22/5/2017 2017-05-22 2017   5  22
-## 55   95 22/5/2017 2017-05-22 2017   5  22
-## 56   96 22/5/2017 2017-05-22 2017   5  22
-## 57   97 22/5/2017 2017-05-22 2017   5  22
-## 58   98 22/5/2017 2017-05-22 2017   5  22
-## 59   99 22/5/2017 2017-05-22 2017   5  22
-## 60  100 22/5/2017 2017-05-22 2017   5  22
-## 61  101 20/5/2017 2017-05-20 2017   5  20
-## 62  102 20/5/2017 2017-05-20 2017   5  20
-## 63  103 20/5/2017 2017-05-20 2017   5  20
-## 64  104 25/5/2017 2017-05-25 2017   5  25
-## 65  105 20/5/2017 2017-05-20 2017   5  20
-## 66  106 20/5/2017 2017-05-20 2017   5  20
-## 67  107 20/5/2017 2017-05-20 2017   5  20
-## 68  108 20/5/2017 2017-05-20 2017   5  20
-## 69  109 20/5/2017 2017-05-20 2017   5  20
-## 70  110 20/5/2017 2017-05-20 2017   5  20
-## 71  111 20/5/2017 2017-05-20 2017   5  20
-## 72  112 20/5/2017 2017-05-20 2017   5  20
-## 73  113 20/5/2017 2017-05-20 2017   5  20
-## 74  114 20/5/2017 2017-05-20 2017   5  20
-## 75  115 20/5/2017 2017-05-20 2017   5  20
-## 76  116 20/5/2017 2017-05-20 2017   5  20
-## 77  117 20/5/2017 2017-05-20 2017   5  20
-## 78  118 20/5/2017 2017-05-20 2017   5  20
-## 79  119 20/5/2017 2017-05-20 2017   5  20
-## 80  120 20/5/2017 2017-05-20 2017   5  20
-## 81  121 12/5/2017 2017-05-12 2017   5  12
-## 82  122 15/5/2017 2017-05-15 2017   5  15
-## 83  123 15/5/2017 2017-05-15 2017   5  15
-## 84  124 15/5/2017 2017-05-15 2017   5  15
-## 85  125 14/5/2017 2017-05-14 2017   5  14
-## 86  126 12/5/2017 2017-05-12 2017   5  12
-## 87  127 15/5/2017 2017-05-15 2017   5  15
-## 88  128 14/5/2017 2017-05-14 2017   5  14
-## 89  129 10/5/2017 2017-05-10 2017   5  10
-## 90  130 10/5/2017 2017-05-10 2017   5  10
-## 91  131 16/5/2017 2017-05-16 2017   5  16
-## 92  132 16/5/2017 2017-05-16 2017   5  16
-## 93  133 16/5/2017 2017-05-16 2017   5  16
-## 94  134 14/5/2017 2017-05-14 2017   5  14
-## 95  135 15/5/2017 2017-05-15 2017   5  15
-## 96  136 16/5/2017 2017-05-16 2017   5  16
-## 97  137 15/5/2017 2017-05-15 2017   5  15
-## 98  138 15/5/2017 2017-05-15 2017   5  15
-## 99  139  8/5/2017 2017-05-08 2017   5   8
-## 100 140 15/5/2017 2017-05-15 2017   5  15
-## 101 141 17/5/2017 2017-05-17 2017   5  17
-## 102 142 19/5/2017 2017-05-19 2017   5  19
-## 103 143 12/5/2017 2017-05-12 2017   5  12
-## 104 144 17/5/2017 2017-05-17 2017   5  17
-## 105 145 19/5/2017 2017-05-19 2017   5  19
-## 106 146 17/5/2017 2017-05-17 2017   5  17
-## 107 147 17/5/2017 2017-05-17 2017   5  17
-## 108 148 17/5/2017 2017-05-17 2017   5  17
-## 109 149 16/5/2017 2017-05-16 2017   5  16
-## 110 150 17/5/2017 2017-05-17 2017   5  17
-## 111 151 22/5/2017 2017-05-22 2017   5  22
-## 112 152 21/5/2017 2017-05-21 2017   5  21
-## 113 153 22/5/2017 2017-05-22 2017   5  22
-## 114 154 22/5/2017 2017-05-22 2017   5  22
-## 115 155 21/5/2017 2017-05-21 2017   5  21
-## 116 156 21/5/2017 2017-05-21 2017   5  21
-## 117 157 21/5/2017 2017-05-21 2017   5  21
-## 118 158 21/5/2017 2017-05-21 2017   5  21
-## 119 159 21/5/2017 2017-05-21 2017   5  21
-## 120 160 22/5/2017 2017-05-22 2017   5  22
-## 121 161 23/5/2017 2017-05-23 2017   5  23
-## 122 162 23/5/2017 2017-05-23 2017   5  23
-## 123 163 24/5/2017 2017-05-24 2017   5  24
-## 124 164 24/5/2017 2017-05-24 2017   5  24
-## 125 165 23/5/2017 2017-05-23 2017   5  23
-## 126 166 28/5/2017 2017-05-28 2017   5  28
-## 127 167 23/5/2017 2017-05-23 2017   5  23
-## 128 168 24/5/2017 2017-05-24 2017   5  24
-## 129 169 24/5/2017 2017-05-24 2017   5  24
-## 130 170 23/5/2017 2017-05-23 2017   5  23
-## 131 171 22/5/2017 2017-05-22 2017   5  22
-## 132 172 22/5/2017 2017-05-22 2017   5  22
-## 133 173 22/5/2017 2017-05-22 2017   5  22
-## 134 174 22/5/2017 2017-05-22 2017   5  22
-## 135 175 22/5/2017 2017-05-22 2017   5  22
-## 136 176 22/5/2017 2017-05-22 2017   5  22
-## 137 177 22/5/2017 2017-05-22 2017   5  22
-## 138 178 22/5/2017 2017-05-22 2017   5  22
-## 139 179 22/5/2017 2017-05-22 2017   5  22
-## 140 180 22/5/2017 2017-05-22 2017   5  22
-## 141 181  7/5/2017 2017-05-07 2017   5   7
-## 142 182  7/5/2017 2017-05-07 2017   5   7
+<pre style="max-height: 150px;"><code>##      id     fecha     fecha2
+## 1    41 20/5/2017 2017-05-20
+## 2    42 20/5/2017 2017-05-20
+## 3    43 19/5/2017 2017-05-19
+## 4    44 20/5/2017 2017-05-20
+## 5    45 19/5/2017 2017-05-19
+## 6    46 19/5/2017 2017-05-19
+## 7    47 19/5/2017 2017-05-19
+## 8    48 19/5/2017 2017-05-19
+## 9    49 19/5/2017 2017-05-19
+## 10   50 19/5/2017 2017-05-19
+## 11   51 15/5/2017 2017-05-15
+## 12   52 16/5/2017 2017-05-16
+## 13   53 16/5/2017 2017-05-16
+## 14   54 17/5/2017 2017-05-17
+## 15   55 16/5/2017 2017-05-16
+## 16   56 16/5/2017 2017-05-16
+## 17   57 15/5/2017 2017-05-15
+## 18   58 15/5/2017 2017-05-15
+## 19   59 15/5/2017 2017-05-15
+## 20   60 15/5/2017 2017-05-15
+## 21   61 16/5/2017 2017-05-16
+## 22   62 13/5/2017 2017-05-13
+## 23   63 12/5/2017 2017-05-12
+## 24   64 13/5/2017 2017-05-13
+## 25   65 13/5/2017 2017-05-13
+## 26   66 16/5/2017 2017-05-16
+## 27   67 12/5/2017 2017-05-12
+## 28   68 13/5/2017 2017-05-13
+## 29   69 16/5/2017 2017-05-16
+## 30   70 12/5/2017 2017-05-12
+## 31   71 12/5/2017 2017-05-12
+## 32   72 12/5/2017 2017-05-12
+## 33   73 11/5/2017 2017-05-11
+## 34   74 11/5/2017 2017-05-11
+## 35   75 11/5/2017 2017-05-11
+## 36   76 11/5/2017 2017-05-11
+## 37   77 12/5/2017 2017-05-12
+## 38   78 12/5/2017 2017-05-12
+## 39   79 11/5/2017 2017-05-11
+## 40   80 12/5/2017 2017-05-12
+## 41   81 19/5/2017 2017-05-19
+## 42   82 19/5/2017 2017-05-19
+## 43   83 19/5/2017 2017-05-19
+## 44   84 19/5/2017 2017-05-19
+## 45   85 19/5/2017 2017-05-19
+## 46   86 19/5/2017 2017-05-19
+## 47   87 19/5/2017 2017-05-19
+## 48   88 19/5/2017 2017-05-19
+## 49   89 19/5/2017 2017-05-19
+## 50   90 19/5/2017 2017-05-19
+## 51   91 22/5/2017 2017-05-22
+## 52   92 22/5/2017 2017-05-22
+## 53   93 22/5/2017 2017-05-22
+## 54   94 22/5/2017 2017-05-22
+## 55   95 22/5/2017 2017-05-22
+## 56   96 22/5/2017 2017-05-22
+## 57   97 22/5/2017 2017-05-22
+## 58   98 22/5/2017 2017-05-22
+## 59   99 22/5/2017 2017-05-22
+## 60  100 22/5/2017 2017-05-22
+## 61  101 20/5/2017 2017-05-20
+## 62  102 20/5/2017 2017-05-20
+## 63  103 20/5/2017 2017-05-20
+## 64  104 25/5/2017 2017-05-25
+## 65  105 20/5/2017 2017-05-20
+## 66  106 20/5/2017 2017-05-20
+## 67  107 20/5/2017 2017-05-20
+## 68  108 20/5/2017 2017-05-20
+## 69  109 20/5/2017 2017-05-20
+## 70  110 20/5/2017 2017-05-20
+## 71  111 20/5/2017 2017-05-20
+## 72  112 20/5/2017 2017-05-20
+## 73  113 20/5/2017 2017-05-20
+## 74  114 20/5/2017 2017-05-20
+## 75  115 20/5/2017 2017-05-20
+## 76  116 20/5/2017 2017-05-20
+## 77  117 20/5/2017 2017-05-20
+## 78  118 20/5/2017 2017-05-20
+## 79  119 20/5/2017 2017-05-20
+## 80  120 20/5/2017 2017-05-20
+## 81  121 12/5/2017 2017-05-12
+## 82  122 15/5/2017 2017-05-15
+## 83  123 15/5/2017 2017-05-15
+## 84  124 15/5/2017 2017-05-15
+## 85  125 14/5/2017 2017-05-14
+## 86  126 12/5/2017 2017-05-12
+## 87  127 15/5/2017 2017-05-15
+## 88  128 14/5/2017 2017-05-14
+## 89  129 10/5/2017 2017-05-10
+## 90  130 10/5/2017 2017-05-10
+## 91  131 16/5/2017 2017-05-16
+## 92  132 16/5/2017 2017-05-16
+## 93  133 16/5/2017 2017-05-16
+## 94  134 14/5/2017 2017-05-14
+## 95  135 15/5/2017 2017-05-15
+## 96  136 16/5/2017 2017-05-16
+## 97  137 15/5/2017 2017-05-15
+## 98  138 15/5/2017 2017-05-15
+## 99  139  8/5/2017 2017-05-08
+## 100 140 15/5/2017 2017-05-15
+## 101 141 17/5/2017 2017-05-17
+## 102 142 19/5/2017 2017-05-19
+## 103 143 12/5/2017 2017-05-12
+## 104 144 17/5/2017 2017-05-17
+## 105 145 19/5/2017 2017-05-19
+## 106 146 17/5/2017 2017-05-17
+## 107 147 17/5/2017 2017-05-17
+## 108 148 17/5/2017 2017-05-17
+## 109 149 16/5/2017 2017-05-16
+## 110 150 17/5/2017 2017-05-17
+## 111 151 22/5/2017 2017-05-22
+## 112 152 21/5/2017 2017-05-21
+## 113 153 22/5/2017 2017-05-22
+## 114 154 22/5/2017 2017-05-22
+## 115 155 21/5/2017 2017-05-21
+## 116 156 21/5/2017 2017-05-21
+## 117 157 21/5/2017 2017-05-21
+## 118 158 21/5/2017 2017-05-21
+## 119 159 21/5/2017 2017-05-21
+## 120 160 22/5/2017 2017-05-22
+## 121 161 23/5/2017 2017-05-23
+## 122 162 23/5/2017 2017-05-23
+## 123 163 24/5/2017 2017-05-24
+## 124 164 24/5/2017 2017-05-24
+## 125 165 23/5/2017 2017-05-23
+## 126 166 28/5/2017 2017-05-28
+## 127 167 23/5/2017 2017-05-23
+## 128 168 24/5/2017 2017-05-24
+## 129 169 24/5/2017 2017-05-24
+## 130 170 23/5/2017 2017-05-23
+## 131 171 22/5/2017 2017-05-22
+## 132 172 22/5/2017 2017-05-22
+## 133 173 22/5/2017 2017-05-22
+## 134 174 22/5/2017 2017-05-22
+## 135 175 22/5/2017 2017-05-22
+## 136 176 22/5/2017 2017-05-22
+## 137 177 22/5/2017 2017-05-22
+## 138 178 22/5/2017 2017-05-22
+## 139 179 22/5/2017 2017-05-22
+## 140 180 22/5/2017 2017-05-22
+## 141 181  7/5/2017 2017-05-07
+## 142 182  7/5/2017 2017-05-07
+##     anio mes dia
+## 1   2017   5  20
+## 2   2017   5  20
+## 3   2017   5  19
+## 4   2017   5  20
+## 5   2017   5  19
+## 6   2017   5  19
+## 7   2017   5  19
+## 8   2017   5  19
+## 9   2017   5  19
+## 10  2017   5  19
+## 11  2017   5  15
+## 12  2017   5  16
+## 13  2017   5  16
+## 14  2017   5  17
+## 15  2017   5  16
+## 16  2017   5  16
+## 17  2017   5  15
+## 18  2017   5  15
+## 19  2017   5  15
+## 20  2017   5  15
+## 21  2017   5  16
+## 22  2017   5  13
+## 23  2017   5  12
+## 24  2017   5  13
+## 25  2017   5  13
+## 26  2017   5  16
+## 27  2017   5  12
+## 28  2017   5  13
+## 29  2017   5  16
+## 30  2017   5  12
+## 31  2017   5  12
+## 32  2017   5  12
+## 33  2017   5  11
+## 34  2017   5  11
+## 35  2017   5  11
+## 36  2017   5  11
+## 37  2017   5  12
+## 38  2017   5  12
+## 39  2017   5  11
+## 40  2017   5  12
+## 41  2017   5  19
+## 42  2017   5  19
+## 43  2017   5  19
+## 44  2017   5  19
+## 45  2017   5  19
+## 46  2017   5  19
+## 47  2017   5  19
+## 48  2017   5  19
+## 49  2017   5  19
+## 50  2017   5  19
+## 51  2017   5  22
+## 52  2017   5  22
+## 53  2017   5  22
+## 54  2017   5  22
+## 55  2017   5  22
+## 56  2017   5  22
+## 57  2017   5  22
+## 58  2017   5  22
+## 59  2017   5  22
+## 60  2017   5  22
+## 61  2017   5  20
+## 62  2017   5  20
+## 63  2017   5  20
+## 64  2017   5  25
+## 65  2017   5  20
+## 66  2017   5  20
+## 67  2017   5  20
+## 68  2017   5  20
+## 69  2017   5  20
+## 70  2017   5  20
+## 71  2017   5  20
+## 72  2017   5  20
+## 73  2017   5  20
+## 74  2017   5  20
+## 75  2017   5  20
+## 76  2017   5  20
+## 77  2017   5  20
+## 78  2017   5  20
+## 79  2017   5  20
+## 80  2017   5  20
+## 81  2017   5  12
+## 82  2017   5  15
+## 83  2017   5  15
+## 84  2017   5  15
+## 85  2017   5  14
+## 86  2017   5  12
+## 87  2017   5  15
+## 88  2017   5  14
+## 89  2017   5  10
+## 90  2017   5  10
+## 91  2017   5  16
+## 92  2017   5  16
+## 93  2017   5  16
+## 94  2017   5  14
+## 95  2017   5  15
+## 96  2017   5  16
+## 97  2017   5  15
+## 98  2017   5  15
+## 99  2017   5   8
+## 100 2017   5  15
+## 101 2017   5  17
+## 102 2017   5  19
+## 103 2017   5  12
+## 104 2017   5  17
+## 105 2017   5  19
+## 106 2017   5  17
+## 107 2017   5  17
+## 108 2017   5  17
+## 109 2017   5  16
+## 110 2017   5  17
+## 111 2017   5  22
+## 112 2017   5  21
+## 113 2017   5  22
+## 114 2017   5  22
+## 115 2017   5  21
+## 116 2017   5  21
+## 117 2017   5  21
+## 118 2017   5  21
+## 119 2017   5  21
+## 120 2017   5  22
+## 121 2017   5  23
+## 122 2017   5  23
+## 123 2017   5  24
+## 124 2017   5  24
+## 125 2017   5  23
+## 126 2017   5  28
+## 127 2017   5  23
+## 128 2017   5  24
+## 129 2017   5  24
+## 130 2017   5  23
+## 131 2017   5  22
+## 132 2017   5  22
+## 133 2017   5  22
+## 134 2017   5  22
+## 135 2017   5  22
+## 136 2017   5  22
+## 137 2017   5  22
+## 138 2017   5  22
+## 139 2017   5  22
+## 140 2017   5  22
+## 141 2017   5   7
+## 142 2017   5   7
 ##     dias_transcurridos
-## 1            1732 days
-## 2            1732 days
-## 3            1733 days
-## 4            1732 days
-## 5            1733 days
-## 6            1733 days
-## 7            1733 days
-## 8            1733 days
-## 9            1733 days
-## 10           1733 days
-## 11           1737 days
-## 12           1736 days
-## 13           1736 days
-## 14           1735 days
-## 15           1736 days
-## 16           1736 days
-## 17           1737 days
-## 18           1737 days
-## 19           1737 days
-## 20           1737 days
-## 21           1736 days
-## 22           1739 days
-## 23           1740 days
-## 24           1739 days
-## 25           1739 days
-## 26           1736 days
-## 27           1740 days
-## 28           1739 days
-## 29           1736 days
-## 30           1740 days
-## 31           1740 days
-## 32           1740 days
-## 33           1741 days
-## 34           1741 days
-## 35           1741 days
-## 36           1741 days
-## 37           1740 days
-## 38           1740 days
-## 39           1741 days
-## 40           1740 days
-## 41           1733 days
-## 42           1733 days
-## 43           1733 days
-## 44           1733 days
-## 45           1733 days
-## 46           1733 days
-## 47           1733 days
-## 48           1733 days
-## 49           1733 days
-## 50           1733 days
-## 51           1730 days
-## 52           1730 days
-## 53           1730 days
-## 54           1730 days
-## 55           1730 days
-## 56           1730 days
-## 57           1730 days
-## 58           1730 days
-## 59           1730 days
-## 60           1730 days
-## 61           1732 days
-## 62           1732 days
-## 63           1732 days
-## 64           1727 days
-## 65           1732 days
-## 66           1732 days
-## 67           1732 days
-## 68           1732 days
-## 69           1732 days
-## 70           1732 days
-## 71           1732 days
-## 72           1732 days
-## 73           1732 days
-## 74           1732 days
-## 75           1732 days
-## 76           1732 days
-## 77           1732 days
-## 78           1732 days
-## 79           1732 days
-## 80           1732 days
-## 81           1740 days
-## 82           1737 days
-## 83           1737 days
-## 84           1737 days
-## 85           1738 days
-## 86           1740 days
-## 87           1737 days
-## 88           1738 days
-## 89           1742 days
-## 90           1742 days
-## 91           1736 days
-## 92           1736 days
-## 93           1736 days
-## 94           1738 days
-## 95           1737 days
-## 96           1736 days
-## 97           1737 days
-## 98           1737 days
-## 99           1744 days
-## 100          1737 days
-## 101          1735 days
-## 102          1733 days
-## 103          1740 days
-## 104          1735 days
-## 105          1733 days
-## 106          1735 days
-## 107          1735 days
-## 108          1735 days
-## 109          1736 days
-## 110          1735 days
-## 111          1730 days
-## 112          1731 days
-## 113          1730 days
-## 114          1730 days
-## 115          1731 days
-## 116          1731 days
-## 117          1731 days
-## 118          1731 days
-## 119          1731 days
-## 120          1730 days
-## 121          1729 days
-## 122          1729 days
-## 123          1728 days
-## 124          1728 days
-## 125          1729 days
-## 126          1724 days
-## 127          1729 days
-## 128          1728 days
-## 129          1728 days
-## 130          1729 days
-## 131          1730 days
-## 132          1730 days
-## 133          1730 days
-## 134          1730 days
-## 135          1730 days
-## 136          1730 days
-## 137          1730 days
-## 138          1730 days
-## 139          1730 days
-## 140          1730 days
-## 141          1745 days
-## 142          1745 days
+## 1            1733 days
+## 2            1733 days
+## 3            1734 days
+## 4            1733 days
+## 5            1734 days
+## 6            1734 days
+## 7            1734 days
+## 8            1734 days
+## 9            1734 days
+## 10           1734 days
+## 11           1738 days
+## 12           1737 days
+## 13           1737 days
+## 14           1736 days
+## 15           1737 days
+## 16           1737 days
+## 17           1738 days
+## 18           1738 days
+## 19           1738 days
+## 20           1738 days
+## 21           1737 days
+## 22           1740 days
+## 23           1741 days
+## 24           1740 days
+## 25           1740 days
+## 26           1737 days
+## 27           1741 days
+## 28           1740 days
+## 29           1737 days
+## 30           1741 days
+## 31           1741 days
+## 32           1741 days
+## 33           1742 days
+## 34           1742 days
+## 35           1742 days
+## 36           1742 days
+## 37           1741 days
+## 38           1741 days
+## 39           1742 days
+## 40           1741 days
+## 41           1734 days
+## 42           1734 days
+## 43           1734 days
+## 44           1734 days
+## 45           1734 days
+## 46           1734 days
+## 47           1734 days
+## 48           1734 days
+## 49           1734 days
+## 50           1734 days
+## 51           1731 days
+## 52           1731 days
+## 53           1731 days
+## 54           1731 days
+## 55           1731 days
+## 56           1731 days
+## 57           1731 days
+## 58           1731 days
+## 59           1731 days
+## 60           1731 days
+## 61           1733 days
+## 62           1733 days
+## 63           1733 days
+## 64           1728 days
+## 65           1733 days
+## 66           1733 days
+## 67           1733 days
+## 68           1733 days
+## 69           1733 days
+## 70           1733 days
+## 71           1733 days
+## 72           1733 days
+## 73           1733 days
+## 74           1733 days
+## 75           1733 days
+## 76           1733 days
+## 77           1733 days
+## 78           1733 days
+## 79           1733 days
+## 80           1733 days
+## 81           1741 days
+## 82           1738 days
+## 83           1738 days
+## 84           1738 days
+## 85           1739 days
+## 86           1741 days
+## 87           1738 days
+## 88           1739 days
+## 89           1743 days
+## 90           1743 days
+## 91           1737 days
+## 92           1737 days
+## 93           1737 days
+## 94           1739 days
+## 95           1738 days
+## 96           1737 days
+## 97           1738 days
+## 98           1738 days
+## 99           1745 days
+## 100          1738 days
+## 101          1736 days
+## 102          1734 days
+## 103          1741 days
+## 104          1736 days
+## 105          1734 days
+## 106          1736 days
+## 107          1736 days
+## 108          1736 days
+## 109          1737 days
+## 110          1736 days
+## 111          1731 days
+## 112          1732 days
+## 113          1731 days
+## 114          1731 days
+## 115          1732 days
+## 116          1732 days
+## 117          1732 days
+## 118          1732 days
+## 119          1732 days
+## 120          1731 days
+## 121          1730 days
+## 122          1730 days
+## 123          1729 days
+## 124          1729 days
+## 125          1730 days
+## 126          1725 days
+## 127          1730 days
+## 128          1729 days
+## 129          1729 days
+## 130          1730 days
+## 131          1731 days
+## 132          1731 days
+## 133          1731 days
+## 134          1731 days
+## 135          1731 days
+## 136          1731 days
+## 137          1731 days
+## 138          1731 days
+## 139          1731 days
+## 140          1731 days
+## 141          1746 days
+## 142          1746 days
 ##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 658 rows ]</code></pre>
 <p><br> Utilizamos dmy() que no es más que la forma que traía nuestro formato fecha anterior, estaba el día, el mes y el año. En la biblioteca tenemos todas las combinaciones, incluyendo las horas, los minutos y segundos si los tuviéramos, es súper intuitivo. También creamos unas columnas con el año, el mes y el día, e hicimos un pequeño cálculo de fechas comparando la fecha actual (del día que se ejecute) Sys.Date() y le restamos la fecha de realización de la encuesta. Esto último no lo podríamos hacer con una columna de tipo texto.</p>
 <br>

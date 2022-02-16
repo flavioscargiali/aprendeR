@@ -11,10 +11,10 @@ navbar:
         - text: "3- ggplot"
           href: 03---ggplot.html
         - text: "4- rmarkdown"
-          href: page-b.html
+          href: 04---rmarkdown.html
 
     - text: "Contacto"
-      href: 05 - contacto.html
+      href: 05---contacto.html
 css: style.css      
 output_dir: "."
 output:

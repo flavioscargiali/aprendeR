@@ -1,0 +1,110 @@
+---
+title: ""
+output:
+  html_document:
+    css: "style.css"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = F,warning = F,error = F,fig.align = 'center', attr.output='style="max-height: 150px;"')
+```
+
+<html>
+<body>
+# RMARKDOWN
+<hr class = "linea">
+
+<br>
+<div class = "contenidos citas"></div>
+<br>
+<br>
+
+
+
+<br>
+<h1> CONTENIDOS </h1>
+<hr class = "linea">
+
+<div class = "contenidos"> 
+
+
+<a href="#1" class="contitulo"><b>1. Primeros Pasos</b></a>
+<br><a class="subtitulostabla" href="#1.1"> 1.1. Formas de iniciar  </a>
+<br><a class="subtitulostabla" href="#1.2"> 1.2. Gráfico de dispersión  </a>
+<br><a class="subtitulostabla" href="#1.3"> 1.3. Gráfico de línea  </a>
+<br><a class="subtitulostabla" href="#1.4"> 1.4. Gráfico de barras  </a>
+<br><a class="subtitulostabla" href="#1.5"> 1.5. Gráfico de diagrama de cajas  </a>
+<br><a class="subtitulostabla" href="#1.6"> 1.6. Facetado  </a>
+<br><a class="subtitulostabla" href="#1.7"> 1.7. Otros tipos de gráficos  </a>
+<br><a href="#2" class="contitulo"><b>2. Escalas</b></a>
+<br><a class="subtitulostabla" href="#2.1"> 2.1. Continuas X e Y  </a>
+<br><a class="subtitulostabla" href="#2.2"> 2.2. Colores y rellenos  </a>
+<br><a href="#3" class="contitulo"><b>3. Mejorando la visualización</b></a>
+<br><a class="subtitulostabla" href="#3.1"> 3.1. Titulos  </a>
+<br><a class="subtitulostabla" href="#3.2"> 3.2. Eje secundario </a>
+<br><a class="subtitulostabla" href="#3.3"> 3.3. Temas  </a>
+<br><a class="subtitulostabla" href="#3.4"> 3.4. Temas personalizados  </a>
+
+</div>
+
+<br>
+<h1  id =  1> PRIMEROS PASOS </h1>
+<hr class = "linea">
+<h2 id =  1.1> **1.1.** FORMAS DE INICIAR </h2>
+<br>
+<h2 id =  1.2> **1.2.** GRÁFICO DE DISPERSIÓN </h2>
+<br>
+
+<br>
+<h2 id =  1.3> **1.3.** GRÁFICO DE LÍNEA </h2>
+<br>
+
+<br>
+<h2 id =  1.4> **1.4.** GRÁFICO DE BARRAS </h2>
+<br>
+
+
+<img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\boxplot.png">
+<br>
+
+
+<br>
+<h1  id =  2> ESCALAS </h1>
+<hr class = "linea">
+<h2 id =  2.1> **2.1.** CONTINUAS X E Y </h2>
+<br>
+
+
+<br>
+<h2 id =  2.2> **2.3.** COLORES Y RELLENOS </h2>
+<br>
+
+
+
+<br>
+<h1  id =  3> MEJORANDO LA VISUALIZACIÓN </h1>
+<hr class = "linea">
+<h2 id =  3.1> **3.1.** TITULOS </h2>
+<br>
+
+
+
+<br>
+<h2 id =  3.2> **3.2.** EJE SECUNDARIO </h2>
+<br>
+
+<br>
+<h2 id =  3.3> **3.3.** TEMAS </h2>
+<br>
+
+Ggplot nos brinda una serie de tema personalizado para hacer más lindas nuestras visualizaciones. `theme_gray()`, `theme_bw()`, `theme_linedraw()`, `theme_light()`, `theme_dark()`, `theme_minimal()`, `theme_classic()` y `theme_void()`. Para ilustrar su uso, seleccionamos el `theme_minimal()`. Pueden seguir probando con los otros tipos de temas, lo único que tienen que hacer es sustituir el theme_minimal(), por el tema que quieran: 
+
+
+<br>
+<h2 id =  3.4> **3.4.** TEMAS PERSONALIZADOS </h2>
+<br>
+
+
+</body>
+</html>

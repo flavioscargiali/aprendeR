@@ -10,13 +10,42 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <head>
 <title>Introducción</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
 <style>
+
 body {
 font-family: "Century Gothic";
 font-size: 14px;
 line-height: 1.5;
 text-align: justify;
 }
+
+
+.icon-bar a {
+  text-align: center;
+  padding: 10px 10px 6px 10px;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 14px;
+  width: 4%;
+  margin-top: 15px;
+}
+
+.icon-bar a:hover {
+  background-color: #000;
+}
+
+
+.linkedin {
+  background: #007bb5;
+  color: white;
+}
+
 
 
 
@@ -40,6 +69,7 @@ border-radius: 5px;
 /* Change background color of buttons on hover */
 button:hover {
 font-weight: bold;
+color:white;
 }
 
 /* Create an active/current tablink class */
@@ -79,7 +109,7 @@ width: 200px;
 }
 
 .fix-item {
-width: 17%;
+width: 23%;
 height: 250px;
 background-color: white;
 margin-left: 1.5%;
@@ -157,6 +187,9 @@ font-family: Arial, Helvetica, sans-serif;
 
 .links{color:white;}
 
+.linksintro{color: white;}
+.linksintro:hover{color: white;}
+
 .links:hover {text-decoration: underline;
 color: #d3436e;
 cursor:pointer;}
@@ -216,10 +249,10 @@ margin-bottom: 5%;
 
 <div class="flex-item intro">
 <p> <b style="font-size:28px;">APPRENDER</b> </p>
-<p> Introducción para conocer los principales conceptos de R, <br> el paradigma tidyverse y el armado de
+<p> Introducción de los principales conceptos de R, <br> el paradigma tidyverse y el armado de
 <br>documentos con Rmarkdown
 </p>
-<div><button class="botones intro">INICIAR INTRODUCCIÓN</button></div>
+<div><button class="botones intro"><a class = "linksintro" href = "https://flavioscargiali.github.io/aprendeR/01---introduccion.html">INICIAR INTRODUCCIÓN</a ></button></div>
 </div>
 <div class="flex-item img">
 <img class="img" src= "C:\Users\flavi\Desktop\aprendeR\Imagenes\r.png" style="width: 60%;height: auto;">
@@ -232,30 +265,25 @@ margin-bottom: 5%;
 <div class="fix-item">
 <img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\online-learning.png"
 class = "imgtab">
-<div><button class="botones"><a class = "links" href = "https://flavioscargiali.github.io/aprendeR/01---introduccion.html"> Rbase</a ></button></div>
+<div><button class="botones"><a class = "linksintro" href = "https://flavioscargiali.github.io/aprendeR/01---introduccion.html"> Rbase</a ></button></div>
 <p>Primeros pasos en el uso de R y Rstudio</p>
 </div>
 <div class="fix-item">
 <img src="C:\Users\flavi\Desktop\aprendeR\Imagenes\broom.png"
 class = "imgtab">
-<div><button class="botones"><a class = "links" href = "https://flavioscargiali.github.io/aprendeR/02---dplyr.html"> Limpieza</a></button></div>
+<div><button class="botones"><a class = "linksintro" href = "https://flavioscargiali.github.io/aprendeR/02---dplyr.html"> Limpieza</a></button></div>
 <p>Introducción a dplyr y tidyr para transformar datos</p>
 </div>
 <div class="fix-item">
 <img class = "imgtab" src="C:\Users\flavi\Desktop\aprendeR\Imagenes\wave-graph.png"
 class = "imgtab">
-<div><button class="botones"><a class = "links"  href = "https://flavioscargiali.github.io/aprendeR/03---ggplot.html"> Visualización</a></button></div>
+<div><button class="botones"><a class = "linksintro"  href = "https://flavioscargiali.github.io/aprendeR/03---ggplot.html"> Visualización</a></button></div>
 <p>Primeros pasos en ggplot</p>
 </div>
-<div class="fix-item">
-<img class = "imgtab" src="C:\Users\flavi\Desktop\aprendeR\Imagenes\placeholder.png">
-<div><button class="botones">Geo</button></div>
-<p>Manipulación de datos espaciales de la Argentina.
-<b>¡Proximamente!</b></p>
-</div>
+
 <div class="fix-item">
 <img class = "imgtab" src="C:\Users\flavi\Desktop\aprendeR\Imagenes\folder.png">
-<div><button class="botones">Informe</button></div>
+<div><button class="botones"><a class = "linksintro"  href = "https://flavioscargiali.github.io/aprendeR/04---rmarkdown.html"> Informe</a></button></div>
 <p>Informe en Rmarkdown. Nuevo flujo de trabajo.</p>
 </div>
 </div>
@@ -267,14 +295,25 @@ Producido por:</div>
 
 <div class="fix-item secsom" style="padding: 0.5%;">
 <p class="nombres">Leandro Colisko</p>
-Licenciado en Ciencia Política (Universidad Nacional de La Matanza). Maestrando en Generación y Análisis
+<div class="icon-bar">
+  <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+</div>
+<p>Licenciado en Ciencia Política (Universidad Nacional de La Matanza). Maestrando en Generación y Análisis
 de Información Estadística por la UNTREF. Actualmente se desempeña como analista estadístico de datos en
-la Empresa Argentina de Navegación Aérea.
+la Empresa Argentina de Navegación Aérea.</p>
+
+
 </div>
 <div class="fix-item secsom" style="padding: 0.5%;">
+
 <p class="nombres">Flavio Scargiali</p>
-Sociólogo de la Universidad de Buenos Aires. Maestrando en Generación y Análisis de Información
-Estadística por la UNTREF. Actualmente se desempeña como analista de visualización en Equifax S.A.
+<div class="icon-bar">
+  <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+</div>
+<p>Sociólogo de la Universidad de Buenos Aires. Maestrando en Generación y Análisis de Información
+Estadística por la UNTREF. Actualmente se desempeña como analista de visualización en Equifax S.A.</p>
+
+
 </div>
 </div>
 </div>
@@ -287,7 +326,6 @@ Estadística por la UNTREF. Actualmente se desempeña como analista de visualiza
 <br><a class = "links" href = "https://flavioscargiali.github.io/aprendeR/01---introduccion.html"><b>+</b> Introducción</a>
 <br><a class = "links" href = "https://flavioscargiali.github.io/aprendeR/02---dplyr.html"><b>+</b> Limpieza </a>
 <br><a class = "links" href = "https://flavioscargiali.github.io/aprendeR/03---ggplot.html"><b>+</b> Visualización</a>
-<br><a class = "links"><b>+</b> GEO</a>
 <br><a class = "links"><b>+</b> Informe</a>
 </div>
 <div class="fix-item secsom" style="background-color: #212f3c;padding: 0.5%;text-align: center;margin-top:2.5%">
