@@ -296,7 +296,7 @@ Producido por:</div>
 <div class="fix-item secsom" style="padding: 0.5%;">
 <p class="nombres">Leandro Colisko</p>
 <div class="icon-bar">
-  <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+  <a href="https://www.linkedin.com/in/leandrocoliskollorens/" class="linkedin"><i class="fa fa-linkedin"></i></a>
 </div>
 <p>Licenciado en Ciencia Política (Universidad Nacional de La Matanza). Maestrando en Generación y Análisis
 de Información Estadística por la UNTREF. Actualmente se desempeña como analista estadístico de datos en
@@ -308,7 +308,7 @@ la Empresa Argentina de Navegación Aérea.</p>
 
 <p class="nombres">Flavio Scargiali</p>
 <div class="icon-bar">
-  <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+  <a href="https://ar.linkedin.com/in/flavio-scargiali?trk=public_profile_browsemap" class="linkedin"><i class="fa fa-linkedin"></i></a>
 </div>
 <p>Sociólogo de la Universidad de Buenos Aires. Maestrando en Generación y Análisis de Información
 Estadística por la UNTREF. Actualmente se desempeña como analista de visualización en Equifax S.A.</p>
