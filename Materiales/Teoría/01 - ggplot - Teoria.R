@@ -1,8 +1,3 @@
-## ----setup, include=FALSE--------------------------------------
-knitr::opts_chunk$set(echo = TRUE,message = F,warning = F,error = F,fig.align = 'center', attr.output='style="max-height: 150px;"')
-
-
-## --------------------------------------------------------------
 # Activamos las bibliotecas a utilizar
 library(tidyverse)
 library(eph)
@@ -39,35 +34,24 @@ eph_region <- eph %>%
 # Visualizo la tabla para la ejercitación 
 eph_region
 
-
-
-## --------------------------------------------------------------
 #Indicamos a R la creación del área del gráfico con sus respectivos ejes x e y
 ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) 
 
-
-## --------------------------------------------------------------
 ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
   geom_point()
 
-
-## --------------------------------------------------------------
 # Gráfico de dispersión ----
 ggplot(data = eph_region, 
        aes(x = EDAD_CAT, 
            y = TNA)) +
   geom_point() 
 
-
-## --------------------------------------------------------------
 ## Color ----
 ggplot(data = eph_region, 
        aes(x = EDAD_CAT, 
            y = TNA)) +
   geom_point(aes(color = REGION)) 
 
-
-## --------------------------------------------------------------
 ## Shape ----
 ggplot(data = eph_region, 
        aes(x = EDAD_CAT, 
@@ -75,8 +59,6 @@ ggplot(data = eph_region,
   geom_point(aes(color = REGION),
              shape = 22)
 
-
-## --------------------------------------------------------------
 ## Size ----
 ggplot(data = eph_region, 
        aes(x = EDAD_CAT, 
@@ -86,8 +68,6 @@ ggplot(data = eph_region,
              shape = 22, 
              size = 1)
 
-
-## --------------------------------------------------------------
 ## Fill ----
 # No todas las formas tienen fill
 ggplot(data = eph_region, 
@@ -98,9 +78,6 @@ ggplot(data = eph_region,
              shape = 22, 
              size = 1)
 
-
-
-## --------------------------------------------------------------
 ## Stroke ---- 
 ggplot(data = eph_region, 
        aes(x = EDAD_CAT, 
@@ -111,8 +88,6 @@ ggplot(data = eph_region,
              shape = 22, 
              size = 2)
 
-
-## --------------------------------------------------------------
 ## Stroke ---- 
 ggplot(data = eph_region, 
        aes(x = EDAD_CAT, 
@@ -124,61 +99,38 @@ ggplot(data = eph_region,
              size = 2,
              alpha = 0.5)
 
-
-## --------------------------------------------------------------
 ## ¿Qué pasa si únicamente especificamos? ----
 ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
   geom_line()
 
-
-
-## --------------------------------------------------------------
 ## group: Agrupamos para mejorar nuestra visualización ----
 ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
   geom_line(aes(group = REGION))
 
-
-
-## --------------------------------------------------------------
 ## Color de la línea ----
 ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
   geom_line(aes(group = REGION, color = REGION))
 
-
-
-## --------------------------------------------------------------
 ## Tamaño de la línea ----
 ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
   geom_line(aes(group = REGION, color = REGION), size = 1)
 
-
-
-## --------------------------------------------------------------
 ## Tipo de línea ----
 ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
   geom_line(aes(group = REGION, color = REGION), size = 1, linetype = "dotted")
 
-
-
-## --------------------------------------------------------------
 # Gráfico de barras ----
 # Prestar atención a la estructura de nuestra base
 ggplot(eph_region) +
   geom_col(aes(x = REGION, 
                y = TNA))
 
-
-
-## --------------------------------------------------------------
 ## Por esto nos tenemos que valer de las diferentes posiciones de las barras ----
 ggplot(eph_region) +
   geom_col(aes(x = REGION, 
                y = TNA),
            position = "dodge2")
 
-
-
-## --------------------------------------------------------------
 ## fill ----
 ggplot(eph_region) +
   geom_col(aes(x = REGION, 
@@ -186,9 +138,6 @@ ggplot(eph_region) +
                fill = EDAD_CAT),
            position = "dodge2")
 
-
-
-## --------------------------------------------------------------
 ## Color ----
 ggplot(eph_region) +
   geom_col(aes(x = REGION, 
@@ -197,9 +146,6 @@ ggplot(eph_region) +
            color = "Black", 
            position = "dodge2")
 
-
-
-## --------------------------------------------------------------
 ## linetye ----
 ggplot(eph_region) +
   geom_col(aes(x = REGION, 
@@ -209,9 +155,6 @@ ggplot(eph_region) +
            position = "dodge2",
            linetype = "dashed")
 
-
-
-## --------------------------------------------------------------
 ## size ----
 ggplot(eph_region) +
   geom_col(aes(x = REGION, 
@@ -222,8 +165,6 @@ ggplot(eph_region) +
            linetype = "dashed",
            size = 1)
 
-
-## --------------------------------------------------------------
 ## Alpha ----
 ggplot(eph_region) +
   geom_col(aes(x = REGION, 
@@ -235,21 +176,14 @@ ggplot(eph_region) +
            linetype = "dashed",
            size = 1)
 
-
-## --------------------------------------------------------------
 # Gráfico boxplot ----
 ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA)) +
   geom_boxplot() 
 
-
-
-## --------------------------------------------------------------
 ## fill ----
 ggplot(data = eph_region, aes(x = EDAD_CAT , y = TNA, fill = EDAD_CAT)) +
   geom_boxplot() 
 
-
-## --------------------------------------------------------------
 ## color ----
 ggplot(data = eph_region, 
        aes(x = EDAD_CAT , 
@@ -258,8 +192,6 @@ ggplot(data = eph_region,
        color = "black") +
   geom_boxplot() 
 
-
-## --------------------------------------------------------------
 ## size ----
 ggplot(data = eph_region, 
        aes(x = EDAD_CAT , 
@@ -268,8 +200,6 @@ ggplot(data = eph_region,
                color = "black", 
                size = 0.8)
 
-
-## --------------------------------------------------------------
 ## Alpha ----
 ggplot(data = eph_region, 
        aes(x = EDAD_CAT , 
@@ -279,8 +209,6 @@ ggplot(data = eph_region,
                size = 1,
                alpha = 0.3)
 
-
-## --------------------------------------------------------------
 # Facetado por la variables EDAD_CAT ----
 ggplot(eph_region) +
   geom_col(aes(x = TNA, 
@@ -290,9 +218,6 @@ ggplot(eph_region) +
            position = "dodge2") +
   facet_wrap(~EDAD_CAT)
 
-
-
-## --------------------------------------------------------------
 # Escala X e Y continua
 ggplot(eph_region) +
   geom_col(aes(x = TNA, 
@@ -304,9 +229,6 @@ ggplot(eph_region) +
                      breaks = seq(1,30, by = 3), 
                      limits = c(0,30))
 
-
-
-## --------------------------------------------------------------
 # Default de colores de R
 ggplot(eph_region) +
   geom_col(aes(x = TNA, 
@@ -317,10 +239,6 @@ ggplot(eph_region) +
   scale_x_continuous(name = "Tasa desocupación", 
                      breaks = seq(1,30, by = 3), 
                      limits = c(0,30))
-
-
-
-## --------------------------------------------------------------
 
 # Definición de colores 
 colores <- c("#fecc8f","#fbb91f", "#e85362", "#952c80", "#56177d", "#29115a")
@@ -337,9 +255,6 @@ ggplot(eph_region) +
                      limits = c(0,40)) +
   scale_fill_manual("Edades", values = colores)
 
-
-
-## --------------------------------------------------------------
 # Escala de colores: default
 
 ggplot(eph_region) +
@@ -352,10 +267,6 @@ ggplot(eph_region) +
                      breaks = seq(1,40, by = 4), 
                      limits = c(0,40)) 
 
-
-
-
-## --------------------------------------------------------------
 # Escala de colores: manual
 # Definición de colores 
 colores <- c("#fecc8f","#fbb91f", "#e85362", "#952c80", "#56177d", "#29115a")
@@ -371,19 +282,12 @@ ggplot(eph_region) +
                      limits = c(0,40)) +
   scale_color_manual("Edades", values = colores)
 
-
-
-
-## --------------------------------------------------------------
 # Activo paquete
 library(RColorBrewer)
 
 # Paletas disponibles
  RColorBrewer::display.brewer.all()
 
-
-
-## --------------------------------------------------------------
 # Ejemplo con RColorBrewer
 
 ggplot(eph_region) +
@@ -398,8 +302,6 @@ ggplot(eph_region) +
   scale_fill_brewer(palette = "Set1")
 
 
-
-## --------------------------------------------------------------
 # Labs ----
 ggplot(eph_region) +
   geom_col(aes(x = TNA,
@@ -417,8 +319,6 @@ ggplot(eph_region) +
        caption = "Fuente: INDEC")
 
 
-
-## --------------------------------------------------------------
 # Eje secundario ----
 ## Color de la línea ----
 ggplot(data = eph_region) +
@@ -429,10 +329,6 @@ ggplot(data = eph_region) +
                      sec.axis = sec_axis(~ . * 3, "Tasa ocupación",
                                          breaks = seq(0,100,10))) +
   guides(alpha = guide_legend("Tasa Ocupación"))
-
-
-
-## --------------------------------------------------------------
 
 # Theme minimal ----
 ggplot(eph_region) +
@@ -451,9 +347,6 @@ ggplot(eph_region) +
   scale_fill_manual("Generación", values = colores) +
   theme_minimal()
 
-
-
-## --------------------------------------------------------------
 ggplot(eph_region) +
   geom_col(aes(x = REGION, 
                y = TNA , 
@@ -483,10 +376,7 @@ ggplot(eph_region) +
                                     fill = NA),
         title = element_text(size = 12, face = "bold"),
         plot.subtitle = element_text(color = "#5D6D7E", size = 10))
-          
 
-
-## --------------------------------------------------------------
 # Settings ----
 tema_personalizado <- list(theme_minimal() +
                              theme(axis.line = element_line(colour = "black", 

@@ -76,11 +76,3 @@ ggplot() +
   theme(legend.position = "bottom")
 
 
-# Mapa de la provincia de Buenos Aires ----
-ggplot() +
-  geom_sf(data = depto_turismo %>%
-            filter(codpcia == "06"), aes(fill = porcentaje_cat), color = NA)+
-  scale_fill_manual("Porcentaje", values = colores) +
-  theme_minimal() +
-  theme(legend.position = "bottom")
-
