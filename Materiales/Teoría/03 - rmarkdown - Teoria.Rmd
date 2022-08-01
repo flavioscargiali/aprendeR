@@ -1,28 +1,158 @@
 ---
-title: "informe_turismo"
+title: "Informe desocupación"
+theme: cosmo
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r Configuraciones, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      warning = FALSE, 
+                      error = FALSE,
+                      message = FALSE,
+                      fig.align = 'center', 
+                      attr.output='style="max-height: 150px;"')
 ```
 
-## R Markdown
+## Introducción
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+El objetivo del siguiente informe es observar el comportamiento de la tasa de desocupación en el primer trimestre del 2021 en los diferentes grupos etarios y regiones del país. La pregunta que orienta el trabajo es: ¿existen diferencias en la tasa en los diferentes grupos etarios y regiones del país?
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+#### Cargo bibliotecas 
 
-```{r cars}
-summary(cars)
+Para realizar este análisis se recurren a los siguientes paquetes: 
++ eph: para acceder a la base de datos.  
++ tidyverse: para usar funciones de transformación de datos y visualización.  
++ kableExta: para imprimir tablas en html 
+
+```{r Bibliotecas}
+library(tidyverse)
+library(eph)
+library(kableExtra)
 ```
 
-## Including Plots
+#### Cargo los datos
+Se seleccionan las siguientes variables para cumplir con el objetivo del informe:
++ REGION: diferentes regiones del país.
++ CH06: edades de las personas.
++ ESTADO: categoria de actividad (ocupados, desocupados, inactivos).
++ PONDERA: ponderación para extrapolar los resultados al universo.
 
-You can also embed plots, for example:
+```{r Cargo los datos}
+# Selecciono las variables a utilizar 
+variables <- c("REGION","CH06", "ESTADO","PONDERA")
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+# Cargo la tabla
+eph <- get_microdata(type = "individual",
+                     year = 2021,
+                     trimester = 1,
+                     vars = variables)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+#### Funciones exploratorias
+```{r Exploración}
+names(eph)
+head(eph, 5)
+str(eph)
+```
+
+## Desarrollo
+#### Transformación de datos  
+En la tabla para el análisis, se filtran las personas iguales o mayores a 18 años y se recodifican las edades en los siguientes cortes:  
+
++ 18 y 21 años
++ 22 y 38 años
++ 39 y 54 años
++ 55 y 73 años
++ 74 años o más  
+
+Por último, se agrupa la información por regiones y por los grupos etarios para calcular los siguientes indicadores:   
+
++ Población total  
++ Ocupados total  
++ Desocupados total  
++ Tasa desocupación nacional  
+
+#### Tabla con la tasa de desocupación por grupos etarios y regiones.
+
+```{r Transformación}
+# Construcción de resumen con información laboral
+eph_region <- eph %>% 
+  filter(CH06 >= 18) %>% 
+  mutate(EDAD_CAT = case_when(CH06 <= 21 ~ "18 y 21 años",
+                              CH06 >= 22 & CH06 <= 38 ~ "22 y 38 años",
+                              CH06 >= 39 & CH06 <= 54 ~ "39 y 54 años",
+                              CH06 >= 55 & CH06 <= 73 ~ "55 y 73 años",
+                              TRUE ~ "74 años o más")) %>% 
+  group_by(REGION, EDAD_CAT) %>% 
+  summarise(POBLACION = sum(PONDERA),
+            OCUPADOS = sum(PONDERA[ESTADO == 1]),
+            DESOCUPADOS = sum(PONDERA[ESTADO == 2]),
+            TNA = DESOCUPADOS/(OCUPADOS + DESOCUPADOS)*100) %>% 
+  organize_labels(type = "hogar") %>% 
+  mutate_at(.vars = c("REGION"), ~as.factor(.)) %>% 
+  mutate(REGION = ifelse(REGION == "Gran Buenos Aires", "GBA", 
+                         paste0(REGION)))
+```
+
+```{r}
+eph_region %>% 
+  kbl() %>%
+  kable_material(c("striped", "hover"))
+```
+
+
+#### Gráfico con la tasa de desocupación por grupos etarios y regiones.
+
+```{r Gráficos}
+
+# Colores para el gráfico
+colores <- c("#fecc8f","#fbb91f", "#e85362", "#952c80", "#56177d", "#29115a")
+
+
+# Settings ----
+tema_personalizado <- list(theme_minimal() +
+                             theme(axis.line = element_line(colour = "black", 
+                                                            size  = 0.5),
+                                   axis.ticks =  element_line(size = 1),
+                                   axis.title = element_text(size = 10),
+                                   axis.text.x = element_text(size = 8,angle =45, 
+                                                              hjust = 0.95, 
+                                                              vjust=1),
+                                   legend.title = element_text(face = "bold"),
+                                   plot.background = element_rect(fill =  "#f1f1f1",
+                                                                  color = "#f1f1f1"),
+                                   panel.border = element_rect(color = "black", 
+                                                               fill = NA),
+                                   title = element_text(size = 12, face = "bold"),
+                                   plot.subtitle = element_text(color = "#5D6D7E",
+                                                                size = 10)))
+
+
+ggplot(eph_region) +
+  geom_col(aes(x = REGION, 
+               y = TNA , 
+               fill = EDAD_CAT), 
+           position = position_dodge2(padding = 0.2),
+           width = 0.8, 
+           color = "black") +
+  labs(x = "Región del país",
+       y = "Tasa de desocupación",
+       title = "Tasa de desocupación por generación",
+       subtitle = "Según regiones. 1T - 2020",
+       caption = "Fuente: EPH 2020 - INDEC") +
+  guides(fill = guide_legend(title="Generación")) +
+  scale_fill_manual("Generación", values = colores) +
+ tema_personalizado
+
+
+```
+
+## Conclusiones
+
+* Se observan comportamientos diferenciales entre una región otra del país. 
+  + En las regiones noroeste, pampeana y cuyana se encuentran las mayores tasas de desocupación del país. 
+
+* Se observan comportamientos diferenciales entre los grupo etarios.
+  + En la región pampeana y cuyana se encuentra la mayor tasa de desocupación del país en los jovenes de 18 y 21 años. Se podría concluir que existen problemas de inserción de estos jovenes en el mercado de trabajo. Pero es necesario, profundizar en la tematica y con otros indicadores. 
+  + En las edades más avanzadas, la tasa de desocupación se encuentra condicionada por la cantidad de personas en actividad. Por eso, se visualiza un fuerte descenso en edades longevas.
+  
