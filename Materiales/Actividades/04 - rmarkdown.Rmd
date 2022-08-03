@@ -1,5 +1,5 @@
 ---
-title: "Informe desocupación"
+title: "Informe turismo"
 theme: cosmo
 output: html_document
 ---
@@ -46,8 +46,6 @@ str(turismo)
 ## Desarrollo
 #### Transformación de datos  
 
-#### Tabla con la tasa de desocupación por grupos etarios y regiones.
-
 ```{r Transformación}
 # Selección de variables para replica de informe ----
 turismo <- turismo %>% 
@@ -82,6 +80,7 @@ region <- codificacion %>%
          region = descripcion)
 ```
 
+#### Tabla con la distribución porcentual de los motivos de consultas
 
 ```{r Tabla agrupada motivos}
 ## Análisis de los motivos de viaje ----
@@ -106,6 +105,9 @@ motivos %>%
   kable_material(c("striped", "hover"))%>% 
   scroll_box(width = "910px")
 ```
+
+#### Tabla con la distribución porcentual de los motivos de consultas según regiones
+
 
 ```{r Tabla agrupada motivos y regiones}
 ### Tabla motivo viaje region ----
