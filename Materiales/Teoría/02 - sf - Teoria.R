@@ -2,7 +2,6 @@
 library(tidyverse)
 library(data.table)
 library(sf)
-library(kableExtra)
 
 # Seteo el directorio de trabajo ----
 # setwd("C:/Users/flavi/Desktop/Turismo")
@@ -28,14 +27,20 @@ turismo <- turismo %>%
          tipo_transporte = px09,
          tipo_visitante,
          pondera) %>% 
-  filter(anio == 2021)
+  filter(anio == 2021 & trimestre == 3 & tipo_visitante == 1)
 
 # Información geografica ----
 ## Carga de tabla con capa de depto ----
 depto <- st_read("wfs:http://geoservicios.indec.gov.ar/geoserver/ows?service=wfs&version=1.3.0&request=GetCapabilities","geocenso2010:nbi_dpto")
+provincias <- st_read("wfs:https://wms.ign.gob.ar/geoserver/ows?service=wfs&version=1.1.0&request=GetCapabilities","ign:provincia")
+
+# Mapa 
+ggplot(data = provincias) +
+  geom_sf()
 
 # Mapa país coroplético ----
 depto_turismo <- turismo %>%
+  filter(!is.na(codigo_2010)) %>% 
   mutate(id_depto = case_when(region_destino %in% c(1,2,3) ~ paste0("0",codigo_2010),
                               TRUE ~ as.character(codigo_2010)),
          id_depto = substr(id_depto,1,5)) %>%
@@ -47,32 +52,37 @@ depto_turismo <- turismo %>%
 # Calculo los percentiles
 quantile(depto_turismo$porcentaje,  probs = c(0.25, 0.5, 0.75, 0.85))
 
+# Selección de columnas link 
+depto <- depto %>% 
+  select(link)
 
 depto_turismo <- left_join(depto, depto_turismo, by = c("link" = "id_depto")) %>%
   mutate(porcentaje = replace_na(porcentaje, 0)) %>%
-  mutate(porcentaje_cat = case_when(porcentaje >= 0 & porcentaje < 0.0017 | is.na(porcentaje) ~ "(0 - 0.0017)",
-                                    porcentaje >= 0.0017 & porcentaje < 0.029 ~ "[0.0017 - 0.029)",
-                                    porcentaje >= 0.029 & porcentaje < 0.16 ~ "[0.029 - 0.16)",
-                                    porcentaje >= 0.16 & porcentaje < 0.32 ~ "[0.16 - 0.32)",
-                                    porcentaje >= 0.32 ~ "[0.32 - +)",
+  mutate(porcentaje_cat = case_when(porcentaje >= 0 & porcentaje < 0.01225749 | is.na(porcentaje) ~ "Baja",
+                                    porcentaje >= 0.01225749 & porcentaje < 0.06241083 ~ "Media baja",
+                                    porcentaje >= 0.06241083 & porcentaje < 0.40130164 ~ "Media",
+                                    porcentaje >= 0.40130164 & porcentaje < 0.80090571 ~ "Media alta",
+                                    porcentaje >= 0.80090571 ~ "Alta",
                                     TRUE ~ "[0]")) %>% 
   select(link, porcentaje_cat)
 
 # Colores para la escala 
-colores <- c("(0 - 0.0017)" = "#2f1d60ff",
-             "[0.0017 - 0.029)" = "#592b6dff",
-             "[0.029 - 0.16)" = "#974064ff",
-             "[0.16 - 0.32)" = "#c5584dff",
-             "[0.32 - +)" = "#ec8e33ff")
+colores <- c("Baja" = "#2f1d60ff",
+             "Media baja" = "#592b6dff",
+             "Media" = "#974064ff",
+             "Media alta" = "#c5584dff",
+             "Alta" = "#ec8e33ff")
 
 
 # Armado de gráfico
 ggplot() +
   geom_sf(data = depto_turismo, aes(fill = porcentaje_cat), color = NA)+
+  geom_sf(data = provincias, fill = NA, color = "white")+
   scale_y_continuous(limits = c(-55, -20)) +
   scale_x_continuous(limits = c(-75, -50)) +
   scale_fill_manual("Porcentaje", values = colores) +
   theme_minimal() +
   theme(legend.position = "bottom")
+
 
 
