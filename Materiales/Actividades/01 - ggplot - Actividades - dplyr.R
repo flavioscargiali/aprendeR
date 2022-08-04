@@ -42,8 +42,8 @@ region <- codificacion %>%
   select(opcion,
          region = descripcion)
 
-## Análisis de los motivos de viaje ----
-### Tabla motivo viaje ----
+# Análisis de los motivos de viaje ----
+## Tabla motivo viaje ----
 motivos <- turismo %>% 
   group_by(motivo_viaje) %>% 
   summarise(turistas = sum(pondera),
@@ -51,7 +51,7 @@ motivos <- turismo %>%
             gastos_promedio = sum(gastos_pondera)/sum(duracion_pondera)) %>% 
   mutate(porcentaje = turistas/sum(turistas)*100)
 
-### Tabla motivo viaje region ----
+## Tabla motivo viaje region ----
 motivos_region <- turismo %>%
   group_by(region_destino,motivo_viaje) %>% 
   summarise(turistas = sum(pondera),

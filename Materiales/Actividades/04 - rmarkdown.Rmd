@@ -1,10 +1,11 @@
 ---
 title: "Informe turismo"
-theme: cosmo
+author: "Flavio Scargiali"
+date: "2022-08-04"
 output: html_document
 ---
 
-```{r Configuraciones, include=FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
                       warning = FALSE, 
                       error = FALSE,
@@ -13,38 +14,45 @@ knitr::opts_chunk$set(echo = TRUE,
                       attr.output='style="max-height: 150px;"')
 ```
 
-## Introducción
-
-
-#### Cargo bibliotecas 
-
+## INTRODUCCIÓN
+### Cargar bibliotecas
 
 ```{r Bibliotecas}
-# Cargo las bibliotecas para trabajar ----
 library(tidyverse)
 library(data.table)
 library(sf)
 library(kableExtra)
 ```
 
-#### Cargo los datos
+### Cargar datos
 
-```{r Cargo los datos}
-# Cargo los datos ----
+```{r Datos}
 turismo <- fread("https://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/8c663c32-fee2-4a57-a918-7ab0f3819624/download/evyth_microdatos.txt", encoding = "UTF-8")
+
 codificacion <- fread("https://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/20e2c018-a2ee-4d97-9c67-a4303f669255/download/evyth_diccionario_registro.txt", encoding = "UTF-8")
 
+prov <- st_read("wfs:http://wms.ign.gob.ar/geoserver/wfs","ign:provincia") 
+
 ```
 
-#### Funciones exploratorias
-```{r Exploración}
+### Funciones exploratorias
+
+```{r Exploratorios}
+# Turismo
 names(turismo)
-head(turismo, 5)
 str(turismo)
+head(turismo, 5)
+
+# Codificación
+codificacion %>% 
+  kbl() %>%
+  kable_material(c("striped", "hover"))%>% 
+  scroll_box(width = "910px", height = "450px")
 ```
 
-## Desarrollo
-#### Transformación de datos  
+
+## DESARROLLO
+### Transformación y procesamiento de datos
 
 ```{r Transformación}
 # Selección de variables para replica de informe ----
@@ -80,11 +88,10 @@ region <- codificacion %>%
          region = descripcion)
 ```
 
-#### Tabla con la distribución porcentual de los motivos de consultas
+### Tablas
+#### Tabla motivos de turismo (global)
 
-```{r Tabla agrupada motivos}
-## Análisis de los motivos de viaje ----
-### Tabla motivo viaje ----
+```{r Motivos}
 motivos <- turismo %>% 
   group_by(motivo_viaje) %>% 
   summarise(turistas = sum(pondera),
@@ -92,25 +99,16 @@ motivos <- turismo %>%
             gastos_promedio = sum(gastos_pondera)/sum(duracion_pondera)) %>% 
   mutate(porcentaje = turistas/sum(turistas)*100)
 
-```
-
-```{r}
 motivos %>% 
-  select(`Motivos de viaje` = motivo_viaje,
-         Turistas = turistas,
-         `Turista (%)` = porcentaje,
-         `Duración (media` = duracion_promedio,
-         `Gastos (media)` = gastos_promedio) %>% 
-  kbl() %>%
+  kbl() %>% 
   kable_material(c("striped", "hover"))%>% 
-  scroll_box(width = "910px")
+  scroll_box(width = "910px", height = "450px")
+
 ```
 
-#### Tabla con la distribución porcentual de los motivos de consultas según regiones
+#### Tabla motivo según región del país 
 
-
-```{r Tabla agrupada motivos y regiones}
-### Tabla motivo viaje region ----
+```{r Motivos segun regiones}
 motivos_region <- turismo %>%
   group_by(region_destino,motivo_viaje) %>% 
   summarise(turistas = sum(pondera),
@@ -119,91 +117,112 @@ motivos_region <- turismo %>%
   mutate(porcentaje = turistas/sum(turistas,na.rm = T)*100) %>% 
   left_join(region, by = c("region_destino" = "opcion"))
 
-```
-
-```{r}
-motivos_region_t <- motivos_region %>% 
-  as.data.frame() %>% 
-    select(Region = region,
-           `Motivos de viaje` = motivo_viaje,
-          Turistas = turistas,
-         `Turista (%)` = porcentaje,
-         `Duración (media` = duracion_promedio,
-         `Gastos (media)` = gastos_promedio) 
-
-motivos_region_t %>% 
-  kbl() %>%
+motivos_region %>%
+  kbl() %>% 
   kable_material(c("striped", "hover"))%>% 
   scroll_box(width = "910px", height = "450px")
 ```
 
-#### Gráfico con la distribución porcentual de los motivos de consultas.
 
-```{r Gráficos motivos}
-# Settings ----
-tema_personalizado <- list(theme_minimal() +
-                             theme(axis.line = element_line(colour = "black", 
-                                                            size  = 0.5),
-                                   axis.ticks =  element_line(size = 1),
-                                   axis.title = element_text(size = 10),
-                                   axis.text.x = element_text(size = 8,angle =45, 
-                                                              hjust = 0.95, 
-                                                              vjust=1),
-                                   legend.title = element_text(face = "bold"),
-                                   plot.background = element_rect(fill =  "#f1f1f1",
-                                                                  color = "#f1f1f1"),
-                                   panel.border = element_rect(color = "black", 
-                                                               fill = NA),
-                                   title = element_text(size = 12, face = "bold"),
-                                   plot.subtitle = element_text(color = "#5D6D7E",
-                                                                size = 10)))
-valores <- c("#140f35ff", "#251a56ff", "#612d6eff", "#8c3c68ff", "#b44d56ff", "#f4b036ff", "#f3d557ff", "#fdf8a5ff")
-names(valores) <- unique(motivos_region$region)
+### Gráfico
+### Distribución porcentual según motivo de turismo
 
-### Gráfico motivo viaje ----
-(graMot <- ggplot(motivos) +
-  geom_col(aes(y = porcentaje, 
-               x = reorder(str_wrap(motivo_viaje,
-                                    width = 10), 
-                           porcentaje)), 
+```{r Grafico motivos}
+ggplot(data = motivos) +
+  geom_col(mapping = aes(x = str_wrap(motivo_viaje, width = 10),
+                         y = porcentaje),
            fill = "#140f35ff",
-           color = "black") + 
-  theme_minimal() +
+           color = "black") +
   labs(y = "Porcentaje (%)",
        x = "Motivos de viaje",
        title = "Motivos de viaje en el 2021",
-       caption = "Fuente: Encuesta de Viajes y Turismo de los Hogares (EVyTH")) +
-  tema_personalizado
-
-
-
+       caption = "Fuente: Encuesta de Viajes y Turismo de los Hogares (EVyTH") +
+  theme_light()+
+  theme(panel.background = element_rect(fill = "#eaeded"),
+        title = element_text(face = "bold"),
+        axis.line = element_line(size = 1),
+        axis.ticks = element_line(size = 1)) +
+  scale_y_continuous(breaks = seq(0, 60, by = 6))
 ```
 
-#### Gráfico con la distribución porcentual de los motivos de consultas según regiones.
+### Distribución porcentual según motivo de turismo por regiones
 
-```{r Gráfico motivos por región}
-### Gráfico motivo viaje por region  ----
-(graMotReg <- 
-  ggplot(motivos_region) +
-  geom_col(aes(y = porcentaje, 
-               x = reorder(str_wrap(motivo_viaje,
-                                    width = 30), 
-                           porcentaje),
-               fill = region), 
+```{r Grafico motivos segun regiones, fig.height=10, fig.width=10}
+# Vector con los colores para el gráfico
+valores <- c("#140f35ff", "#251a56ff", "#612d6eff", "#8c3c68ff", "#b44d56ff", "#f4b036ff", "#f3d557ff", "#fdf8a5ff")
+
+## Motivos y regiones ----
+ggplot(data = motivos_region) +
+  geom_col(mapping = aes(x = str_wrap(motivo_viaje, width = 10),
+                         y = porcentaje,
+                         fill = region),
            color = "black",
-           position = "dodge") + 
-  theme_minimal() +
+           position = "dodge") +
   labs(y = "Porcentaje (%)",
        x = "Motivos de viaje",
-       title = "Motivos de viaje en el 2021",
-       caption = "Fuente: Encuesta de Viajes y Turismo de los Hogares (EVyTH")+
-  theme(panel.border = element_rect(color = "black",
-                                    fill = NA),
-        legend.position = "bottom") +
-  scale_y_continuous(limits = c(0, 90), breaks = seq(0, 90, by = 10))+
-  scale_fill_manual("", values = valores))
+       title = "Motivos de viaje según regiones del en el 2021",
+       caption = "Fuente: Encuesta de Viajes y Turismo de los Hogares (EVyTH") +
+  theme_light()+
+  theme(panel.background = element_rect(fill = "#eaeded"),
+        title = element_text(face = "bold"),
+        axis.line = element_line(size = 1),
+        axis.ticks = element_line(size = 1),legend.position = "none") +
+  scale_y_continuous(breaks = seq(0, 100, by = 10)) +
+  scale_fill_manual("Región destino", values = valores) +
+  facet_wrap(~region)
+```
+
+### Mapa provincial
+
+```{r Transformacion mapa}
+# Transformación
+provincias <- turismo %>% 
+  mutate(id_depto = case_when(region_destino %in% c(1,2,3) ~ paste0("0",codigo_2010),
+                              TRUE ~ as.character(codigo_2010)),
+         id_prov = substr(id_depto,1,2)) %>% 
+  group_by(id_prov) %>% 
+  summarise(turistas = sum(pondera)) %>% 
+  mutate(porcentaje = turistas/sum(turistas)*100) %>% 
+  filter(!is.na(id_prov))
+
+# Percentiles
+quantile(provincias$porcentaje, probs = c(0, 0.25, 0.5, 0.75))
+
+# Unión de datos espaciales con los datos de turismo 
+provincias_turismo <- left_join(prov, provincias, by = c("in1" = "id_prov")) %>% 
+  select(in1, porcentaje) %>% 
+  mutate(porcentaje_cat = case_when(porcentaje >= 0 & porcentaje < 0.024| is.na(porcentaje) ~ "Bajo",
+                                    porcentaje >= 0.024 & porcentaje < 0.88 ~ "Medio bajo",
+                                    porcentaje >= 0.88 & porcentaje < 1.49 ~ "Medio alto",
+                                    porcentaje >= 1.49 & porcentaje < 4.33 ~ "Alto",
+                                    porcentaje >= 4.33 ~ "Muy alto",
+                                    TRUE ~ "Bajo"))
 
 ```
 
 
-## Conclusiones
+```{r Mapa}
+
+## Gráficos ----
+# Colores para la escala 
+colores_prov <- c("Bajo" = "#2f1d60ff",
+                  "Medio bajo" = "#592b6dff",
+                  "Medio alto" = "#974064ff",
+                  "Alto" = "#c5584dff",
+                  "Muy alto" = "#ec8e33ff")
+
+ggplot() +
+  geom_sf(data = provincias_turismo, aes(fill = porcentaje_cat)) +
+  scale_y_continuous(limits = c(-55, -20)) +
+  scale_x_continuous(limits = c(-75, -50))+
+  scale_fill_manual("Recepción turismo", values = colores_prov) +
+  theme_light()+
+  theme(panel.background = element_rect(fill = "#eaeded"),
+        title = element_text(face = "bold"),
+        axis.line = element_line(size = 1),
+        axis.ticks = element_line(size = 1)) 
+```
+
+
+## CONCLUSIÓN
+
