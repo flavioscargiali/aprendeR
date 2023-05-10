@@ -10,7 +10,7 @@ library(sf)
 turismo <- fread("https://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/8c663c32-fee2-4a57-a918-7ab0f3819624/download/evyth_microdatos.txt", encoding = "UTF-8")
 codificacion <- fread("https://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/20e2c018-a2ee-4d97-9c67-a4303f669255/download/evyth_diccionario_registro.txt", encoding = "UTF-8")
 
-# Selecci髇 de variables para replica de informe ----
+# Selecci贸n de variables para replica de informe ----
 turismo <- turismo %>% 
   select(anio,
          trimestre, 
@@ -35,14 +35,14 @@ turismo <- turismo %>%
          gastos_pondera = gastos*pondera,
          duracion_pondera = duracion_viaje*pondera) 
 
-# Vectores para recodficaci髇 
+# Vectores para recodficaci贸n 
 region <- codificacion %>%  
   filter(variable == "region_destino" & !is.na(opcion)) %>%  
   mutate(opcion = as.numeric(opcion)) %>% 
   select(opcion,
          region = descripcion)
 
-# An醠isis de los motivos de viaje ----
+# An谩lisis de los motivos de viaje ----
 ## Tabla motivo viaje ----
 motivos <- turismo %>% 
   group_by(motivo_viaje) %>% 
@@ -60,7 +60,7 @@ motivos_region <- turismo %>%
   mutate(porcentaje = turistas/sum(turistas,na.rm = T)*100) %>% 
   left_join(region, by = c("region_destino" = "opcion"))
 
-# Gr醘icos ----
+# Gr谩ficos ----
 ## Motivos ----
 ggplot(data = motivos) +
   geom_col(mapping = aes(x = str_wrap(motivo_viaje, width = 10),
@@ -89,7 +89,7 @@ ggplot(data = motivos_region) +
            position = "dodge") +
   labs(y = "Porcentaje (%)",
        x = "Motivos de viaje",
-       title = "Motivos de viaje seg鷑 regiones del en el 2021",
+       title = "Motivos de viaje seg煤n regiones del en el 2021",
        caption = "Fuente: Encuesta de Viajes y Turismo de los Hogares (EVyTH") +
   theme_light()+
   theme(panel.background = element_rect(fill = "#eaeded"),
@@ -97,10 +97,10 @@ ggplot(data = motivos_region) +
         axis.line = element_line(size = 1),
         axis.ticks = element_line(size = 1)) +
   scale_y_continuous(breaks = seq(0, 100, by = 10)) +
-  scale_fill_manual("Regi髇 destino", values = valores) +
+  scale_fill_manual("Regi贸n destino", values = valores) +
   facet_wrap(~region)
 
-# Informaci髇 geografica ----
+# Informaci贸n geografica ----
 ### Tabla provincias
 provincias <- turismo %>% 
   mutate(id_depto = case_when(region_destino %in% c(1,2,3) ~ paste0("0",codigo_2010),
@@ -113,11 +113,11 @@ provincias <- turismo %>%
 
 ## Datos espaciales ----
 # prov <- st_layers("wfs:http://wms.ign.gob.ar/geoserver/wfs")
-prov <- st_read("wfs:http://wms.ign.gob.ar/geoserver/wfs","ign:provincia") 
+prov <- st_read("wfs:https://wms.ign.gob.ar/geoserver/ows?service=wfs&version=1.1.0&request=GetCapabilities","ign:provincia") 
 
 quantile(provincias$porcentaje, probs = c(0, 0.25, 0.5, 0.75))
 
-# Uni髇 de datos espaciales con los datos de turismo 
+# Uni贸n de datos espaciales con los datos de turismo 
 provincias_turismo <- left_join(prov, provincias, by = c("in1" = "id_prov")) %>% 
   select(in1, porcentaje) %>% 
   mutate(porcentaje_cat = case_when(porcentaje >= 0 & porcentaje < 0.024| is.na(porcentaje) ~ "Bajo",
@@ -127,7 +127,7 @@ provincias_turismo <- left_join(prov, provincias, by = c("in1" = "id_prov")) %>%
                                     porcentaje >= 4.33 ~ "Muy alto",
                                     TRUE ~ "Bajo"))
 
-## Gr醘icos ----
+## Gr谩ficos ----
 # Colores para la escala 
 colores_prov <- c("Bajo" = "#2f1d60ff",
                   "Medio bajo" = "#592b6dff",
@@ -139,7 +139,7 @@ ggplot() +
   geom_sf(data = provincias_turismo, aes(fill = porcentaje_cat)) +
   scale_y_continuous(limits = c(-55, -20)) +
   scale_x_continuous(limits = c(-75, -50))+
-  scale_fill_manual("Recepci髇 turismo", values = colores_prov) +
+  scale_fill_manual("Recepci贸n turismo", values = colores_prov) +
   theme_light()+
   theme(panel.background = element_rect(fill = "#eaeded"),
         title = element_text(face = "bold"),
