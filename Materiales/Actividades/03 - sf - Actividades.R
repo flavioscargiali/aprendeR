@@ -6,9 +6,17 @@ library(sf)
 # Seteo el directorio de trabajo ----
 # setwd("C:/Users/flavi/Desktop/Turismo")
 
+# Cargo las bibliotecas para trabajar ----
+library(tidyverse)
+library(data.table)
+library(sf)
+
+# Seteo el directorio de trabajo ----
+# setwd("C:/Users/flavi/Desktop/Turismo")
+
 # Cargo los datos ----
-turismo <- fread("https://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/8c663c32-fee2-4a57-a918-7ab0f3819624/download/evyth_microdatos.txt", encoding = "UTF-8")
-codificacion <- fread("https://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/20e2c018-a2ee-4d97-9c67-a4303f669255/download/evyth_diccionario_registro.txt", encoding = "UTF-8")
+turismo <- fread("https://docs.google.com/spreadsheets/d/e/2PACX-1vRIVnK7Oz9tJnbCSFbFK5CNWXaNVfsWfFB4CChczPyrEn8vu2K3xxxldOFBxpMrVpnkaGf59ci-25t2/pub?gid=1213513009&single=true&output=csv", encoding = "UTF-8")
+codificacion <- fread("https://docs.google.com/spreadsheets/d/e/2PACX-1vRrynUk9sYrZMkMxArp8SHGUJgLZmMe_6m_srzNW38q26TSxc28-9GnE4feRZlA8Q/pub?gid=503363995&single=true&output=csv", encoding = "UTF-8")
 
 # Selección de variables para replica de informe ----
 turismo <- turismo %>% 
@@ -32,7 +40,7 @@ turismo <- turismo %>%
                                   motivo_viaje == 2 ~ "Visitas a familiares o amigos",
                                   motivo_viaje == 3 ~ "Trabajo, negocios, motivos profesionales",
                                   TRUE ~ "Otros"),
-         gastos_pondera = gastos*pondera,
+         gastos_pondera = as.numeric(gastos)*pondera,
          duracion_pondera = duracion_viaje*pondera) 
 
 # Vectores para recodficación 
