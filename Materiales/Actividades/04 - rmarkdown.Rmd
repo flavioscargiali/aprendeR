@@ -39,7 +39,7 @@ library(sf)
 turismo <- fread("https://docs.google.com/spreadsheets/d/e/2PACX-1vRIVnK7Oz9tJnbCSFbFK5CNWXaNVfsWfFB4CChczPyrEn8vu2K3xxxldOFBxpMrVpnkaGf59ci-25t2/pub?gid=1213513009&single=true&output=csv", encoding = "UTF-8")
 codificacion <- fread("https://docs.google.com/spreadsheets/d/e/2PACX-1vRrynUk9sYrZMkMxArp8SHGUJgLZmMe_6m_srzNW38q26TSxc28-9GnE4feRZlA8Q/pub?gid=503363995&single=true&output=csv", encoding = "UTF-8")
 
-prov <- st_read("wfs:http://wms.ign.gob.ar/geoserver/wfs","ign:provincia") 
+prov <- st_read("wfs:https://wms.ign.gob.ar/geoserver/ows?service=wfs&version=1.1.0&request=GetCapabilities","ign:provincia") 
 
 ```
 
@@ -56,6 +56,13 @@ codificacion %>%
   kbl() %>%
   kable_material(c("striped", "hover"))%>% 
   scroll_box(width = "910px", height = "450px")
+
+# Vectores para recodficación 
+region <- codificacion %>%  
+  filter(variable == "region_destino" & !is.na(opcion)) %>%  
+  mutate(opcion = as.numeric(opcion)) %>% 
+  select(opcion,
+         region = descripcion)
 ```
 
 
@@ -227,4 +234,3 @@ ggplot() +
 
 
 ## CONCLUSIÓN
-
